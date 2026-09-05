@@ -1,0 +1,26 @@
+.quiz {
+  background-color: var(--primary-color);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  box-shadow: 2px 2px 3px var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  position: relative;
+
+  @media (width <= 30rem) {
+    padding-inline: 0.5rem;
+  }
+
+  .badge {
+    align-self: flex-end;
+    color: var(--text-on-accent-color);
+    background-color: var(--secondary-color);
+    padding: 0.3rem 0.6rem;
+    border-radius: 16px;
+  }
+
+  .question-title {
+    overflow-wrap: anywhere;
+  }
+}

@@ -1,0 +1,47 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  background-color: var(--info-color);
+  padding: 1rem;
+  border-radius: 16px;
+  opacity: 1;
+  interpolate-size: allow-keywords;
+  block-size: max-content;
+  overflow: clip;
+  transition: opacity 0.3s, block-size 0.3s;
+
+  @media (width <= 30rem) {
+    padding-inline: 0.5rem;
+  }
+
+  @starting-style {
+    opacity: 0;
+    block-size: 0;
+  }
+
+  h3 {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+  }
+
+  p {
+    inline-size: 100%;
+  }
+
+  code,
+  pre {
+    background-color: var(--option-color);
+    border-radius: 4px;
+  }
+
+  code {
+    padding: 0.125rem 0.25rem;
+  }
+
+  pre {
+    padding: 10px;
+    overflow-x: auto;
+  }
+}
