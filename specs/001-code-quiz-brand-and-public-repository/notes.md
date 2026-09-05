@@ -54,3 +54,18 @@
 ## Dirección de publicación actualizada · 2026-09-05
 
 La publicación en el remoto anterior queda descartada. La spec 004 prepara una base TypeScript para un nuevo repositorio privado sin historial y un futuro despliegue en Vercel. Los resultados anteriores de Pages son históricos.
+
+## Cierre de publicación · 2026-09-06
+
+- Repositorio privado: https://github.com/sergio-jr-dev/Code-Quiz. Commit raíz 229f46e; no contiene el historial anterior.
+- URL pública: https://codequiz-game.vercel.app/. SITE_URL ya se refleja en el HTML servido: canonical y og:url apuntan al dominio y og:image a su imagen social absoluta. No aparece noindex en el documento de producción.
+- Favicon e imagen social responden HTTP 200 con content-type image/png. Aplicación sin errores ni avisos de consola.
+- Flujo público completado con teclado: 25 preguntas, revisión de 25 entradas y reinicio a 1/25. Sin desbordamiento a 320 px ni 1440 px. Preferencia clara del sistema mantiene el tema oscuro actual; modo claro funcional sigue fuera de alcance. Movimiento reducido aplicado en la prueba móvil.
+- README y AGENTS.md actualizados; carpeta local enlazada al historial nuevo tras verificar identidad de archivos y guardar el historial anterior fuera del repositorio.
+
+### Validation
+
+- Checks run: pnpm lint, pnpm test, build con SITE_URL de producción (incluye tsc -b), git diff --check, comprobación HTTP y navegador Chromium en el dominio público.
+- Passing checks: todos; 17 pruebas, metadatos absolutos, assets accesibles, foco, flujo y reflow verificados. La validación visual se apoya además en las comprobaciones de assets de marca y texto ampliado registradas anteriormente.
+- Failing checks: None.
+- Unresolved risks: no se afirma una auditoría exhaustiva WCAG ni una prueba manual con lector de pantalla; no son criterios pendientes de esta spec de marca y publicación.

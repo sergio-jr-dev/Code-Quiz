@@ -37,4 +37,4 @@ La publicación posterior partirá de una copia limpia sin `.git`, dependencias 
 
 ## Risks Or Open Questions
 
-- Pendientes el nuevo repositorio y el dominio definitivo de producción.
+- Repositorio privado creado: sergio-jr-dev/Code-Quiz. Producción confirmada: https://codequiz-game.vercel.app/.

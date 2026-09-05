@@ -2,6 +2,8 @@
 
 Aplicación educativa en español para practicar HTML y CSS con preguntas de opción única, feedback inmediato y explicaciones.
 
+**[Abrir Code Quiz](https://codequiz-game.vercel.app/)**
+
 ![Code Quiz: quiz de HTML y CSS con identidad violeta](public/images/screenshot.png)
 
 ## Primera versión
@@ -46,15 +48,15 @@ La aplicación se sirve desde `/` tanto en desarrollo como en producción.
 
 ## Publicación en Vercel
 
-La publicación está pendiente. Esta versión se prepara para un repositorio privado nuevo llamado **Code-Quiz**, con un único commit inicial, sin trasladar el historial anterior.
+La aplicación está desplegada en **https://codequiz-game.vercel.app/**. El repositorio [Code-Quiz](https://github.com/sergio-jr-dev/Code-Quiz) es privado y parte de un único commit inicial, sin el historial del proyecto anterior.
 
-En Vercel, utilizar el preset Vite, `pnpm build` como comando de build y `dist` como directorio de salida. No hacen falta reglas de reescritura para el flujo actual, que usa una sola página.
+El proyecto utiliza el preset Vite, `pnpm build` como comando de build y `dist` como directorio de salida. No hacen falta reglas de reescritura para el flujo actual, que usa una sola página.
 
-Configurar **SITE_URL** en el entorno de producción con el origen HTTPS definitivo, sin rutas, parámetros ni fragmentos. El build utiliza ese valor para canonical, `og:url` y la URL absoluta de la imagen social. No contiene secretos.
+En **Production**, `SITE_URL=https://codequiz-game.vercel.app` configura canonical, `og:url` y la URL absoluta de la imagen social. Al modificar esta variable hay que generar un nuevo despliegue para que el HTML incorpore su valor.
 
-Hasta definir SITE_URL, el build incluye `noindex, nofollow` y omite las URLs públicas para no anunciar un dominio inventado. Dejar SITE_URL sin definir en previews. Para verificar localmente el comportamiento, puede añadirse a `.env.local`, que no se versiona.
+Dejar **SITE_URL sin definir en Preview**: esos builds incluyen `noindex, nofollow` y omiten las URLs públicas. Para verificar localmente los metadatos de producción puede definirse SITE_URL al ejecutar el build; no es necesario guardarla en el repositorio.
 
-Antes de publicar, validar el build con el dominio elegido y revisar el contenido que se copiará al nuevo repositorio. No trasladar `.git`, `node_modules`, `dist`, `.env*`, logs ni artefactos de trabajo. Conservar el repositorio anterior como respaldo; no es necesario borrar su historial local.
+La carpeta local utiliza el historial del nuevo repositorio. El historial anterior se conserva como respaldo separado; no debe mezclarse ni subirse al nuevo remoto.
 
 ## Estructura
 
@@ -96,7 +98,7 @@ Proyecto personal de Sergio Jiménez Rubio. La marca incluye logos transparentes
 
 ## Privacidad
 
-Aunque el nuevo repositorio comience privado, tratar los archivos como material que se publicará. No incluir credenciales, configuración privada ni datos personales innecesarios. Comunicar cualquier vulnerabilidad por un canal privado sin publicar secretos.
+Aunque el repositorio sea privado, tratar los archivos como material que se publicará. No incluir credenciales, configuración privada ni datos personales innecesarios. Comunicar cualquier vulnerabilidad por un canal privado sin publicar secretos.
 
 Antes de publicar y durante el mantenimiento, ejecutar `pnpm audit` para revisar todas las dependencias y `pnpm audit --prod` para las de producción. Mantener el lockfile versionado y verificar tipos, lint, pruebas y build después de actualizarlo.
 

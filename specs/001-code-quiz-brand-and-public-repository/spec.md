@@ -1,6 +1,6 @@
 # Code Quiz brand and public repository
 
-**Status:** In progress
+**Status:** Implemented
 
 ## Goal
 
@@ -8,7 +8,7 @@ Adoptar de forma completa y segura el nombre **Code Quiz**, crear una identidad 
 
 ## Context
 
-La identidad Code Quiz está integrada. La primera versión se prepara para un repositorio privado nuevo con un único commit inicial; la publicación futura será en Vercel. La spec 004 completa la migración técnica y la preparación del build.
+La identidad Code Quiz está integrada. La primera versión está publicada en https://codequiz-game.vercel.app/ desde el repositorio privado sergio-jr-dev/Code-Quiz, creado con un único commit inicial sin historial anterior. La spec 004 completa la migración técnica.
 
 ## Requirements
 
@@ -35,8 +35,8 @@ La identidad Code Quiz está integrada. La primera versión se prepara para un r
 - [x] AC-2: El logo aprobado muestra “CODE QUIZ” sin errores y representa claramente las tres materias. [REQ-2]
 - [x] AC-3: Los cuatro formatos de marca existen, están optimizados y no contienen fondos rasterizados accidentales. [REQ-3, REQ-4]
 - [x] AC-4: Logo, favicon y Open Graph se verifican visualmente en temas claro y oscuro y en tamaños de uso reales. [REQ-4]
-- [x] AC-5: `README.md` distingue el estado de esta rama y la publicación pendiente y enlaza las specs activas sin presentar la hoja de ruta como implementada. [REQ-6]
-- [ ] AC-6: Los metadatos Open Graph usan atributos y URLs válidos para el destino público confirmado. [REQ-7]
+- [x] AC-5: `README.md` describe la versión publicada y el repositorio privado y enlaza las specs activas sin presentar la hoja de ruta como implementada. [REQ-6]
+- [x] AC-6: Los metadatos Open Graph usan atributos y URLs válidos para el destino público confirmado. [REQ-7]
 - [x] AC-7: La revisión de privacidad no encuentra secretos o datos sensibles y queda registrada en `notes.md`. [REQ-8]
 - [x] AC-8: `pnpm lint`, `pnpm build` y `git diff --check` se ejecutan; cualquier fallo previo queda separado y documentado. [REQ-6, REQ-9]
 
@@ -51,8 +51,8 @@ La identidad Code Quiz está integrada. La primera versión se prepara para un r
 - Solo los assets finales de `public/images/` forman parte de la entrega.
 - Preferir formatos WebP/AVIF para composiciones raster grandes cuando no se pierda fidelidad; conservar PNG para transparencia cuando corresponda.
 - Los favicons y símbolos pequeños pueden necesitar una simplificación específica, no un simple reescalado del lockup.
-- El build sirve desde la raíz y genera las URLs absolutas desde SITE_URL cuando se defina el dominio público.
+- El build sirve desde la raíz y genera las URLs absolutas desde SITE_URL en Production; el dominio confirmado es https://codequiz-game.vercel.app/.
 
 ## Risks Or Open Questions
 
-- Pendientes la creación del nuevo repositorio y el dominio de Vercel. No se publica en el remoto anterior.
+- Ninguno pendiente para esta entrega. El modo claro y la ampliación del catálogo siguen fuera de alcance.

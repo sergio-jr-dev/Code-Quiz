@@ -28,7 +28,7 @@ Mantén la experiencia breve, clara y didáctica. La puntuación es secundaria r
 - Estado compartido en `src/context/QuizContextProvider.tsx`.
 - Banco actual en `src/data/questions.ts`.
 - Markdown de explicaciones renderizado con `marked` y sanitizado con DOMPurify.
-- Build estático desde la raíz, preparado para Vercel; publicación pendiente.
+- Build estático desde la raíz, desplegado en https://codequiz-game.vercel.app/.
 
 No introduzcas un backend, router, framework CSS o librería de estado sin una necesidad demostrable y aprobación explícita.
 
@@ -160,8 +160,8 @@ El objetivo mínimo es WCAG 2.2 AA.
 
 ## SEO y despliegue
 
-- El destino es un nuevo repositorio privado sin historial anterior y un futuro despliegue en Vercel. No modificar el remoto antiguo ni borrar `.git` para preparar la copia.
-- `base` es `/`. `SITE_URL` configura las URLs públicas durante el build; sin ella se omiten canonical y URLs sociales y se declara noindex. Dejar previews sin SITE_URL.
+- El repositorio activo es `sergio-jr-dev/Code-Quiz`, privado y con historial nuevo. La carpeta local está conectada a ese historial; el antiguo se conserva en un respaldo separado y no debe mezclarse con el actual.
+- `base` es `/`. En Vercel Production, `SITE_URL=https://codequiz-game.vercel.app` genera las URLs públicas durante el build. Dejar Preview sin SITE_URL: se omiten canonical y URLs sociales y se declara noindex. Volver a desplegar al cambiar la variable.
 - Open Graph usa `property="og:..."`, no `name="og:..."`.
 - Las URLs públicas de canonical, Open Graph e imágenes sociales deben ser absolutas.
 - Verifica rutas y assets desde la raíz tanto en desarrollo como en el build de producción.

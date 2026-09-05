@@ -58,3 +58,11 @@
 - El dominio deseado de Vercel tiene la forma `code-quiz.vercel.app`, sujeto a disponibilidad y asignación. Los despliegues Preview reciben URLs propias; no se fija todavía SITE_URL ni se afirma que el dominio esté reservado.
 
 Referencias de los paquetes corregidos: [brace-expansion](https://github.com/advisories/GHSA-rgw5-rvv9-x895), [Babel](https://github.com/advisories/GHSA-4x5r-pxfx-6jf8), [Browserslist](https://github.com/advisories/GHSA-73wf-gq98-2v4g), [humanfs](https://github.com/advisories/GHSA-p498-v437-472g).
+
+## Publicación y vinculación local · 2026-09-06
+
+- El repositorio privado sergio-jr-dev/Code-Quiz parte del commit raíz 229f46e, sin padres ni historial anterior.
+- Producción confirmada en https://codequiz-game.vercel.app/. El HTML servido incluye canonical, og:url y og:image con ese dominio y no contiene noindex.
+- Antes de vincular la carpeta local se compararon byte a byte sus 179 archivos con el remoto: ninguna diferencia. Se guardó el directorio Git antiguo completo, su HEAD, estado y diff en un respaldo externo permanente.
+- La carpeta local utiliza main del nuevo repositorio y conserva todos los archivos de trabajo, dependencias y artefactos ignorados. El historial anterior no se importó.
+- La actualización de documentación se registra después del commit inicial; no se reescribe el historial publicado.
