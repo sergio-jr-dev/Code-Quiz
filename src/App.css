@@ -12,6 +12,8 @@
   --focus-ring-color: light-dark(#5a2ca0, #f2c94c);
 
   color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {

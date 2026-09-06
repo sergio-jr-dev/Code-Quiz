@@ -8,6 +8,8 @@
 - El modo mixto usa una distribución 4/3/3 y rota la materia que recibe la pregunta adicional.
 - Las pruebas se centrarán en comportamiento observable y accesibilidad.
 - No se añadirá backend para progreso o mejores resultados.
+- La spec sustituirá el contexto actual por Zustand como ejercicio deliberado de arquitectura de estado. El store gestionará el dominio; foco, anuncios, confeti y otros efectos visuales permanecerán en la capa de interfaz.
+- Los componentes usarán selectores pequeños. La persistencia tendrá versión y validación propia para tolerar datos ausentes, antiguos o corruptos.
 
 ## Implementation Notes
 

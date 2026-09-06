@@ -1,6 +1,6 @@
 # Question bank and answer fairness
 
-**Status:** Draft
+**Status:** In progress
 
 ## Goal
 
@@ -58,6 +58,8 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 - Preferir transformaciones puras fuera de React: `validateQuestionBank`, `buildRound`, `buildBalancedPositions` y `shuffleWith`.
 - El modelo ampliado se definirá en TypeScript y se validará en runtime; la spec 004 ya tipa el banco actual.
+- Pregunta, opciones y explicación comparten una secuencia de bloques discriminados `text`/`code`. Una misma opción puede combinar ambos tipos cuando el contenido lo necesite; el bloque de código siempre declara `html`, `css` o `javascript`.
+- Los IDs de pregunta siguen el patrón legible y estable `<subject>-<topic>-<sequence>`; los IDs de opción son locales a la pregunta y no dependen de su posición visual.
 - Para cuatro opciones, una partida de diez preguntas debería distribuir posiciones correctas como 3/3/2/2 en algún orden.
 - El mínimo de veinte se aplica a cada pareja `subject` + `level`, no a un nivel compartido entre materias; de otro modo, un filtro concreto podría no reunir diez preguntas variadas.
 - La heurística de longitud debe comparar contenido visible normalizado y señalar anomalías; no debe sustituir la revisión editorial.
@@ -66,4 +68,3 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 ## Risks Or Open Questions
 
 - Debe definirse el umbral exacto de la alerta de longitud tras revisar ejemplos reales de texto y código.
-- Hay que decidir si las opciones pueden combinar texto y código o si deben mantener un único tipo por pregunta para reforzar la paridad visual.

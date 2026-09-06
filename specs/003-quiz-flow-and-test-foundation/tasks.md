@@ -4,7 +4,7 @@
 **Blockers:** Depende de la spec 002 y de la decisión sobre mejores resultados.
 
 - [ ] T1: Configurar Vitest, Testing Library, setup DOM y scripts de test.
-- [ ] T2: Extraer y probar las transiciones puras de configuración, mazo aleatorio, partida, puntuación y reinicio.
+- [ ] T2: Extraer y probar las transiciones puras de configuración, mazo aleatorio, partida, puntuación y reinicio; después integrarlas en un store de Zustand con selectores pequeños.
 - [ ] T3: Implementar menú y filtros sobre el modelo de la spec 002.
 - [ ] T4: Implementar progreso, feedback, resultados y resumen por categorías.
 - [ ] T5: Implementar navegación posterior y repetición de fallos.

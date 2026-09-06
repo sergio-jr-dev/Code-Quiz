@@ -62,7 +62,8 @@ La aplicación inicia directamente una partida de 25 preguntas, mantiene todo el
 ## Technical Notes
 
 - Implementar primero la spec 002 y consumir sus funciones puras en esta spec.
-- Considerar un reducer o contextos separados para configuración, partida y persistencia si el contexto actual acumula setters públicos.
+- Sustituir el contexto actual por un store de Zustand al comenzar esta spec. Separar estado y acciones de dominio de los efectos de interfaz, consumir el store mediante selectores pequeños y mantener las transformaciones puras fuera de Zustand.
+- Usar persistencia versionada y validada para el mínimo estado necesario; no delegar en el middleware la validación de datos antiguos o corruptos.
 - Versionar claves de `localStorage` bajo un namespace de Code Quiz y nunca persistir contenido HTML.
 - Persistir el estado mínimo del mazo por configuración para mantener la variedad entre recargas, validando IDs frente al banco vigente.
 - Construir el modo mixto mediante selección estratificada por materia, no mediante una muestra plana que pueda omitir una de ellas por azar.
