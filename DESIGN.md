@@ -27,32 +27,32 @@ colors:
   focus-ring-light: "#5A2CA0"
 typography:
   display:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 1.875rem
     fontWeight: 700
     lineHeight: 1.15
   heading-lg:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 2.2rem
     fontWeight: 700
     lineHeight: 1.2
   heading-md:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 1.5rem
     fontWeight: 700
     lineHeight: 1.3
   body:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 1rem
     fontWeight: 400
     lineHeight: 1.5
   option-label:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 1.1rem
     fontWeight: 400
     lineHeight: 1.5
   metric:
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
     fontSize: 1.25rem
     fontWeight: 700
     lineHeight: 1.2
@@ -232,6 +232,8 @@ HTML, CSS y futuras materias comparten la misma paleta. Se distinguen mediante e
 
 La base documentada procede de la aplicación, sus capturas actuales y esta decisión de producto. Las reglas de foco, movimiento reducido, reflow y estados no cromáticos son requisitos normativos aunque todavía necesiten implementarse o verificarse en todas las vistas.
 
+La cascada se organiza mediante las capas `reset`, `tokens`, `base`, `components` y `utilities`, declaradas en ese orden antes de cargar los componentes. Cada hoja de componente vive en `components` y usa `@scope` con una raíz propia; los estilos globales se limitan a responsabilidades compartidas. La proximidad de scope forma parte del contrato al combinar variantes o componentes anidados.
+
 ## Colors
 
 El frontmatter conserva los colores oscuros actuales como tokens semánticos y añade variantes `-light`. El linter alpha de `DESIGN.md` todavía no acepta `light-dark()` como valor de color; por eso la función se define en esta asignación CSS normativa, con el valor claro primero y el oscuro segundo:
@@ -271,7 +273,9 @@ La implementación futura debe declarar `color-scheme: light dark` en `:root`; `
 
 ## Typography
 
-La familia es la pila nativa del sistema para favorecer rendimiento, familiaridad y legibilidad. No se incorporan fuentes externas salvo que un rediseño lo justifique.
+El texto funcional usa como mínimo `1rem`, incluido el código. Solo el contenido secundario marcado semánticamente con `<small>` puede bajar de ese tamaño; no se reduce texto para forzarlo dentro de un componente.
+
+La interfaz usa `'Trebuchet MS', 'Avenir Next', Avenir, sans-serif`: una pila humanista, abierta y legible que refuerza el tono técnico-educativo sin descargar fuentes ni añadir dependencias. Los fragmentos de código conservan una pila monoespaciada nativa independiente.
 
 - **Display:** título del producto, peso 700. La implementación debe usar `clamp(1.875rem, calc(0.75rem + 3vw), 3rem)` con interlineado `1.15`.
 - **Heading large:** mensaje principal del resultado, `2.2rem`, peso 700.
@@ -355,6 +359,8 @@ La vibración de error es decorativa, dura como máximo `300ms` y se desactiva c
 ### Information panel
 
 El panel info aparece después de responder e incluye un encabezado con icono, texto explicativo y código cuando proceda. El código usa option-surface, radio pequeño y scroll horizontal propio solo si una línea técnica no puede envolver de manera segura.
+
+Pregunta, respuestas y explicación comparten bloques de contenido. El primer bloque de una pregunta es texto y conserva el encabezado `h2`; los bloques posteriores viven debajo sin introducir `pre` dentro del encabezado. Cada fragmento técnico se representa como texto literal en `pre > code`, declara su lenguaje mediante `data-language`, conserva espacios y saltos y usa tipografía monoespaciada. Las opciones completas mantienen su radio nativo y pueden crecer o desplazar horizontalmente solo el bloque de código.
 
 La entrada puede animar opacidad y tamaño durante `300ms`. Con movimiento reducido aparece de inmediato. La animación nunca retrasa el acceso al contenido ni mueve el foco sin intención.
 

@@ -49,6 +49,17 @@ describe('validateQuestionBank', () => {
     ]));
   });
 
+  it('rejects a question prompt that starts with code instead of heading text', () => {
+    const base = cloneQuestion(questionExamples[0]);
+    const invalid = {
+      ...base,
+      prompt: [{ type: 'code', language: 'html', code: '<main>' }],
+    };
+
+    expect(validateQuestionBank([invalid]).issues.map(issue => issue.code))
+      .toContain('invalid-content');
+  });
+
   it('warns when the correct answer reveals itself by length or block structure', () => {
     const base = cloneQuestion(questionExamples[0]);
     const biased: BankQuestion = {

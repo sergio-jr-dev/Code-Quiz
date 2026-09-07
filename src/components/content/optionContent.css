@@ -1,0 +1,7 @@
+@layer components {
+  @scope (.option-content) {
+    :scope {
+      flex: 1;
+    }
+  }
+}

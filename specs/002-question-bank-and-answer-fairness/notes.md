@@ -21,12 +21,19 @@
 - La alerta de longitud se activa cuando la correcta mide al menos 1,75 veces el distractor más largo y lo supera por 20 caracteres visibles o más. La alerta estructural aparece cuando solo la correcta usa una firma de bloques distinta.
 - `shuffleWith` conserva Fisher–Yates y exige una fuente aleatoria inyectada; `shuffle` mantiene la API actual con `Math.random` como valor predeterminado.
 - `buildBalancedPositions` reparte primero ciclos completos de posiciones y aleatoriza el plan. `buildRound` baraja preguntas y distractores sin mutar el banco e inserta la correcta por ID en la posición planificada.
+- `QuestionContent`, `OptionContent` y `ExplanationContent` comparten un renderizador que interpola texto con React y representa código literalmente mediante `pre > code`; no utiliza HTML inyectado.
+- Cada componente vive en su propio archivo. `ContentBlock` resuelve un bloque y `ContentBlocks` compone la secuencia; no hay lógica de estado que justifique extraer un custom hook en T4.
+- Los estilos de bloque, secuencia y variante de opción están separados por responsabilidad. Las pruebas se dividen entre seguridad del bloque, semántica de la pregunta y composición de opciones/explicaciones.
+- Las hojas de T4 se integran en `@layer components` y limitan su alcance mediante `@scope`. El orden de capas se declara desde `src/main.css`, importado antes del árbol de componentes.
+- La migración de cascada se verificó en Chromium a 320 × 700 y 1280 × 900 durante el flujo de pregunta, feedback, resultado y revisión. No se observaron pérdidas de estilos ni desbordamiento horizontal.
+- El código conserva un tamaño mínimo de `1rem`, igual que el resto del texto funcional.
+- El primer bloque de `QuestionPrompt` queda tipado como texto para conservar un `h2` válido. Los bloques técnicos posteriores mantienen espacios, lenguaje explícito y scroll horizontal local.
 
 ## Validation Results
 
 - Comprobación intermedia tras T1–T3: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan.
-- Vitest ejecuta 35 pruebas en 6 archivos, incluidas las nuevas pruebas de contrato, validación, excepciones editoriales, reproducibilidad y equilibrio.
-- La verificación visual queda pendiente hasta T4, cuando los bloques de contenido se integren en la interfaz.
+- Vitest ejecuta 40 pruebas en 10 archivos, incluidas las pruebas de contrato, validación, excepciones editoriales, reproducibilidad, equilibrio y renderizado seguro.
+- T4 verifica en DOM la semántica del encabezado, el lenguaje del código, la conservación exacta de espacios y que contenido con apariencia peligrosa no cree elementos. La verificación visual del flujo queda pendiente hasta T5, cuando los bloques se integren en la interfaz existente.
 
 ## Deviations From Spec
 

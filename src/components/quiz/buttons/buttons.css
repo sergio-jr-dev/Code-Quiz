@@ -1,23 +1,26 @@
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  max-inline-size: 100%;
-
-  button {
-    display: flex;
-    align-items: center;
-    column-gap: 0.5rem;
-    overflow-wrap: anywhere;
-
-    svg {
-      flex-shrink: 0;
+@layer components {
+  @scope (.buttons) {
+    :scope {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-inline-size: 100%;
     }
 
-    @media (width <= 30rem) {
-      flex: 1 1 100%;
-      min-inline-size: 0;
-      padding-inline: 1rem;
+    button {
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+
+      svg {
+        flex-shrink: 0;
+      }
+
+      @media (width <= 30rem) {
+        flex: 1 1 100%;
+        min-inline-size: 0;
+        padding-inline: 1rem;
+      }
     }
   }
 }

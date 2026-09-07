@@ -1,11 +1,15 @@
-.results {
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
+@layer components {
+  @scope (.results) {
+    :scope {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+    }
 
-  .answer {
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 0.25rem;
+    :scope .answer {
+      flex-direction: column;
+      align-items: flex-start;
+      row-gap: 0.25rem;
+    }
   }
 }

@@ -19,7 +19,8 @@ export interface CodeContentBlock {
 }
 
 export type ContentBlock = TextContentBlock | CodeContentBlock;
-export type QuestionContent = readonly ContentBlock[];
+export type QuestionContent = readonly [ContentBlock, ...ContentBlock[]];
+export type QuestionPrompt = readonly [TextContentBlock, ...ContentBlock[]];
 
 export type QuestionId = `${Subject}-${string}-${number}`;
 export type OptionId = string;
@@ -41,7 +42,7 @@ export interface BankQuestion {
   readonly subject: Subject;
   readonly level: Level;
   readonly topic: string;
-  readonly prompt: QuestionContent;
+  readonly prompt: QuestionPrompt;
   readonly options: readonly QuestionOption[];
   readonly correctAnswer: OptionId;
   readonly explanation: QuestionContent;

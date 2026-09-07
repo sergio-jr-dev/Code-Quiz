@@ -24,7 +24,7 @@ Mantén la experiencia breve, clara y didáctica. La puntuación es secundaria r
 - React 19 con componentes funcionales, TypeScript estricto y TSX.
 - Vite 8 y `@vitejs/plugin-react`.
 - pnpm, con `pnpm-lock.yaml` como lockfile autoritativo.
-- CSS modular por componente, además de los estilos y tokens globales de `src/App.css`.
+- CSS organizado por componente, además de los estilos y tokens globales de `src/main.css`.
 - Estado compartido en `src/context/QuizContextProvider.tsx`.
 - Banco actual en `src/data/questions.ts`.
 - Markdown de explicaciones renderizado con `marked` y sanitizado con DOMPurify.
@@ -114,6 +114,9 @@ Las preguntas deben vivir fuera de los componentes. Al ampliar el banco, usa mó
 ### Componentes React
 
 - Mantén componentes pequeños con responsabilidades explícitas.
+- Mantén cada componente React en su propio archivo; no agrupes varios componentes en un mismo módulo.
+- Extrae a custom hooks la lógica de estado o comportamiento cuando adquiera suficiente entidad, no el marcado presentacional trivial.
+- Separa estilos y pruebas por componente cuando tengan reglas o contratos propios; conserva archivos compartidos para comportamiento verdaderamente común y no crees archivos vacíos por simetría.
 - Usa composición y variantes con nombres claros; evita cadenas crecientes de props booleanas.
 - No declares componentes dentro de otros componentes.
 - Los efectos son para sincronizar con sistemas externos, no para mantener estado derivado.
@@ -151,10 +154,13 @@ El objetivo mínimo es WCAG 2.2 AA.
 - No uses el color como diferenciador principal entre HTML, CSS u otras materias; usa el logo, el nombre y apoyos gráficos mínimos.
 - Al implementar el modo claro, declara `color-scheme: light dark` en `:root`, añade el metadato equivalente antes de los estilos y permite que un control explícito establezca `color-scheme: light` o `dark` sin duplicar los tokens.
 - Reutiliza tokens semánticos. Si aparece un valor repetido o con rol estable, añádelo primero a `DESIGN.md` y después al CSS.
-- Usa CSS nesting nativo siempre que exista una relación clara con el selector padre; conserva `@scope` cuando corresponda y evita aumentar la especificidad innecesariamente.
+- Encapsula cada hoja de componente en `@layer components` y limita sus selectores con `@scope` desde una raíz propia. Usa `:scope` para estilizar esa raíz y considera la proximidad de scope cuando un componente deba sobrescribir otro.
+- Declara el orden global de capas antes de importar componentes: `reset`, `tokens`, `base`, `components` y `utilities`. Mantén reset, tokens, elementos base y utilidades en `src/main.css`; no introduzcas estilos sin capa.
+- Usa CSS nesting nativo siempre que exista una relación clara con el selector padre y evita aumentar la especificidad innecesariamente.
 - Prefiere propiedades lógicas: `inline-size`, `block-size`, `margin-inline`, `padding-block` e `inset-*`, en lugar de sus equivalentes físicos cuando expresen el mismo contrato.
 - Anida las media queries dentro del selector al que afectan, junto a los estilos base y estados de ese selector. No concentres ajustes de componentes distintos en bloques responsive al final del archivo.
 - Trabaja mobile-first, permite crecimiento intrínseco y evita alturas fijas en contenido o controles con texto.
+- No uses tamaños de fuente inferiores a `1rem` para texto funcional; resérvalos para contenido secundario representado mediante `<small>`.
 - Mantén estados default, hover, active, focus-visible, selected, disabled, correct e incorrect coherentes.
 - Toda modificación visual intencional debe actualizar `DESIGN.md` en el mismo cambio.
 

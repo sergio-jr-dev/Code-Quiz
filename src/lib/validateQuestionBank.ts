@@ -3,6 +3,7 @@ import {
   LEVELS,
   SUBJECTS,
   type BankQuestion,
+  type ContentBlock,
   type FairnessRule,
 } from '../types/questionBank';
 
@@ -62,7 +63,16 @@ function isContent(value: unknown): boolean {
   });
 }
 
-function visibleLength(content: BankQuestion['prompt']): number {
+function hasTextHeading(value: unknown): boolean {
+  return (
+    Array.isArray(value) &&
+    isRecord(value[0]) &&
+    value[0].type === 'text' &&
+    isNonEmptyString(value[0].text)
+  );
+}
+
+function visibleLength(content: readonly ContentBlock[]): number {
   return content
     .map((block) => (block.type === 'text' ? block.text : block.code))
     .join(' ')
@@ -70,7 +80,7 @@ function visibleLength(content: BankQuestion['prompt']): number {
     .trim().length;
 }
 
-function structureOf(content: BankQuestion['prompt']): string {
+function structureOf(content: readonly ContentBlock[]): string {
   return content.map((block) => block.type).join('+');
 }
 
@@ -156,7 +166,11 @@ export function validateQuestionBank(
         message: 'El tema es obligatorio.',
       });
     }
-    if (!isContent(candidate.prompt) || !isContent(candidate.explanation)) {
+    if (
+      !isContent(candidate.prompt)
+      || !hasTextHeading(candidate.prompt)
+      || !isContent(candidate.explanation)
+    ) {
       addIssue(issues, {
         severity: 'error',
         code: 'invalid-content',
