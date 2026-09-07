@@ -1,6 +1,6 @@
 import { useQuiz } from '../../../context/QuizContext';
 import { InfoIcon } from '../../icons/InfoIcon';
-import { renderExplanation } from '../../../lib/renderExplanation';
+import { ExplanationContent } from '../../content/ExplanationContent';
 
 import './info.css';
 
@@ -13,11 +13,7 @@ export const Info = () => {
         <InfoIcon />
         Información adicional
       </h3>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: renderExplanation(question.additionalInfo),
-        }}
-      />
+      <ExplanationContent content={question.explanation} />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { useQuiz } from '../../../context/QuizContext';
-
-import type { Option } from '../../../types/quiz';
+import { OptionContent } from '../../content/OptionContent';
+import type { QuestionOption } from '../../../types/questionBank';
 
 import './answer.css';
 
-export const Answer = ({ option }: { option: Option }) => {
+export const Answer = ({ option }: { option: QuestionOption }) => {
   const { selectedOption, question, selectOption } =
     useQuiz();
 
@@ -31,11 +31,11 @@ export const Answer = ({ option }: { option: Option }) => {
         onChange={() => selectOption(option.id)}
         disabled={selectedOption !== null && selectedOption !== option.id}
       />
-      <span className="answer-content">
-        {option.content}
+      <div className="answer-content">
+        <OptionContent content={option.content} />
         {correctAnswer && <small>Respuesta correcta</small>}
         {incorrectAnswer && <small>Tu respuesta · Incorrecta</small>}
-      </span>
+      </div>
     </label>
   );
 };

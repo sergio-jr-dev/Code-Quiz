@@ -3,6 +3,7 @@ import { useQuiz } from '../../context/QuizContext';
 import { Answers } from './answers/Answers';
 import { Buttons } from './buttons/Buttons';
 import { Info } from './info/Info';
+import { QuestionContent } from '../content/QuestionContent';
 
 import './quiz.css';
 
@@ -19,9 +20,12 @@ export const Quiz = () => {
         {currentQuestion + 1} / {shuffleQuestions.length}
       </span>
 
-      <h2 className="question-title" id="question-title" ref={headingRef} tabIndex={-1}>
-        {question.question}
-      </h2>
+      <QuestionContent
+        content={question.prompt}
+        headingId="question-title"
+        ref={headingRef}
+        tabIndex={-1}
+      />
 
       <Answers />
 

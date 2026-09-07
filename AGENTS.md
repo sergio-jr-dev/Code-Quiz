@@ -27,7 +27,7 @@ Mantén la experiencia breve, clara y didáctica. La puntuación es secundaria r
 - CSS organizado por componente, además de los estilos y tokens globales de `src/main.css`.
 - Estado compartido en `src/context/QuizContextProvider.tsx`.
 - Banco actual en `src/data/questions.ts`.
-- Markdown de explicaciones renderizado con `marked` y sanitizado con DOMPurify.
+- Contenido de preguntas, opciones y explicaciones modelado como bloques tipados de texto o código y renderizado como nodos React escapados.
 - Build estático desde la raíz, desplegado en https://codequiz-game.vercel.app/.
 
 No introduzcas un backend, router, framework CSS o librería de estado sin una necesidad demostrable y aprobación explícita.

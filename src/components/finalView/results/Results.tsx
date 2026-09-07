@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { renderExplanation } from '../../../lib/renderExplanation';
 import { useQuiz } from '../../../context/QuizContext';
+import { ContentBlocks } from '../../content/ContentBlocks';
+import { ExplanationContent } from '../../content/ExplanationContent';
+import { OptionContent } from '../../content/OptionContent';
 
 import './results.css';
 
@@ -25,10 +27,10 @@ export const Results = () => {
           aria-labelledby={`review-title-${question.id}`}
         >
           <h3 id={`review-title-${question.id}`} ref={i === 0 ? firstQuestionRef : null} tabIndex={-1}>Pregunta {i + 1}</h3>
-          <p>{question.question}</p>
+          <ContentBlocks content={question.prompt} />
           <div className="answers">
             {question.options.map((option) => (
-              <p
+              <div
                 key={option.id}
                 className={`answer
                 ${option.id === question.correctAnswer ? 'correct' : ''}
@@ -40,18 +42,15 @@ export const Results = () => {
                 }
               `}
               >
-                <span>{option.content}</span>
+                <OptionContent content={option.content} />
                 {option.id === question.correctAnswer && <small>Respuesta correcta</small>}
                 {option.id === userAnswers[i] && <small>Tu respuesta</small>}
-              </p>
+              </div>
             ))}
           </div>
-          <div
-            className="info"
-            dangerouslySetInnerHTML={{
-              __html: renderExplanation(question.additionalInfo),
-            }}
-          />
+          <div className="info">
+            <ExplanationContent content={question.explanation} />
+          </div>
         </article>
       ))}
     </section>

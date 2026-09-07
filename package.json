@@ -15,8 +15,6 @@
   "dependencies": {
     "@tabler/icons-react": "^3.46.0",
     "canvas-confetti": "^1.9.4",
-    "dompurify": "^3.4.14",
-    "marked": "^18.0.11",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

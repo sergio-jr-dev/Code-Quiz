@@ -22,7 +22,9 @@ export type ContentBlock = TextContentBlock | CodeContentBlock;
 export type QuestionContent = readonly [ContentBlock, ...ContentBlock[]];
 export type QuestionPrompt = readonly [TextContentBlock, ...ContentBlock[]];
 
-export type QuestionId = `${Subject}-${string}-${number}`;
+// TypeScript cannot reliably split hyphenated topics in a template literal.
+// The runtime validator enforces the complete <subject>-<topic>-<sequence> pattern.
+export type QuestionId = `${Subject}-${string}`;
 export type OptionId = string;
 
 export type FairnessRule = 'length' | 'structure';

@@ -1,26 +1,15 @@
-export interface Option {
-  readonly id: number;
-  readonly content: string;
-}
-
-export interface Question {
-  readonly id: number;
-  readonly question: string;
-  readonly options: readonly Option[];
-  readonly correctAnswer: Option['id'];
-  readonly additionalInfo: string;
-}
+import type { BankQuestion, OptionId } from './questionBank';
 
 export interface QuizContextValue {
   currentQuestion: number;
-  question: Question;
-  selectedOption: Option['id'] | null;
+  question: BankQuestion;
+  selectedOption: OptionId | null;
   score: number;
   completed: boolean;
-  userAnswers: readonly Option['id'][];
+  userAnswers: readonly OptionId[];
   showResults: boolean;
-  shuffleQuestions: readonly Question[];
-  selectOption: (id: Option['id']) => void;
+  shuffleQuestions: readonly BankQuestion[];
+  selectOption: (id: OptionId) => void;
   handleNext: () => void;
   handleRestart: () => void;
   showReview: () => void;

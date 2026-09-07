@@ -2,15 +2,15 @@ import { useState, type ReactNode } from 'react';
 import confetti from 'canvas-confetti';
 import { QuizContext } from './QuizContext';
 import { questions } from '../data/questions';
-import { shuffle } from '../lib/shuffle';
-import type { Option } from '../types/quiz';
+import { buildRound } from '../lib/buildRound';
+import type { OptionId } from '../types/questionBank';
 
 export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
-  const [shuffleQuestions, setShuffleQuestions] = useState(() => shuffle(questions));
+  const [shuffleQuestions, setShuffleQuestions] = useState(() => buildRound(questions, questions.length));
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<Option['id'] | null>(null);
+  const [selectedOption, setSelectedOption] = useState<OptionId | null>(null);
   const [completed, setCompleted] = useState(false);
-  const [userAnswers, setUserAnswers] = useState<Option['id'][]>([]);
+  const [userAnswers, setUserAnswers] = useState<OptionId[]>([]);
   const [showResults, setShowResults] = useState(false);
   const question = shuffleQuestions[currentQuestion];
   if (!question) throw new Error('The question bank must contain a current question');
@@ -20,7 +20,7 @@ export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
     0,
   );
 
-  const selectOption = (id: Option['id']) => {
+  const selectOption = (id: OptionId) => {
     if (completed || selectedOption !== null || !question.options.some(option => option.id === id)) return;
     setUserAnswers(previous => [...previous, id]);
     setSelectedOption(id);
@@ -41,7 +41,7 @@ export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleRestart = () => {
-    setShuffleQuestions(shuffle(questions));
+    setShuffleQuestions(buildRound(questions, questions.length));
     setCurrentQuestion(0);
     setSelectedOption(null);
     setCompleted(false);
