@@ -28,11 +28,14 @@
 - La migración de cascada se verificó en Chromium a 320 × 700 y 1280 × 900 durante el flujo de pregunta, feedback, resultado y revisión. No se observaron pérdidas de estilos ni desbordamiento horizontal.
 - El código conserva un tamaño mínimo de `1rem`, igual que el resto del texto funcional.
 - El primer bloque de `QuestionPrompt` queda tipado como texto para conservar un `h2` válido. Los bloques técnicos posteriores mantienen espacios, lenguaje explícito y scroll horizontal local.
-- Las 25 preguntas heredadas ya usan `BankQuestion`, metadatos explícitos, IDs de dominio y opciones identificadas por `a`–`d`. El catálogo conserva sus enunciados, respuestas correctas y significado; las correcciones de estilo y equidad quedan reservadas para T6.
+- T5 migró las 25 preguntas heredadas a `BankQuestion`, metadatos explícitos, IDs de dominio y opciones identificadas por `a`–`d`, conservando entonces sus enunciados, respuestas correctas y significado para revisarlos por separado en T6.
 - El flujo activo crea la partida completa mediante `buildRound`, por lo que baraja preguntas y distractores sin mutar el banco y equilibra las posiciones correctas. Selección, puntuación, revisión y reinicio comparan IDs de opción.
 - Preguntas, opciones y explicaciones consumen los componentes de bloques de T4. Al desaparecer la fuente Markdown se eliminaron `renderExplanation`, `marked` y DOMPurify; el contenido se representa como nodos React escapados, sin `dangerouslySetInnerHTML`.
 - `QuestionId` tipa el prefijo de materia y delega el patrón completo al validador runtime. Esta separación permite temas legibles con guiones, que TypeScript no puede descomponer de forma fiable con el tipo plantilla anterior.
-- El validador no detecta errores de integridad en las 25 preguntas migradas. Deja para T6 cinco avisos editoriales: longitud y estructura en `css-numbers-001`, y estructura en `css-opacity-001`, `css-selector-lists-001` y `html-links-002`.
+- T6 revisó manualmente las 25 preguntas. Se eliminaron referencias dependientes del orden como “la 1 y la 2” y “todas son correctas”, y se reescribieron `css-numbers-001`, `css-opacity-001`, `css-selector-lists-001` y `html-links-002` con una sola respuesta inequívoca y opciones estructuralmente paralelas.
+- La revisión afinó terminología y explicaciones en los casos donde una simplificación podía confundir: `display: flex` crea un contenedor flex, `viewport` es un valor de `meta[name]`, `details` representa un disclosure widget y `download` expresa la intención de descargar el recurso enlazado.
+- No se necesitaron excepciones editoriales: las 25 preguntas quedan sin errores ni avisos del validador. La prueba del catálogo ahora exige el resultado completo `{ valid: true, issues: [] }` para evitar que reaparezcan pistas heurísticas inadvertidas.
+- La revisión final necesitó fijar `inline-size: 100%` en el contenido de opción dentro de `.results`: así los fragmentos largos conservan scroll horizontal local sin ensanchar la página a 320 px.
 
 ## Validation Results
 
@@ -41,6 +44,8 @@
 - T4 verifica en DOM la semántica del encabezado, el lenguaje del código, la conservación exacta de espacios y que contenido con apariencia peligrosa no cree elementos. La verificación visual del flujo queda pendiente hasta T5, cuando los bloques se integren en la interfaz existente.
 - Comprobación de T5: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan; Vitest ejecuta 35 pruebas en 9 archivos. Se retiraron las pruebas del render Markdown obsoleto y se conserva la cobertura de seguridad y semántica de los bloques de T4.
 - Revisión local en navegador real: a 320 × 700 las opciones de código, el feedback y la explicación mantienen reflow sin desbordamiento horizontal (`scrollWidth` 309 para `innerWidth` 320); a 1280 × 900 el flujo conserva la tarjeta centrada y tampoco desborda. El foco inicial permanece en el `h2`, las opciones conservan nombres accesibles y no aparecieron errores ni avisos de consola.
+- Comprobación de T6 (2026-09-07): `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan; Vitest ejecuta 35 pruebas en 9 archivos y el catálogo completo devuelve cero incidencias de validación.
+- QA de T6 en navegador real: se recorrieron las 25 preguntas a 320 × 700, incluidas las ocho formulaciones reescritas; no hubo desbordamiento durante la partida y el foco avanzó al encabezado de cada pregunta. En la revisión final, el foco pasó al primer `h3`, el documento midió `scrollWidth` 309 con `innerWidth` 320 y los 15 bloques de código que lo necesitaban conservaron scroll local. A 1280 × 900 tampoco hubo desbordamiento (`scrollWidth` 1269 para `innerWidth` 1280), ni errores o avisos de consola.
 
 ## Deviations From Spec
 
