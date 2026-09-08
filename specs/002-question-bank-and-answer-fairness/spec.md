@@ -46,7 +46,7 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 - [ ] AC-7: El validador señala una correcta desproporcionadamente larga o con estructura única y acepta una excepción justificada. [REQ-7, REQ-8, REQ-9]
 - [ ] AC-8: La revisión final conserva exactamente la opción elegida y la correcta después de aleatorizar. [REQ-12]
 - [ ] AC-9: La suite dirigida de Vitest pasa y cubre validación, equilibrio, aleatorización, seguridad y render de contenido. [REQ-3–REQ-12]
-- [ ] AC-10: El inventario automatizado confirma al menos veinte preguntas válidas en cada combinación publicada de materia y nivel y un mínimo de 180 preguntas en el catálogo inicial completo. [REQ-13, REQ-14]
+- [x] AC-10: El inventario automatizado confirma al menos veinte preguntas válidas en cada combinación publicada de materia y nivel y un mínimo de 180 preguntas en el catálogo inicial completo. [REQ-13, REQ-14]
 
 ## Out Of Scope
 

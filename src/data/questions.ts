@@ -1,40 +1,7 @@
-import type {
-  BankQuestion,
-  CodeLanguage,
-  Level,
-  QuestionContent,
-  QuestionId,
-  Subject,
-} from '../types/questionBank';
+import type { BankQuestion } from '../types/questionBank';
+import { question, text, code } from './questionFactory';
 
-const optionIds = ['a', 'b', 'c', 'd'] as const;
-const text = (value: string): QuestionContent => [{ type: 'text', text: value }];
-const code = (language: CodeLanguage, value: string): QuestionContent => [
-  { type: 'code', language, code: value },
-];
-
-function question(
-  id: QuestionId,
-  subject: Subject,
-  level: Level,
-  topic: string,
-  prompt: string,
-  options: readonly [QuestionContent, QuestionContent, QuestionContent, QuestionContent],
-  correctAnswer: (typeof optionIds)[number],
-  explanation: QuestionContent,
-): BankQuestion {
-  return {
-    id,
-    subject,
-    level,
-    topic,
-    prompt: [{ type: 'text', text: prompt }],
-    options: options.map((content, index) => ({ id: optionIds[index]!, content })),
-    correctAnswer,
-    explanation,
-  };
-}
-
+// The first-release round stays at 25 questions until spec 003 adds selection.
 export const questions = [
   question(
     'html-images-001', 'html', 'basic', 'images',

@@ -60,6 +60,37 @@ describe('validateQuestionBank', () => {
       .toContain('invalid-content');
   });
 
+  it('rejects non-object entries and questions with fewer than two options', () => {
+    const invalid = {
+      ...cloneQuestion(questionExamples[0]),
+      options: [cloneQuestion(questionExamples[0]).options[0]],
+    };
+    const result = validateQuestionBank([null, invalid]);
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.map(issue => issue.code)).toEqual(expect.arrayContaining([
+      'invalid-content',
+      'insufficient-options',
+    ]));
+  });
+
+  it('rejects unsupported code languages and empty option content', () => {
+    const base = cloneQuestion(questionExamples[0]);
+    const invalid = {
+      ...base,
+      explanation: [{ type: 'code', language: 'typescript', code: 'const answer = 42;' }],
+      options: [
+        { ...base.options[0], content: [] },
+        ...base.options.slice(1),
+      ],
+    };
+    const result = validateQuestionBank([invalid]);
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.filter(issue => issue.code === 'invalid-content'))
+      .toHaveLength(2);
+  });
+
   it('warns when the correct answer reveals itself by length or block structure', () => {
     const base = cloneQuestion(questionExamples[0]);
     const biased: BankQuestion = {

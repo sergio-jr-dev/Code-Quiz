@@ -27,6 +27,23 @@ describe('buildBalancedPositions', () => {
       positions.filter(candidate => candidate === position).length).sort((a, b) => b - a);
     expect(counts).toEqual([3, 3, 2, 2]);
   });
+
+  it.each([2, 3, 4, 5])('balances rounds with %i options per question', optionCount => {
+    const size = optionCount * 2 + 1;
+    const positions = buildBalancedPositions(size, optionCount, seededRandom(optionCount));
+    const counts = Array.from({ length: optionCount }, (_, position) =>
+      positions.filter(candidate => candidate === position).length);
+
+    expect(positions.every(position => position >= 0 && position < optionCount)).toBe(true);
+    expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+  });
+
+  it('rejects invalid question and option counts', () => {
+    expect(() => buildBalancedPositions(-1, 4)).toThrow(RangeError);
+    expect(() => buildBalancedPositions(1.5, 4)).toThrow(RangeError);
+    expect(() => buildBalancedPositions(1, 1)).toThrow(RangeError);
+    expect(() => buildBalancedPositions(1, 2.5)).toThrow(RangeError);
+  });
 });
 
 describe('buildRound', () => {
@@ -64,5 +81,12 @@ describe('buildRound', () => {
     expect(() => buildRound(bank, bank.length + 1, seededRandom(1))).toThrow(RangeError);
     const inconsistent = [{ ...bank[0]!, options: bank[0]!.options.slice(0, 3) }, bank[1]!];
     expect(() => buildRound(inconsistent, 2, seededRandom(1))).toThrow(/same number of options/);
+  });
+
+  it('rejects a selected question whose correct answer ID is missing', () => {
+    const invalid = [{ ...bank[0]!, correctAnswer: 'missing' }];
+
+    expect(() => buildRound(invalid, 1, seededRandom(1)))
+      .toThrow(`Question ${bank[0]!.id} has no matching correct answer`);
   });
 });

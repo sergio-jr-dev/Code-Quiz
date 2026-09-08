@@ -10,7 +10,8 @@ Aplicación educativa en español para practicar HTML y CSS con preguntas de opc
 
 - 25 preguntas de HTML y CSS en cada partida, en orden aleatorio.
 - Respuesta correcta e incorrecta indicadas con texto y color.
-- Explicaciones en Markdown con HTML sanitizado.
+- Preguntas, opciones y explicaciones con bloques de texto y código escapados.
+- Posiciones correctas equilibradas y distractores barajados por ID.
 - Puntuación, porcentaje y revisión de todas las respuestas.
 - Reinicio completo con un nuevo barajado.
 - Navegación con teclado y respeto a movimiento reducido.
@@ -64,8 +65,8 @@ La carpeta local utiliza el historial del nuevo repositorio. El historial anteri
 src/
   components/   Interfaz del quiz y resultados (.tsx)
   context/      Estado compartido y acciones de la partida
-  data/         Las 25 preguntas actuales
-  lib/          Barajado y render seguro de explicaciones
+  data/         Partida actual de 25 preguntas y catálogo completo por materia
+  lib/          Validación, barajado y equilibrio de respuestas
   types/        Contratos de preguntas, opciones y contexto
   test/         Configuración de pruebas
 config/         Metadatos generados durante el build
@@ -73,15 +74,19 @@ specs/          Especificaciones, tareas y decisiones
 public/images/  Logos, favicon, imagen social y captura
 ```
 
+## Catálogo preparado
+
+La spec 002 incorpora un catálogo de **180 preguntas**, con veinte por cada combinación de HTML, CSS y JavaScript con nivel básico, intermedio y avanzado. `src/data/questionCatalog.ts` reúne los módulos por materia; las pruebas comprueban integridad, cobertura y alertas editoriales.
+
+El flujo disponible sigue usando las 25 preguntas originales de `src/data/questions.ts`. La selección desde el catálogo completo se integrará con el menú y las partidas de diez de la spec 003. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios.
+
 ## Evolución planificada
 
 Las siguientes funcionalidades todavía no están implementadas:
 
 - HTML, CSS y JavaScript como materias seleccionables.
 - Niveles básico, intermedio y avanzado.
-- Partidas de 10 preguntas, bancos de al menos 20 por materia y nivel y modo mixto.
-- Modelo ampliado de contenido con ejemplos de código.
-- Posiciones correctas equilibradas y revisión editorial de distractores.
+- Partidas de 10 preguntas y modo mixto sobre el catálogo preparado.
 - Persistencia del progreso, mejores resultados y repetición de fallos.
 - Modo claro completo con selector y persistencia.
 
