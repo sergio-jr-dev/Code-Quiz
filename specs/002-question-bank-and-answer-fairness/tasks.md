@@ -1,6 +1,6 @@
 # Tasks
 
-**Current task:** T9
+**Current task:** None
 **Blockers:** None.
 
 - [x] T1: Diseñar el esquema de bloques, IDs y metadatos con ejemplos de HTML, CSS y JavaScript.
@@ -11,4 +11,4 @@
 - [x] T6: Revisar manualmente distractores, longitudes, terminología y explicaciones.
 - [x] T7: Completar y validar un mínimo de veinte preguntas para cada pareja materia–nivel, hasta alcanzar al menos 180 preguntas.
 - [x] T8: Añadir pruebas Vitest/Testing Library para modelo, aleatorización, seguridad y render.
-- [ ] T9: Ejecutar checks y registrar resultados y excepciones editoriales en `notes.md`.
+- [x] T9: Ejecutar checks y registrar resultados y excepciones editoriales en `notes.md`.

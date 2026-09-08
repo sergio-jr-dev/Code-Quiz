@@ -1,6 +1,6 @@
 # Question bank and answer fairness
 
-**Status:** In progress
+**Status:** Implemented
 
 ## Goal
 
@@ -68,4 +68,4 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 ## Risks Or Open Questions
 
-- Debe definirse el umbral exacto de la alerta de longitud tras revisar ejemplos reales de texto y código.
+- None. El umbral de longitud quedó fijado y validado durante T2: la correcta debe medir al menos 1,75 veces el distractor más largo y superarlo por un mínimo de 20 caracteres visibles.

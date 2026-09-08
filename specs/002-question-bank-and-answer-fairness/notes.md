@@ -88,6 +88,18 @@ Fuentes técnicas consultadas para los casos delicados:
 - Unresolved risks: el catálogo ampliado todavía no se ofrece en el flujo público; su selección y QA de integración pertenecen a la spec 003. No se afirma calibración empírica de niveles ni compatibilidad visual en otros motores. T9 sigue pendiente; la spec permanece In progress.
 - Sin modificaciones de diseño, estilos, dependencias, lockfile ni metadatos. Los artefactos temporales de navegador quedaron fuera del repositorio.
 
+### Validación final T9 (2026-09-08)
+
+- Checks run: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check`; revisión de los criterios AC-1–AC-10 contra código, pruebas y evidencia de navegador ya registrada.
+- Passing checks: TypeScript y ESLint sin incidencias; 59 pruebas Vitest en 11 archivos; build Vite de producción correcto; diff sin errores de whitespace. La prueba de inventario confirma 180 preguntas, 20 por cada pareja materia–nivel y `{ valid: true, issues: [] }` para el catálogo completo.
+- Passing checks: AC-1–AC-10 satisfechos. La validación de diseño conserva la identidad y los componentes de `DESIGN.md`; T8 y T9 no modificaron interfaz ni estilos, por lo que sigue vigente el QA de teclado, foco, reflow, movimiento reducido y esquemas registrado en T7.
+- Failing checks: None.
+- Unresolved risks: None within this spec. La publicación de filtros y partidas de diez corresponde a la spec 003; la calibración empírica de dificultad y la comprobación visual en otros motores no forman parte del alcance cerrado.
+
+## Editorial Exceptions
+
+- None. Las 180 preguntas pasan el validador sin errores ni avisos de longitud o estructura, por lo que no se registran excepciones `length` ni `structure`.
+
 ## Deviations From Spec
 
 - None.
