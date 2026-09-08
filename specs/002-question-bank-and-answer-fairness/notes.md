@@ -61,6 +61,14 @@ Fuentes técnicas consultadas para los casos delicados:
 - [W3C: cascada y capas](https://www.w3.org/TR/css-cascade-5/) y [variables inválidas](https://www.w3.org/TR/css-variables-1/#invalid-variables): prioridad de capas, importancia y fallback de var().
 - [ECMAScript: promesas](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise.all): orden de resultados y rechazo de Promise.all. Además se ejecutaron los 36 fragmentos JavaScript con resultado observable del catálogo en contextos aislados de Node, comprobando valores, excepciones y orden de mensajes frente a las respuestas redactadas; el comprobador temporal quedó fuera del repositorio.
 
+## T8 · Cobertura dirigida (2026-09-08)
+
+- Se ampliaron las pruebas puras de equilibrio a preguntas con dos, tres, cuatro y cinco opciones, además de cubrir entradas numéricas inválidas y respuestas correctas inexistentes al construir una ronda.
+- El validador queda cubierto también ante entradas que no son objetos, menos de dos opciones, contenido de opción vacío y lenguajes de código no admitidos.
+- Testing Library renderiza respuestas reales del catálogo para HTML, CSS y JavaScript y comprueba `pre > code`, la clase de lenguaje, `data-language` y el contenido literal. La prueba de contenido peligroso sigue garantizando que no se creen nodos ejecutables.
+- Una prueba específica de `Results` construye una ronda con opciones reordenadas y demuestra que la elegida y la correcta mantienen etiquetas y estados exactos por ID en la revisión final.
+- No se modificaron componentes, estilos, datos, dependencias ni lockfile para completar T8.
+
 ## Validation Results
 
 - Comprobación intermedia tras T1–T3: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan.
@@ -77,7 +85,7 @@ Fuentes técnicas consultadas para los casos delicados:
 - Passing checks: tipos, lint, 47 pruebas en 10 archivos, build y whitespace. AC-10 confirmado: 180 preguntas, 20 por combinación, sin errores ni avisos editoriales.
 - Passing checks: flujo de 25 preguntas con teclado a 320 × 700 y movimiento reducido, foco H2 en cada pregunta y al finalizar, cuatro radios y avance accesibles; los bloques de código con scroll pueden ser paradas adicionales de Tab. Sin desbordamiento de página durante preguntas y feedback. Revisión con foco H3, ancho de documento 320/320 en móvil y 1280/1280 en escritorio. Reinicio con foco H2, cero selecciones y Siguiente deshabilitado. Consola sin errores ni warnings (solo aviso informativo de React DevTools).
 - Failing checks: None. El primer arranque de Vite necesitó permiso de escucha local; la CLI de navegador se ejecutó desde su instalación en caché al no poder resolver npm. El primer comprobador de teclado asumía un único Tab hasta Siguiente; se corrigió para contemplar el foco nativo de bloques desplazables, sin cambiar la aplicación.
-- Unresolved risks: el catálogo ampliado todavía no se ofrece en el flujo público; su selección y QA de integración pertenecen a la spec 003. No se afirma calibración empírica de niveles ni compatibilidad visual en otros motores. T8 y T9 siguen pendientes; la spec permanece In progress.
+- Unresolved risks: el catálogo ampliado todavía no se ofrece en el flujo público; su selección y QA de integración pertenecen a la spec 003. No se afirma calibración empírica de niveles ni compatibilidad visual en otros motores. T9 sigue pendiente; la spec permanece In progress.
 - Sin modificaciones de diseño, estilos, dependencias, lockfile ni metadatos. Los artefactos temporales de navegador quedaron fuera del repositorio.
 
 ## Deviations From Spec

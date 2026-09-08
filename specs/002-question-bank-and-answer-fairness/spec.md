@@ -37,15 +37,15 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 ## Acceptance Criteria
 
-- [ ] AC-1: Un esquema documentado representa texto y código en pregunta, opción y explicación para las tres materias. [REQ-1, REQ-2]
-- [ ] AC-2: El render de código muestra literalmente contenido potencialmente peligroso sin ejecutarlo. [REQ-3, REQ-11]
-- [ ] AC-3: El validador rechaza IDs duplicados y `correctAnswer` inexistentes. [REQ-4, REQ-8]
-- [ ] AC-4: Para partidas de distintos tamaños, las posiciones correctas difieren como máximo en una aparición. [REQ-5]
-- [ ] AC-5: Con una semilla conocida, pregunta, opciones y posición correcta son reproducibles sin mutar el banco. [REQ-6]
-- [ ] AC-6: Las pruebas incluyen preguntas con respuestas de código HTML, CSS y JavaScript. [REQ-2, REQ-3]
-- [ ] AC-7: El validador señala una correcta desproporcionadamente larga o con estructura única y acepta una excepción justificada. [REQ-7, REQ-8, REQ-9]
-- [ ] AC-8: La revisión final conserva exactamente la opción elegida y la correcta después de aleatorizar. [REQ-12]
-- [ ] AC-9: La suite dirigida de Vitest pasa y cubre validación, equilibrio, aleatorización, seguridad y render de contenido. [REQ-3–REQ-12]
+- [x] AC-1: Un esquema documentado representa texto y código en pregunta, opción y explicación para las tres materias. [REQ-1, REQ-2]
+- [x] AC-2: El render de código muestra literalmente contenido potencialmente peligroso sin ejecutarlo. [REQ-3, REQ-11]
+- [x] AC-3: El validador rechaza IDs duplicados y `correctAnswer` inexistentes. [REQ-4, REQ-8]
+- [x] AC-4: Para partidas de distintos tamaños, las posiciones correctas difieren como máximo en una aparición. [REQ-5]
+- [x] AC-5: Con una semilla conocida, pregunta, opciones y posición correcta son reproducibles sin mutar el banco. [REQ-6]
+- [x] AC-6: Las pruebas incluyen preguntas con respuestas de código HTML, CSS y JavaScript. [REQ-2, REQ-3]
+- [x] AC-7: El validador señala una correcta desproporcionadamente larga o con estructura única y acepta una excepción justificada. [REQ-7, REQ-8, REQ-9]
+- [x] AC-8: La revisión final conserva exactamente la opción elegida y la correcta después de aleatorizar. [REQ-12]
+- [x] AC-9: La suite dirigida de Vitest pasa y cubre validación, equilibrio, aleatorización, seguridad y render de contenido. [REQ-3–REQ-12]
 - [x] AC-10: El inventario automatizado confirma al menos veinte preguntas válidas en cada combinación publicada de materia y nivel y un mínimo de 180 preguntas en el catálogo inicial completo. [REQ-13, REQ-14]
 
 ## Out Of Scope
