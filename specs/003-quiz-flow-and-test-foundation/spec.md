@@ -8,7 +8,7 @@ Evolucionar el flujo actual hacia partidas breves, variadas, accesibles y persis
 
 ## Context
 
-La aplicación inicia directamente una partida de 25 preguntas, mantiene todo el estado en un contexto y dispone de la suite mínima de regresión de la spec 004. No ofrece menú, filtros, progreso persistente ni repetición de fallos.
+La aplicación inicia directamente una partida, mantiene todo el estado en un contexto y dispone de la base de Vitest y Testing Library creada en la spec 004. La spec 002 ya proporciona el banco extensible, el contenido tipado, el validador y las utilidades de aleatorización y equidad. La interfaz todavía no ofrece menú, filtros, progreso persistente ni repetición de fallos.
 
 ## Requirements
 
@@ -21,18 +21,24 @@ La aplicación inicia directamente una partida de 25 preguntas, mantiene todo el
 - REQ-7: Mejores resultados y progreso se guardarán en `localStorage` con esquema versionado, validación y recuperación segura ante datos corruptos.
 - REQ-8: Toda acción será operable por teclado; los cambios de pregunta/vista gestionarán foco y anunciarán respuesta, progreso y resultado sin depender del color.
 - REQ-9: Confeti, vibración, scroll suave y escalado decorativo se desactivarán con `prefers-reduced-motion: reduce`.
-- REQ-10: La suite usará Vitest, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom` y un entorno DOM compatible con Vite.
-- REQ-11: Existirán scripts reproducibles para test único, watch y cobertura si se adopta cobertura como requisito de CI.
+- REQ-10: La suite existente de Vitest, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom` y jsdom se ampliará sin reconstruir la configuración ya completada en la spec 004.
+- REQ-11: Se conservarán scripts reproducibles para test único y watch; la cobertura se añadirá solo si se adopta un umbral relacionado con riesgos concretos.
 - REQ-12: Las pruebas cubrirán filtros, selección, equilibrio de respuestas, puntuación, reinicio completo, persistencia, repetición de fallos, código en respuestas, foco y anuncios accesibles.
 - REQ-13: Las pruebas de componentes observarán comportamiento visible y roles accesibles, evitando asserts sobre detalles internos de React.
 - REQ-14: La integración mantendrá URLs y assets compatibles con el despliegue raíz en Vercel y los metadatos SITE_URL de la spec 004.
 - REQ-15: La selección usará un mazo aleatorio por configuración: no repetirá preguntas hasta agotar las candidatas disponibles y, con un banco de veinte, una repetición inmediata usará las diez preguntas restantes antes de iniciar un nuevo ciclo.
 - REQ-16: Una partida mixta repartirá las diez preguntas entre HTML, CSS y JavaScript como 4/3/3 y alternará de forma equilibrada la materia que aporta la cuarta pregunta.
+- REQ-17: Cada respuesta conservará un `input` de tipo radio y mostrará un marcador visual A, B, C o D determinado por su posición en la partida, sin sustituir el ID estable usado para corregirla.
+- REQ-18: Los bloques de código de preguntas, respuestas y explicaciones tendrán resaltado de sintaxis para los lenguajes permitidos por el modelo, conservarán espacios y saltos, y usarán texto escapado como fallback seguro.
+- REQ-19: Durante la partida se mostrará una barra de progreso acompañada por el texto «Pregunta N de 10»; ambos representarán el mismo avance y el valor será comprensible sin depender del color ni de la animación.
 
 ## Design Requirements
 
 - Seguir `DESIGN.md`; el menú debe pertenecer a la misma familia visual que la tarjeta del quiz.
 - Mantener una columna protagonista y apilar controles cuando el contenido lo requiera.
+- Presentar cada opción como una unidad compuesta por marcador A–D, contenido y estado textual; los estados seleccionada, correcta e incorrecta no dependerán solo del color.
+- Integrar el resaltado de sintaxis en la identidad violeta existente, con contraste suficiente en claro y oscuro y scroll horizontal contenido para fragmentos largos.
+- La barra de progreso debe reforzar la orientación sin competir con la pregunta ni anunciar actualizaciones redundantes.
 - Verificar temas claro/oscuro, 320 CSS px, texto ampliado, foco, estados vacíos y movimiento reducido.
 - El logo final y naming dependen de la spec 001; la lógica de preguntas depende de la spec 002.
 
@@ -51,26 +57,34 @@ La aplicación inicia directamente una partida de 25 preguntas, mantiene todo el
 - [ ] AC-11: La verificación visual no detecta pérdida de contenido en claro/oscuro, 320 px, zoom/texto ampliado o movimiento reducido. [Design Requirements]
 - [ ] AC-12: Dos partidas consecutivas de la misma combinación con un banco de veinte no comparten preguntas; el siguiente ciclo vuelve a barajar de forma determinista bajo una semilla de prueba. [REQ-15]
 - [ ] AC-13: Una partida mixta siempre contiene las tres materias, ninguna supera a otra por más de una pregunta y la materia con cuatro preguntas no queda fijada entre partidas. [REQ-16]
+- [ ] AC-14: Las respuestas muestran marcadores A–D en orden visual, siguen siendo un grupo de radios operable con teclado y se corrigen por ID aunque se reordenen. [REQ-17]
+- [ ] AC-15: El código de HTML, CSS y JavaScript se distingue visualmente mediante resaltado de sintaxis, permanece escapado y conserva una presentación legible si el resaltador no reconoce un lenguaje. [REQ-18]
+- [ ] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
 
 ## Out Of Scope
 
 - Autenticación, sincronización remota o rankings globales.
 - Backend o base de datos.
 - Traducción a otros idiomas.
-- Gamificación adicional fuera de puntuación, mejores resultados y feedback actual.
+- Límites de tiempo, rachas, logros u otras mecánicas de gamificación hasta definir su efecto en la partida y sus alternativas accesibles.
 
 ## Technical Notes
 
-- Implementar primero la spec 002 y consumir sus funciones puras en esta spec.
+- Consumir el modelo, el banco validado y las funciones puras ya implementadas en la spec 002.
 - Sustituir el contexto actual por un store de Zustand al comenzar esta spec. Separar estado y acciones de dominio de los efectos de interfaz, consumir el store mediante selectores pequeños y mantener las transformaciones puras fuera de Zustand.
+- Ejecutar la migración a Zustand como trabajo guiado: el usuario implementará cada checkpoint, podrá consultar dudas durante el proceso y solicitará revisión antes de avanzar al siguiente. No retirar el contexto hasta que no queden consumidores.
 - Usar persistencia versionada y validada para el mínimo estado necesario; no delegar en el middleware la validación de datos antiguos o corruptos.
 - Versionar claves de `localStorage` bajo un namespace de Code Quiz y nunca persistir contenido HTML.
 - Persistir el estado mínimo del mazo por configuración para mantener la variedad entre recargas, validando IDs frente al banco vigente.
 - Construir el modo mixto mediante selección estratificada por materia, no mediante una muestra plana que pueda omitir una de ellas por azar.
-- Configurar limpieza entre tests y matchers de `jest-dom` en un setup compartido.
+- Reutilizar la limpieza entre tests y los matchers de `jest-dom` del setup compartido existente; ampliar la configuración solo cuando un nuevo comportamiento lo exija.
+- Derivar A–D del orden visible y conservar la corrección por `option.id`; el marcador no formará parte del banco ni de los datos persistidos.
+- Limitar el resaltado a los lenguajes admitidos por `CodeLanguage`, evitar `dangerouslySetInnerHTML` no sanitizado y evaluar coste de bundle y fallback antes de escoger una dependencia.
 - Añadir cobertura solo si se define un umbral útil; no perseguir porcentaje sin relación con riesgos.
 
 ## Risks Or Open Questions
 
 - Falta concretar el criterio de “mejor resultado” para modo mixto y filtros distintos.
 - Debe definirse si “repetir fallos” conserva el orden visto o crea una nueva distribución equilibrada.
+- Debe decidirse si la gamificación temporal será un contador meramente informativo o un modo contrarreloj opcional. Un límite que altere la partida requerirá pausa o extensión, alternativa para quien necesite más tiempo, reglas al ocultar la pestaña, impacto en puntuación y pruebas propias; se recomienda tratarlo en una spec posterior.
+- Falta seleccionar la estrategia de resaltado de sintaxis y validar su peso, compatibilidad con Vite, seguridad y paridad claro/oscuro antes de añadir una dependencia.

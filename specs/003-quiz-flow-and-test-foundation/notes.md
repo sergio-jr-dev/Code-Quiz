@@ -10,10 +10,18 @@
 - No se añadirá backend para progreso o mejores resultados.
 - La spec sustituirá el contexto actual por Zustand como ejercicio deliberado de arquitectura de estado. El store gestionará el dominio; foco, anuncios, confeti y otros efectos visuales permanecerán en la capa de interfaz.
 - Los componentes usarán selectores pequeños. La persistencia tendrá versión y validación propia para tolerar datos ausentes, antiguos o corruptos.
+- La migración a Zustand se realizará como práctica guiada: el usuario implementará los checkpoints de T2, consultará dudas cuando lo necesite y pedirá una revisión antes de avanzar. El asistente no implementará esos checkpoints salvo petición explícita.
+- Las respuestas conservarán radios nativos y añadirán marcadores visuales A–D derivados del orden mostrado, sin sustituir los IDs de dominio.
+- Preguntas, opciones y explicaciones con código tendrán resaltado de sintaxis seguro para los lenguajes tipados admitidos y fallback como texto escapado.
+- La partida mostrará barra y texto de progreso sincronizados.
+- Los límites de tiempo no forman parte del alcance confirmado. Antes de incorporarlos debe decidirse si son informativos u opcionales, qué efecto tienen y cómo se garantiza una alternativa accesible; se recomienda una spec posterior para un modo contrarreloj.
+- La configuración de Vitest y Testing Library ya existe por la spec 004; T1 la auditará y ampliará sin rehacerla.
 
 ## Implementation Notes
 
-- Dependencias: spec 002 para datos/equidad y spec 001 para identidad pública final.
+- La dependencia de datos/equidad está resuelta: la spec 002 figura como `Implemented`.
+- Permanece la dependencia de la spec 001 para la identidad pública final.
+- La estrategia y posible dependencia de resaltado de sintaxis se decidirán antes de implementar T4.
 
 ## Validation Results
 

@@ -1,15 +1,22 @@
 # Tasks
 
 **Current task:** None
-**Blockers:** Depende de la spec 002 y de la decisión sobre mejores resultados.
+**Blockers:** Falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
 
-- [ ] T1: Configurar Vitest, Testing Library, setup DOM y scripts de test.
-- [ ] T2: Extraer y probar las transiciones puras de configuración, mazo aleatorio, partida, puntuación y reinicio; después integrarlas en un store de Zustand con selectores pequeños.
+- [ ] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
+- [ ] T2: Sustituir el contexto por Zustand mediante checkpoints implementados por el usuario y revisados antes de avanzar.
+  - [ ] T2.1: Inventariar el estado actual y clasificarlo como dominio, estado derivado o efecto de interfaz; acordar el contrato tipado del store.
+  - [ ] T2.2: Extraer y probar las transiciones puras de configuración, mazo, partida, puntuación y reinicio completo.
+  - [ ] T2.3: Instalar Zustand e implementar el store mínimo con estado inicial y acciones de dominio, sin persistencia ni efectos visuales.
+  - [ ] T2.4: Migrar los consumidores uno a uno mediante selectores pequeños y revisar cada tramo para evitar estado duplicado o suscripciones amplias.
+  - [ ] T2.5: Retirar `QuizContext` y `QuizContextProvider` solo después de verificar que no quedan consumidores.
+  - [ ] T2.6: Probar el store, el reinicio completo y las transiciones principales; ejecutar revisión final antes de comenzar T3.
 - [ ] T3: Implementar menú y filtros sobre el modelo de la spec 002.
-- [ ] T4: Implementar progreso, feedback, resultados y resumen por categorías.
-- [ ] T5: Implementar navegación posterior y repetición de fallos.
-- [ ] T6: Implementar persistencia versionada del progreso, mejores resultados y mazos, con recuperación segura.
-- [ ] T7: Añadir gestión de foco, anuncios y movimiento reducido.
-- [ ] T8: Completar pruebas de integración con interacciones reales de usuario.
-- [ ] T9: Verificar diseño, temas, viewports, zoom, teclado y build raíz para Vercel.
-- [ ] T10: Ejecutar checks completos y registrar validación en `notes.md`.
+- [ ] T4: Implementar la presentación de la partida: marcadores A–D sin perder los radios nativos, estados de respuesta, feedback, información adicional, resaltado seguro de sintaxis y barra de progreso; actualizar `DESIGN.md` con los patrones reutilizables acordados.
+- [ ] T5: Implementar resultados y resumen por categorías.
+- [ ] T6: Implementar navegación posterior y repetición de fallos.
+- [ ] T7: Implementar persistencia versionada del progreso, mejores resultados y mazos, con recuperación segura.
+- [ ] T8: Añadir gestión de foco, anuncios y movimiento reducido, incluyendo la semántica accesible del progreso y los estados no cromáticos.
+- [ ] T9: Completar pruebas de integración con interacciones reales de usuario, reordenación de opciones, contenido con código y progreso.
+- [ ] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.
+- [ ] T11: Ejecutar checks completos y registrar validación en `notes.md`.
