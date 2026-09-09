@@ -1,9 +1,9 @@
 # Tasks
 
-**Current task:** None
-**Blockers:** Falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
+**Current task:** T2.1
+**Blockers:** Ninguno para T2.1. Antes de las tareas afectadas falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
 
-- [ ] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
+- [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
 - [ ] T2: Sustituir el contexto por Zustand mediante checkpoints implementados por el usuario y revisados antes de avanzar.
   - [ ] T2.1: Inventariar el estado actual y clasificarlo como dominio, estado derivado o efecto de interfaz; acordar el contrato tipado del store.
   - [ ] T2.2: Extraer y probar las transiciones puras de configuración, mazo, partida, puntuación y reinicio completo.

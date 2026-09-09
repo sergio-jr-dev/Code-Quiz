@@ -1,6 +1,6 @@
 # Quiz flow and test foundation
 
-**Status:** Draft
+**Status:** In progress
 
 ## Goal
 

@@ -22,10 +22,13 @@
 - La dependencia de datos/equidad está resuelta: la spec 002 figura como `Implemented`.
 - Permanece la dependencia de la spec 001 para la identidad pública final.
 - La estrategia y posible dependencia de resaltado de sintaxis se decidirán antes de implementar T4.
+- T1 auditó la infraestructura heredada de la spec 004. `vitest.config.ts` ya usa jsdom, carga `src/test/setup.ts` y restaura mocks; el setup registra `jest-dom`, limpia Testing Library tras cada prueba y simula `matchMedia` para movimiento reducido.
+- Los scripts `test` y `test:watch` son reproducibles y funcionan con la suite actual. No se añadió configuración, dependencia ni script de cobertura porque la spec no define un umbral asociado a un riesgo concreto.
+- La limpieza específica de `localStorage`, los temporizadores falsos y cualquier mock adicional se incorporarán junto a las funcionalidades que los necesiten, no de forma anticipada en T1.
 
 ## Validation Results
 
-- Not run.
+- 2026-09-09, T1: `pnpm test` pasó con 11 archivos y 59 pruebas; `pnpm test:watch -- --run` pasó con 11 archivos y 59 pruebas; `pnpm typecheck` pasó. La auditoría no encontró cambios necesarios en la configuración actual.
 
 ## Deviations From Spec
 
