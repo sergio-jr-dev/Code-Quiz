@@ -8,7 +8,7 @@ Cerrar una primera base de Code Quiz en TypeScript conservando el quiz actual, p
 
 ## Requirements
 
-- REQ-1: Migrar aplicación, banco y configuración Vite a TypeScript estricto, con comprobación de tipos en el build y ESLint propio.
+- REQ-1: Migrar aplicación, banco y configuración Vite a TypeScript estricto, con comprobación de tipos en el build y lint propio mediante OXLint.
 - REQ-2: Conservar exactamente las 25 preguntas, opciones y explicaciones actuales y la partida completa; corregir barajado, doble respuesta y reinicio incompleto.
 - REQ-3: Mantener la identidad y el tema oscuro existentes; completar foco, feedback textual y movimiento reducido en el flujo actual.
 - REQ-4: Sanitizar las explicaciones Markdown y probar contenido malicioso.

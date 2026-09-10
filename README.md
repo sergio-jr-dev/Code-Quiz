@@ -17,11 +17,11 @@ Aplicación educativa en español para practicar HTML y CSS con preguntas de opc
 - Navegación con teclado y respeto a movimiento reducido.
 - Identidad Code Quiz y tema oscuro; modo claro todavía pendiente.
 
-La base utiliza **React 19, TypeScript estricto y Vite 8**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
+La base utiliza **React 19, TypeScript estricto, Vite 8 y OXLint**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
 
 ## Desarrollo local
 
-Requisitos: Node.js 22.22.2+, 24.15+ o 26+ y pnpm 11.24.0.
+Requisitos: Node.js 22.22.2+, 24.15+ o 26+ y pnpm 12.3.4.
 
 ```bash
 pnpm install
