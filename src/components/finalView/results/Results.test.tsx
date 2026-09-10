@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+
 import { QuizContext } from '../../../context/QuizContext';
 import { questionExamples } from '../../../data/questionExamples';
 import { buildRound } from '../../../lib/buildRound';
@@ -11,8 +12,9 @@ describe('Results', () => {
     const source = questionExamples[0];
     const [shuffled] = buildRound([source], 1, () => 0);
     if (!shuffled) throw new Error('Missing shuffled question');
-    expect(shuffled.options.map(option => option.id))
-      .not.toEqual(source.options.map(option => option.id));
+    expect(shuffled.options.map((option) => option.id)).not.toEqual(
+      source.options.map((option) => option.id),
+    );
 
     const selectedId = 'd';
     const context: QuizContextValue = {
@@ -41,10 +43,14 @@ describe('Results', () => {
 
     expect(correctAnswer).toHaveClass('correct');
     expect(within(correctAnswer as HTMLElement).getByText('Respuesta correcta')).toBeVisible();
-    expect(within(correctAnswer as HTMLElement).queryByText('Tu respuesta')).not.toBeInTheDocument();
+    expect(
+      within(correctAnswer as HTMLElement).queryByText('Tu respuesta'),
+    ).not.toBeInTheDocument();
     expect(selectedAnswer).toHaveClass('incorrect');
     expect(within(selectedAnswer as HTMLElement).getByText('Tu respuesta')).toBeVisible();
-    expect(within(selectedAnswer as HTMLElement).queryByText('Respuesta correcta')).not.toBeInTheDocument();
+    expect(
+      within(selectedAnswer as HTMLElement).queryByText('Respuesta correcta'),
+    ).not.toBeInTheDocument();
     expect(container.querySelectorAll('.answer.correct')).toHaveLength(1);
     expect(container.querySelectorAll('.answer.incorrect')).toHaveLength(1);
   });

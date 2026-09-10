@@ -14,8 +14,7 @@
     --text-on-accent-color: light-dark(#ffffff, #efeeee);
     --focus-ring-color: light-dark(#5a2ca0, #f2c94c);
     --font-family-sans: 'Trebuchet MS', 'Avenir Next', Avenir, sans-serif;
-    --font-family-mono:
-      ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+    --font-family-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
   }
 }
 

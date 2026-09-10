@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+
 import { questionCatalog } from '../../data/questionCatalog';
 import type { QuestionContent } from '../../types/questionBank';
 import { OptionContent } from './OptionContent';
@@ -19,14 +20,16 @@ describe('OptionContent', () => {
 
   it.each(['html', 'css', 'javascript'] as const)(
     'renders a real %s code answer with its explicit language',
-    subject => {
-      const question = questionCatalog.find(candidate => {
+    (subject) => {
+      const question = questionCatalog.find((candidate) => {
         if (candidate.subject !== subject) return false;
-        const correct = candidate.options.find(option => option.id === candidate.correctAnswer);
-        return correct?.content.some(block => block.type === 'code' && block.language === subject);
+        const correct = candidate.options.find((option) => option.id === candidate.correctAnswer);
+        return correct?.content.some(
+          (block) => block.type === 'code' && block.language === subject,
+        );
       });
-      const correct = question?.options.find(option => option.id === question.correctAnswer);
-      const codeBlock = correct?.content.find(block => block.type === 'code');
+      const correct = question?.options.find((option) => option.id === question.correctAnswer);
+      const codeBlock = correct?.content.find((block) => block.type === 'code');
       if (!correct || !codeBlock || codeBlock.type !== 'code') {
         throw new Error(`Missing ${subject} code answer fixture`);
       }

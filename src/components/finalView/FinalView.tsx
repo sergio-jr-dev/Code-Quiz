@@ -1,6 +1,6 @@
 import { useQuiz } from '../../context/QuizContext';
-import { Results } from './results/Results';
 import { Dots } from './dots/Dots';
+import { Results } from './results/Results';
 import { Score } from './score/Score';
 
 import './finalView.css';

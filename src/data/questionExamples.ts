@@ -56,21 +56,15 @@ export const questionExamples = [
       },
       {
         id: 'b',
-        content: [
-          { type: 'code', language: 'css', code: 'color: var(--accent);' },
-        ],
+        content: [{ type: 'code', language: 'css', code: 'color: var(--accent);' }],
       },
       {
         id: 'c',
-        content: [
-          { type: 'code', language: 'css', code: 'color: custom(--accent);' },
-        ],
+        content: [{ type: 'code', language: 'css', code: 'color: custom(--accent);' }],
       },
       {
         id: 'd',
-        content: [
-          { type: 'code', language: 'css', code: 'color: value(--accent);' },
-        ],
+        content: [{ type: 'code', language: 'css', code: 'color: value(--accent);' }],
       },
     ],
     correctAnswer: 'b',

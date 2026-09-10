@@ -1,7 +1,7 @@
-import { QuizContextProvider } from './context/QuizContextProvider.tsx';
+import { Footer } from './components/footer/Footer';
 import { Header } from './components/header/Header';
 import { Game } from './components/quiz/game/Game';
-import { Footer } from './components/footer/Footer';
+import { QuizContextProvider } from './context/QuizContextProvider.tsx';
 
 const App = () => {
   return (

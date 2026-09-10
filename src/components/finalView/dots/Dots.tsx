@@ -12,9 +12,7 @@ export const Dots = () => {
           key={id}
           href={`#question-${i + 1}`}
           aria-label={`Pregunta ${i + 1}: ${correctAnswer === userAnswers[i] ? 'correcta' : 'incorrecta'}`}
-          className={`dot ${
-            correctAnswer === userAnswers[i] ? 'correct' : 'incorrect'
-          }`}
+          className={`dot ${correctAnswer === userAnswers[i] ? 'correct' : 'incorrect'}`}
         >
           {i + 1}
         </a>

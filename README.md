@@ -17,7 +17,7 @@ Aplicación educativa en español para practicar HTML y CSS con preguntas de opc
 - Navegación con teclado y respeto a movimiento reducido.
 - Identidad Code Quiz y tema oscuro; modo claro todavía pendiente.
 
-La base utiliza **React 19, TypeScript estricto, Vite 8 y OXLint**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
+La base utiliza **React 19, TypeScript estricto, Vite 8, OXLint y Oxfmt**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
 
 ## Desarrollo local
 
@@ -31,13 +31,14 @@ pnpm dev
 Comprobaciones:
 
 ```bash
+pnpm format:check
 pnpm typecheck
 pnpm lint
 pnpm test
 pnpm build
 ```
 
-`pnpm test:watch` ejecuta las pruebas en modo interactivo. `pnpm build` comprueba tipos antes de generar `dist/`. La suite usa Vitest y Testing Library para proteger el banco, el barajado, las explicaciones y el flujo completo.
+`pnpm format` aplica Oxfmt y ordena los imports. `pnpm test:watch` ejecuta las pruebas en modo interactivo. `pnpm build` comprueba tipos antes de generar `dist/`. La suite usa Vitest y Testing Library para proteger el banco, el barajado, las explicaciones y el flujo completo.
 
 Para revisar el build:
 

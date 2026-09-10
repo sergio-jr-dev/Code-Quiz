@@ -12,9 +12,6 @@ export function shuffleWith<T>(items: readonly T[], random: RandomSource): T[] {
   return result;
 }
 
-export function shuffle<T>(
-  items: readonly T[],
-  random: RandomSource = Math.random
-): T[] {
+export function shuffle<T>(items: readonly T[], random: RandomSource = Math.random): T[] {
   return shuffleWith(items, random);
 }

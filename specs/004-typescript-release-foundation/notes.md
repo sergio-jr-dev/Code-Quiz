@@ -65,6 +65,14 @@ Referencias de los paquetes corregidos: [brace-expansion](https://github.com/adv
 - TypeScript 7 vuelve a ser compatible con el pipeline porque el lint ya no depende de la API de TypeScript 6. `tsc -b` permanece como comprobación de tipos independiente; no se activa lint type-aware ni se incorpora `oxlint-tsgolint`.
 - Verificados OXLint, TypeScript, 59 pruebas Vitest, build de Vite y `git diff --check`, todos sin errores.
 
+## Migración a Oxfmt · 2026-09-10
+
+- Oxfmt sustituye el formateo dependiente del editor y añade los scripts reproducibles `format` y `format:check`.
+- `sortImports` queda activo con su agrupación segura por defecto; no se ordenan imports con efectos secundarios. La ordenación de `package.json` permanece desactivada para limitar el cambio al alcance solicitado.
+- La extensión OXC queda recomendada y configurada como formatter del workspace con formato completo al guardar.
+- `.agents`, specs y fuentes operativas como `AGENTS.md` y `DESIGN.md` quedan fuera del formateo automático para evitar reescribir documentación histórica o instalada.
+- Verificados `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, 59 pruebas Vitest, `pnpm build` y `git diff --check`, todos sin errores.
+
 ## Publicación y vinculación local · 2026-09-06
 
 - El repositorio privado sergio-jr-dev/Code-Quiz parte del commit raíz 229f46e, sin padres ni historial anterior.

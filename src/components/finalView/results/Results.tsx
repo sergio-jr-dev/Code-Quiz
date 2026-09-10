@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+
 import { useQuiz } from '../../../context/QuizContext';
 import { ContentBlocks } from '../../content/ContentBlocks';
 import { ExplanationContent } from '../../content/ExplanationContent';
@@ -26,7 +27,13 @@ export const Results = () => {
           tabIndex={-1}
           aria-labelledby={`review-title-${question.id}`}
         >
-          <h3 id={`review-title-${question.id}`} ref={i === 0 ? firstQuestionRef : null} tabIndex={-1}>Pregunta {i + 1}</h3>
+          <h3
+            id={`review-title-${question.id}`}
+            ref={i === 0 ? firstQuestionRef : null}
+            tabIndex={-1}
+          >
+            Pregunta {i + 1}
+          </h3>
           <ContentBlocks content={question.prompt} />
           <div className="answers">
             {question.options.map((option) => (
@@ -35,8 +42,7 @@ export const Results = () => {
                 className={`answer
                 ${option.id === question.correctAnswer ? 'correct' : ''}
                 ${
-                  option.id === userAnswers[i] &&
-                  option.id !== question.correctAnswer
+                  option.id === userAnswers[i] && option.id !== question.correctAnswer
                     ? 'incorrect'
                     : ''
                 }

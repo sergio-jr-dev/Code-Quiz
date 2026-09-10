@@ -1,7 +1,8 @@
-import { StrictMode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { StrictMode } from 'react';
+import { describe, expect, it, vi } from 'vitest';
+
 import App from './App';
 import { questions } from './data/questions';
 import type { QuestionContent } from './types/questionBank';
@@ -9,22 +10,24 @@ import type { QuestionContent } from './types/questionBank';
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }));
 
 function contentText(content: QuestionContent): string {
-  return content
-    .map(block => block.type === 'text' ? block.text : block.code)
-    .join(' ');
+  return content.map((block) => (block.type === 'text' ? block.text : block.code)).join(' ');
 }
 
 describe('existing quiz flow', () => {
   it('answers all 25 questions, reviews and starts a fully reset round using the keyboard', async () => {
     const user = userEvent.setup();
-    render(<StrictMode><App /></StrictMode>);
+    render(
+      <StrictMode>
+        <App />
+      </StrictMode>,
+    );
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
     const seen = new Set<string>();
 
     for (let index = 0; index < 25; index++) {
       const heading = screen.getByRole('heading', { level: 2 });
       expect(heading).toHaveFocus();
-      const question = questions.find(item => item.prompt[0].text === heading.textContent);
+      const question = questions.find((item) => item.prompt[0].text === heading.textContent);
       if (!question) throw new Error('Unknown question');
       seen.add(question.id);
       const options = screen.getAllByRole('radio');
@@ -33,7 +36,7 @@ describe('existing quiz flow', () => {
       await user.keyboard(' ');
       expect(screen.getByRole('status')).toHaveTextContent('Respuesta');
       expect(screen.getByRole('heading', { name: 'Información adicional' })).toBeVisible();
-      expect(options.filter(option => option.hasAttribute('disabled'))).toHaveLength(3);
+      expect(options.filter((option) => option.hasAttribute('disabled'))).toHaveLength(3);
       await user.tab();
       const next = screen.getByRole('button', { name: index === 24 ? 'Finalizar' : 'Siguiente' });
       expect(next).toHaveFocus();
@@ -47,25 +50,39 @@ describe('existing quiz flow', () => {
     expect(screen.getByRole('button', { name: 'Ver resultados' })).toHaveFocus();
     await user.keyboard('{Enter}');
     expect(screen.getByRole('heading', { name: 'Pregunta 1' })).toHaveFocus();
-    expect(screen.queryByRole('button', { name: 'Ver resultados', hidden: true })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Ver resultados', hidden: true }),
+    ).not.toBeInTheDocument();
     expect(screen.getAllByText('Tu respuesta')).toHaveLength(25);
     expect(screen.getAllByText('Respuesta correcta')).toHaveLength(25);
-    expect(within(screen.getByRole('navigation', { name: 'Revisión de preguntas' })).getAllByRole('link')).toHaveLength(25);
+    expect(
+      within(screen.getByRole('navigation', { name: 'Revisión de preguntas' })).getAllByRole(
+        'link',
+      ),
+    ).toHaveLength(25);
     await user.click(screen.getByRole('button', { name: 'Jugar de nuevo' }));
-    expect(screen.queryByRole('navigation', { name: 'Revisión de preguntas' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('navigation', { name: 'Revisión de preguntas' }),
+    ).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
-    expect(screen.getAllByRole('radio').every(option => !(option as HTMLInputElement).checked)).toBe(true);
+    expect(
+      screen.getAllByRole('radio').every((option) => !(option as HTMLInputElement).checked),
+    ).toBe(true);
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
     expect(screen.getByRole('status')).toBeEmptyDOMElement();
 
     // A second completed round proves score and review state do not leak across restarts.
     for (let index = 0; index < 25; index++) {
-      const question = questions.find(item => item.prompt[0].text === screen.getByRole('heading', { level: 2 }).textContent);
-      const answer = question?.options.find(option => option.id === question.correctAnswer);
+      const question = questions.find(
+        (item) => item.prompt[0].text === screen.getByRole('heading', { level: 2 }).textContent,
+      );
+      const answer = question?.options.find((option) => option.id === question.correctAnswer);
       if (!answer) throw new Error('Missing correct answer');
       await user.click(screen.getByRole('radio', { name: contentText(answer.content) }));
       await user.click(screen.getByRole('radio', { checked: true }));
-      await user.click(screen.getByRole('button', { name: index === 24 ? 'Finalizar' : 'Siguiente' }));
+      await user.click(
+        screen.getByRole('button', { name: index === 24 ? 'Finalizar' : 'Siguiente' }),
+      );
     }
     expect(screen.getByText('25 / 25')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();

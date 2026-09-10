@@ -189,6 +189,7 @@ La suite elegida es Vitest con Testing Library (`@testing-library/react`, `@test
 Antes de cerrar un cambio, ejecuta como mínimo:
 
 ```bash
+pnpm format:check
 pnpm typecheck
 pnpm lint
 pnpm test

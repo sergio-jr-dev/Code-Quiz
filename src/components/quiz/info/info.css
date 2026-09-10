@@ -10,7 +10,9 @@
       opacity: 1;
       block-size: max-content;
       overflow: clip;
-      transition: opacity 0.3s, block-size 0.3s;
+      transition:
+        opacity 0.3s,
+        block-size 0.3s;
 
       @media (width <= 30rem) {
         padding-inline: 0.5rem;

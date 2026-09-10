@@ -38,8 +38,7 @@ export interface QuestionBankValidation {
 const SUBJECT_SET = new Set<string>(SUBJECTS);
 const LEVEL_SET = new Set<string>(LEVELS);
 const LANGUAGE_SET = new Set<string>(CODE_LANGUAGES);
-const QUESTION_ID_PATTERN =
-  /^(html|css|javascript)-[a-z0-9]+(?:-[a-z0-9]+)*-\d{3}$/;
+const QUESTION_ID_PATTERN = /^(html|css|javascript)-[a-z0-9]+(?:-[a-z0-9]+)*-\d{3}$/;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -87,7 +86,7 @@ function structureOf(content: readonly ContentBlock[]): string {
 function hasException(question: BankQuestion, rule: FairnessRule): boolean {
   return (
     question.fairnessExceptions?.some(
-      (exception) => exception.rule === rule && exception.reason.trim() !== ''
+      (exception) => exception.rule === rule && exception.reason.trim() !== '',
     ) ?? false
   );
 }
@@ -96,9 +95,7 @@ function addIssue(issues: ValidationIssue[], issue: ValidationIssue): void {
   issues.push(issue);
 }
 
-export function validateQuestionBank(
-  bank: readonly unknown[]
-): QuestionBankValidation {
+export function validateQuestionBank(bank: readonly unknown[]): QuestionBankValidation {
   const issues: ValidationIssue[] = [];
   const seenQuestionIds = new Set<string>();
 
@@ -112,8 +109,7 @@ export function validateQuestionBank(
       continue;
     }
 
-    const questionId =
-      typeof candidate.id === 'string' ? candidate.id : undefined;
+    const questionId = typeof candidate.id === 'string' ? candidate.id : undefined;
     if (!questionId || !QUESTION_ID_PATTERN.test(questionId)) {
       addIssue(issues, {
         severity: 'error',
@@ -139,10 +135,7 @@ export function validateQuestionBank(
         questionId,
         message: 'La materia no es válida.',
       });
-    } else if (
-      questionId &&
-      !questionId.startsWith(`${String(candidate.subject)}-`)
-    ) {
+    } else if (questionId && !questionId.startsWith(`${String(candidate.subject)}-`)) {
       addIssue(issues, {
         severity: 'error',
         code: 'invalid-question-id',
@@ -167,9 +160,9 @@ export function validateQuestionBank(
       });
     }
     if (
-      !isContent(candidate.prompt)
-      || !hasTextHeading(candidate.prompt)
-      || !isContent(candidate.explanation)
+      !isContent(candidate.prompt) ||
+      !hasTextHeading(candidate.prompt) ||
+      !isContent(candidate.explanation)
     ) {
       addIssue(issues, {
         severity: 'error',
@@ -192,11 +185,7 @@ export function validateQuestionBank(
     const optionIds = new Set<string>();
     let optionsAreValid = true;
     for (const option of candidate.options) {
-      if (
-        !isRecord(option) ||
-        !isNonEmptyString(option.id) ||
-        !isContent(option.content)
-      ) {
+      if (!isRecord(option) || !isNonEmptyString(option.id) || !isContent(option.content)) {
         optionsAreValid = false;
         addIssue(issues, {
           severity: 'error',
@@ -217,10 +206,7 @@ export function validateQuestionBank(
       optionIds.add(option.id);
     }
 
-    if (
-      !isNonEmptyString(candidate.correctAnswer) ||
-      !optionIds.has(candidate.correctAnswer)
-    ) {
+    if (!isNonEmptyString(candidate.correctAnswer) || !optionIds.has(candidate.correctAnswer)) {
       addIssue(issues, {
         severity: 'error',
         code: 'missing-correct-answer',
@@ -237,7 +223,7 @@ export function validateQuestionBank(
           (exception) =>
             !isRecord(exception) ||
             (exception.rule !== 'length' && exception.rule !== 'structure') ||
-            !isNonEmptyString(exception.reason)
+            !isNonEmptyString(exception.reason),
         ))
     ) {
       addIssue(issues, {
@@ -248,17 +234,12 @@ export function validateQuestionBank(
       });
     }
 
-    if (!optionsAreValid || !optionIds.has(String(candidate.correctAnswer)))
-      continue;
+    if (!optionsAreValid || !optionIds.has(String(candidate.correctAnswer))) continue;
     const question = candidate as unknown as BankQuestion;
-    const correct = question.options.find(
-      (option) => option.id === question.correctAnswer
-    )!;
-    const distractors = question.options.filter(
-      (option) => option.id !== question.correctAnswer
-    );
+    const correct = question.options.find((option) => option.id === question.correctAnswer)!;
+    const distractors = question.options.filter((option) => option.id !== question.correctAnswer);
     const longestDistractor = Math.max(
-      ...distractors.map((option) => visibleLength(option.content))
+      ...distractors.map((option) => visibleLength(option.content)),
     );
     const correctLength = visibleLength(correct.content);
     if (
@@ -270,14 +251,13 @@ export function validateQuestionBank(
         severity: 'warning',
         code: 'answer-length-bias',
         questionId,
-        message:
-          'La respuesta correcta es desproporcionadamente más larga que los distractores.',
+        message: 'La respuesta correcta es desproporcionadamente más larga que los distractores.',
       });
     }
 
     const correctStructure = structureOf(correct.content);
     const matchingStructures = question.options.filter(
-      (option) => structureOf(option.content) === correctStructure
+      (option) => structureOf(option.content) === correctStructure,
     ).length;
     if (matchingStructures === 1 && !hasException(question, 'structure')) {
       addIssue(issues, {

@@ -1,6 +1,6 @@
 import { useQuiz } from '../../../context/QuizContext';
-import { InfoIcon } from '../../icons/InfoIcon';
 import { ExplanationContent } from '../../content/ExplanationContent';
+import { InfoIcon } from '../../icons/InfoIcon';
 
 import './info.css';
 

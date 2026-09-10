@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { questionExamples } from '../data/questionExamples';
 import type { BankQuestion } from '../types/questionBank';
 import { buildBalancedPositions, buildRound } from './buildRound';
@@ -12,10 +13,12 @@ function seededRandom(seed: number): () => number {
 }
 
 describe('buildBalancedPositions', () => {
-  it.each([1, 2, 3, 4, 5, 9, 10, 11, 20])('balances %i questions across four positions', size => {
+  it.each([1, 2, 3, 4, 5, 9, 10, 11, 20])('balances %i questions across four positions', (size) => {
     const positions = buildBalancedPositions(size, 4, seededRandom(42));
-    const counts = Array.from({ length: 4 }, (_, position) =>
-      positions.filter(candidate => candidate === position).length);
+    const counts = Array.from(
+      { length: 4 },
+      (_, position) => positions.filter((candidate) => candidate === position).length,
+    );
 
     expect(positions).toHaveLength(size);
     expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
@@ -23,18 +26,22 @@ describe('buildBalancedPositions', () => {
 
   it('produces a 3/3/2/2 distribution for ten questions', () => {
     const positions = buildBalancedPositions(10, 4, seededRandom(7));
-    const counts = Array.from({ length: 4 }, (_, position) =>
-      positions.filter(candidate => candidate === position).length).sort((a, b) => b - a);
+    const counts = Array.from(
+      { length: 4 },
+      (_, position) => positions.filter((candidate) => candidate === position).length,
+    ).sort((a, b) => b - a);
     expect(counts).toEqual([3, 3, 2, 2]);
   });
 
-  it.each([2, 3, 4, 5])('balances rounds with %i options per question', optionCount => {
+  it.each([2, 3, 4, 5])('balances rounds with %i options per question', (optionCount) => {
     const size = optionCount * 2 + 1;
     const positions = buildBalancedPositions(size, optionCount, seededRandom(optionCount));
-    const counts = Array.from({ length: optionCount }, (_, position) =>
-      positions.filter(candidate => candidate === position).length);
+    const counts = Array.from(
+      { length: optionCount },
+      (_, position) => positions.filter((candidate) => candidate === position).length,
+    );
 
-    expect(positions.every(position => position >= 0 && position < optionCount)).toBe(true);
+    expect(positions.every((position) => position >= 0 && position < optionCount)).toBe(true);
     expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
   });
 
@@ -59,21 +66,26 @@ describe('buildRound', () => {
 
     expect(second).toEqual(first);
     expect(bank).toEqual(snapshot);
-    expect(new Set(first.map(question => question.id))).toHaveLength(10);
+    expect(new Set(first.map((question) => question.id))).toHaveLength(10);
   });
 
   it('preserves answer IDs while balancing their visual positions', () => {
     const round = buildRound(bank, 10, seededRandom(8));
-    const correctPositions = round.map(question =>
-      question.options.findIndex(option => option.id === question.correctAnswer));
-    const counts = Array.from({ length: 4 }, (_, position) =>
-      correctPositions.filter(candidate => candidate === position).length).sort((a, b) => b - a);
+    const correctPositions = round.map((question) =>
+      question.options.findIndex((option) => option.id === question.correctAnswer),
+    );
+    const counts = Array.from(
+      { length: 4 },
+      (_, position) => correctPositions.filter((candidate) => candidate === position).length,
+    ).sort((a, b) => b - a);
 
     expect(counts).toEqual([3, 3, 2, 2]);
     for (const question of round) {
-      const source = bank.find(candidate => candidate.id === question.id)!;
+      const source = bank.find((candidate) => candidate.id === question.id)!;
       expect(question.correctAnswer).toBe(source.correctAnswer);
-      expect(new Set(question.options.map(option => option.id))).toEqual(new Set(source.options.map(option => option.id)));
+      expect(new Set(question.options.map((option) => option.id))).toEqual(
+        new Set(source.options.map((option) => option.id)),
+      );
     }
   });
 
@@ -86,7 +98,8 @@ describe('buildRound', () => {
   it('rejects a selected question whose correct answer ID is missing', () => {
     const invalid = [{ ...bank[0]!, correctAnswer: 'missing' }];
 
-    expect(() => buildRound(invalid, 1, seededRandom(1)))
-      .toThrow(`Question ${bank[0]!.id} has no matching correct answer`);
+    expect(() => buildRound(invalid, 1, seededRandom(1))).toThrow(
+      `Question ${bank[0]!.id} has no matching correct answer`,
+    );
   });
 });
