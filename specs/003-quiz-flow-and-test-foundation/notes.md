@@ -16,6 +16,7 @@
 - La partida mostrará barra y texto de progreso sincronizados.
 - Los límites de tiempo no forman parte del alcance confirmado. Antes de incorporarlos debe decidirse si son informativos u opcionales, qué efecto tienen y cómo se garantiza una alternativa accesible; se recomienda una spec posterior para un modo contrarreloj.
 - La configuración de Vitest y Testing Library ya existe por la spec 004; T1 la auditará y ampliará sin rehacerla.
+- El contrato acordado para Zustand conserva como estado de dominio `round`, `currentQuestionIndex`, respuestas vinculadas por `questionId` y una vista explícita `playing | score | review`. La pregunta y respuesta actuales, la puntuación, los porcentajes y los totales se derivarán; el foco, los anuncios y el confeti seguirán fuera del store.
 
 ## Implementation Notes
 
@@ -25,10 +26,12 @@
 - T1 auditó la infraestructura heredada de la spec 004. `vitest.config.ts` ya usa jsdom, carga `src/test/setup.ts` y restaura mocks; el setup registra `jest-dom`, limpia Testing Library tras cada prueba y simula `matchMedia` para movimiento reducido.
 - Los scripts `test` y `test:watch` son reproducibles y funcionan con la suite actual. No se añadió configuración, dependencia ni script de cobertura porque la spec no define un umbral asociado a un riesgo concreto.
 - La limpieza específica de `localStorage`, los temporizadores falsos y cualquier mock adicional se incorporarán junto a las funcionalidades que los necesiten, no de forma anticipada en T1.
+- T2.1 añadió `src/types/quizStore.ts` con contratos separados para estado y acciones. Cada respuesta conserva `questionId` y `selectedOptionId`, evitando depender de su posición en el array.
 
 ## Validation Results
 
 - 2026-09-09, T1: `pnpm test` pasó con 11 archivos y 59 pruebas; `pnpm test:watch -- --run` pasó con 11 archivos y 59 pruebas; `pnpm typecheck` pasó. La auditoría no encontró cambios necesarios en la configuración actual.
+- 2026-09-11, T2.1: el contrato tipado pasó `tsc -b`, `oxfmt --check src/types/quizStore.ts` y `git diff --check`. La revisión confirmó que el estado derivado no se duplica y que los efectos de interfaz quedan fuera del store.
 
 ## Deviations From Spec
 
