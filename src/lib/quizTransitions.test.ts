@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { questions } from '../data/questions';
 import type { QuizState } from '../types/quizStore';
-import { answerCurrentQuestion } from './quizTransitions';
+import { advanceQuiz, answerCurrentQuestion } from './quizTransitions';
 
 describe('quizTransitions', () => {
   it('adds an answer for the current question without mutating the previous state', () => {
@@ -96,6 +96,106 @@ describe('quizTransitions', () => {
     };
 
     const result = answerCurrentQuestion(state, 'invalid-option-id');
+
+    expect(result).toBe(state);
+  });
+
+  it('advances to question 2 after answering question 1', () => {
+    const firstQuestion = questions[0]!;
+    const secondQuestion = questions[1]!;
+    const selectedOption = firstQuestion.options[0]!;
+
+    const state: QuizState = {
+      round: [firstQuestion, secondQuestion],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: firstQuestion.id,
+          selectedOptionId: selectedOption.id,
+        },
+      ],
+      view: 'playing',
+    };
+
+    const result = advanceQuiz(state);
+
+    expect(result).not.toBe(state);
+    expect(result.currentQuestionIndex).toBe(1);
+    expect(result.view).toBe('playing');
+    expect(result.answers).toBe(state.answers);
+  });
+
+  it('moves to the score view after answering the last question', () => {
+    const firstQuestion = questions[0]!;
+    const selectedOption = firstQuestion.options[0]!;
+
+    const state: QuizState = {
+      round: [firstQuestion],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: firstQuestion.id,
+          selectedOptionId: selectedOption.id,
+        },
+      ],
+      view: 'playing',
+    };
+
+    const result = advanceQuiz(state);
+
+    expect(result).not.toBe(state);
+    expect(result.view).toBe('score');
+    expect(result.currentQuestionIndex).toBe(0);
+    expect(result.answers).toBe(state.answers);
+  });
+
+  it('returns the same state if the view is not "playing"', () => {
+    const firstQuestion = questions[0]!;
+    const secondQuestion = questions[1]!;
+    const thirdQuestion = questions[2]!;
+    const selectedOption = firstQuestion.options[0]!;
+
+    const state: QuizState = {
+      round: [firstQuestion, secondQuestion, thirdQuestion],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: firstQuestion.id,
+          selectedOptionId: selectedOption.id,
+        },
+      ],
+      view: 'score',
+    };
+
+    const result = advanceQuiz(state);
+
+    expect(result).toBe(state);
+  });
+
+  it('returns the same state if round is empty', () => {
+    const state: QuizState = {
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    };
+
+    const result = advanceQuiz(state);
+
+    expect(result).toBe(state);
+  });
+
+  it('returns the same state if the current question has not been answered', () => {
+    const currentQuestion = questions[0]!;
+
+    const state: QuizState = {
+      round: [currentQuestion],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    };
+
+    const result = advanceQuiz(state);
 
     expect(result).toBe(state);
   });

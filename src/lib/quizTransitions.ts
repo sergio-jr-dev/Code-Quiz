@@ -25,3 +25,28 @@ export const answerCurrentQuestion = (state: QuizState, optionId: OptionId): Qui
     answers: [...state.answers, newAnswer],
   };
 };
+
+export const advanceQuiz = (state: QuizState): QuizState => {
+  if (state.view !== 'playing') return state;
+
+  const currentQuestion = state.round[state.currentQuestionIndex];
+  if (!currentQuestion) return state;
+
+  const hasAnsweredCurrentQuestion = state.answers.some(
+    (answer) => answer.questionId === currentQuestion.id,
+  );
+  if (!hasAnsweredCurrentQuestion) return state;
+
+  const isLastQuestion = state.currentQuestionIndex === state.round.length - 1;
+  if (isLastQuestion) {
+    return {
+      ...state,
+      view: 'score',
+    };
+  }
+
+  return {
+    ...state,
+    currentQuestionIndex: state.currentQuestionIndex + 1,
+  };
+};
