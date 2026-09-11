@@ -50,3 +50,11 @@ export const advanceQuiz = (state: QuizState): QuizState => {
     currentQuestionIndex: state.currentQuestionIndex + 1,
   };
 };
+
+export const calculateScore = (state: QuizState): number => {
+  return state.round.reduce((score, question) => {
+    const answer = state.answers.find((candidate) => candidate.questionId === question.id);
+
+    return score + Number(answer?.selectedOptionId === question.correctAnswer);
+  }, 0);
+};

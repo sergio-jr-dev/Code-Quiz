@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { questions } from '../data/questions';
 import type { QuizState } from '../types/quizStore';
-import { advanceQuiz, answerCurrentQuestion } from './quizTransitions';
+import { advanceQuiz, answerCurrentQuestion, calculateScore } from './quizTransitions';
 
 describe('quizTransitions', () => {
   it('adds an answer for the current question without mutating the previous state', () => {
@@ -198,5 +198,78 @@ describe('quizTransitions', () => {
     const result = advanceQuiz(state);
 
     expect(result).toBe(state);
+  });
+
+  it('returns the correct score based on the provided answers', () => {
+    const firstQuestion = questions[0]!;
+    const secondQuestion = questions[1]!;
+    const thirdQuestion = questions[2]!;
+
+    const correctOption = firstQuestion.options.find(
+      (option) => option.id === firstQuestion.correctAnswer,
+    )!;
+
+    const incorrectOption = secondQuestion.options.find(
+      (option) => option.id !== secondQuestion.correctAnswer,
+    )!;
+
+    const state: QuizState = {
+      round: [firstQuestion, secondQuestion, thirdQuestion],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: secondQuestion.id,
+          selectedOptionId: incorrectOption.id,
+        },
+        {
+          questionId: firstQuestion.id,
+          selectedOptionId: correctOption.id,
+        },
+      ],
+      view: 'playing',
+    };
+
+    const result = calculateScore(state);
+
+    expect(result).toBe(1);
+  });
+
+  it('returns a score of 0 if round and answers are empty', () => {
+    const state: QuizState = {
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    };
+
+    const result = calculateScore(state);
+
+    expect(result).toBe(0);
+  });
+
+  it('counts at most one correct answer per question', () => {
+    const question = questions[0]!;
+
+    const correctOption = question.options.find((option) => option.id === question.correctAnswer)!;
+
+    const state: QuizState = {
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: question.id,
+          selectedOptionId: correctOption.id,
+        },
+        {
+          questionId: question.id,
+          selectedOptionId: correctOption.id,
+        },
+      ],
+      view: 'playing',
+    };
+
+    const result = calculateScore(state);
+
+    expect(result).toBe(1);
   });
 });
