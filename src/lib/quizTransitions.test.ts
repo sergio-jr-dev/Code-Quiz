@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { questions } from '../data/questions';
 import type { QuizState } from '../types/quizStore';
-import { advanceQuiz, answerCurrentQuestion, calculateScore } from './quizTransitions';
+import { advanceQuiz, answerCurrentQuestion, calculateScore, showReview } from './quizTransitions';
 
 describe('quizTransitions', () => {
   it('adds an answer for the current question without mutating the previous state', () => {
@@ -271,5 +271,69 @@ describe('quizTransitions', () => {
     const result = calculateScore(state);
 
     expect(result).toBe(1);
+  });
+
+  it('moves from the score view to the review view', () => {
+    const question = questions[0]!;
+
+    const state: QuizState = {
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: question.id,
+          selectedOptionId: question.correctAnswer,
+        },
+      ],
+      view: 'score',
+    };
+
+    const result = showReview(state);
+
+    expect(result).not.toBe(state);
+    expect(result.view).toBe('review');
+    expect(result.round).toBe(state.round);
+    expect(result.answers).toBe(state.answers);
+    expect(result.currentQuestionIndex).toBe(state.currentQuestionIndex);
+  });
+
+  it('returns the same state when the view is playing', () => {
+    const question = questions[0]!;
+
+    const state: QuizState = {
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: question.id,
+          selectedOptionId: question.correctAnswer,
+        },
+      ],
+      view: 'playing',
+    };
+
+    const result = showReview(state);
+
+    expect(result).toBe(state);
+  });
+
+  it('returns the same state when the view is already review', () => {
+    const question = questions[0]!;
+
+    const state: QuizState = {
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [
+        {
+          questionId: question.id,
+          selectedOptionId: question.correctAnswer,
+        },
+      ],
+      view: 'review',
+    };
+
+    const result = showReview(state);
+
+    expect(result).toBe(state);
   });
 });

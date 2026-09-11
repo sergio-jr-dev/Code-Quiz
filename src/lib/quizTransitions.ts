@@ -58,3 +58,12 @@ export const calculateScore = (state: QuizState): number => {
     return score + Number(answer?.selectedOptionId === question.correctAnswer);
   }, 0);
 };
+
+export const showReview = (state: QuizState): QuizState => {
+  if (state.view !== 'score') return state;
+
+  return {
+    ...state,
+    view: 'review',
+  };
+};
