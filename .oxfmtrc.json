@@ -3,7 +3,7 @@
   "printWidth": 100,
   "singleQuote": true,
   "sortImports": true,
-  "sortPackageJson": false,
+  "sortPackageJson": true,
   "ignorePatterns": [
     ".agents/**",
     "coverage/**",
