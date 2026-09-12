@@ -1,17 +1,17 @@
 # Tasks
 
-**Current task:** T2.2
-**Blockers:** Ninguno para T2.2. Antes de las tareas afectadas falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
+**Current task:** T2.3
+**Blockers:** Ninguno para T2.3. Antes de las tareas afectadas falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
 
 - [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
 - [ ] T2: Sustituir el contexto por Zustand mediante checkpoints implementados por el usuario y revisados antes de avanzar.
   - [x] T2.1: Inventariar el estado actual y clasificarlo como dominio, estado derivado o efecto de interfaz; acordar el contrato tipado del store.
-  - [ ] T2.2: Extraer y probar las transiciones puras de configuración, mazo, partida, puntuación y reinicio completo.
+  - [x] T2.2: Extraer y probar las transiciones puras de la partida actual, puntuación, revisión y reinicio completo.
   - [ ] T2.3: Instalar Zustand e implementar el store mínimo con estado inicial y acciones de dominio, sin persistencia ni efectos visuales.
   - [ ] T2.4: Migrar los consumidores uno a uno mediante selectores pequeños y revisar cada tramo para evitar estado duplicado o suscripciones amplias.
   - [ ] T2.5: Retirar `QuizContext` y `QuizContextProvider` solo después de verificar que no quedan consumidores.
   - [ ] T2.6: Probar el store, el reinicio completo y las transiciones principales; ejecutar revisión final antes de comenzar T3.
-- [ ] T3: Implementar menú y filtros sobre el modelo de la spec 002.
+- [ ] T3: Implementar menú, configuración, filtros y transiciones puras del mazo sobre el modelo de la spec 002.
 - [ ] T4: Implementar la presentación de la partida: marcadores A–D sin perder los radios nativos, estados de respuesta, feedback, información adicional, resaltado seguro de sintaxis y barra de progreso; actualizar `DESIGN.md` con los patrones reutilizables acordados.
 - [ ] T5: Implementar resultados y resumen por categorías.
 - [ ] T6: Implementar navegación posterior y repetición de fallos.

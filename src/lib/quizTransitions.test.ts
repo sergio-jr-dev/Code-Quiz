@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest';
 
 import { questions } from '../data/questions';
 import type { QuizState } from '../types/quizStore';
-import { advanceQuiz, answerCurrentQuestion, calculateScore, showReview } from './quizTransitions';
+import {
+  advanceQuiz,
+  answerCurrentQuestion,
+  calculateScore,
+  restartQuiz,
+  showReview,
+} from './quizTransitions';
 
 describe('quizTransitions', () => {
   it('adds an answer for the current question without mutating the previous state', () => {
@@ -335,5 +341,35 @@ describe('quizTransitions', () => {
     const result = showReview(state);
 
     expect(result).toBe(state);
+  });
+
+  it('resets the quiz state when restarting the quiz', () => {
+    const previousRound = [questions[0]!, questions[1]!];
+    const nextRound = [questions[2]!, questions[3]!];
+
+    const state: QuizState = {
+      round: previousRound,
+      currentQuestionIndex: 1,
+      answers: [
+        {
+          questionId: previousRound[0]!.id,
+          selectedOptionId: previousRound[0]!.correctAnswer,
+        },
+      ],
+      view: 'review',
+    };
+
+    const result = restartQuiz(state, nextRound);
+
+    expect(result).not.toBe(state);
+    expect(result.round).toBe(nextRound);
+    expect(result.currentQuestionIndex).toBe(0);
+    expect(result.answers).toEqual([]);
+    expect(result.answers).not.toBe(state.answers);
+    expect(result.view).toBe('playing');
+    expect(state.round).toBe(previousRound);
+    expect(state.currentQuestionIndex).toBe(1);
+    expect(state.answers).toHaveLength(1);
+    expect(state.view).toBe('review');
   });
 });

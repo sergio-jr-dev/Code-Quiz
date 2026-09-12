@@ -1,4 +1,4 @@
-import type { OptionId } from '../types/questionBank';
+import type { BankQuestion, OptionId } from '../types/questionBank';
 import type { QuizState } from '../types/quizStore';
 
 export const answerCurrentQuestion = (state: QuizState, optionId: OptionId): QuizState => {
@@ -65,5 +65,15 @@ export const showReview = (state: QuizState): QuizState => {
   return {
     ...state,
     view: 'review',
+  };
+};
+
+export const restartQuiz = (state: QuizState, nextRound: readonly BankQuestion[]): QuizState => {
+  return {
+    ...state,
+    round: nextRound,
+    currentQuestionIndex: 0,
+    answers: [],
+    view: 'playing',
   };
 };
