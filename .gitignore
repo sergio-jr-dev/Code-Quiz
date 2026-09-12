@@ -29,6 +29,7 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/zustand.code-snippets
 .idea
 .DS_Store
 *.suo
