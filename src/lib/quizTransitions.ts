@@ -1,7 +1,10 @@
 import type { BankQuestion, OptionId } from '../types/questionBank';
-import type { QuizState } from '../types/quizStore';
+import type { QuizProgressState } from '../types/quizStore';
 
-export const answerCurrentQuestion = (state: QuizState, optionId: OptionId): QuizState => {
+export const answerCurrentQuestion = (
+  state: QuizProgressState,
+  optionId: OptionId,
+): QuizProgressState => {
   if (state.view !== 'playing') return state;
 
   const currentQuestion = state.round[state.currentQuestionIndex];
@@ -26,7 +29,7 @@ export const answerCurrentQuestion = (state: QuizState, optionId: OptionId): Qui
   };
 };
 
-export const advanceQuiz = (state: QuizState): QuizState => {
+export const advanceQuiz = (state: QuizProgressState): QuizProgressState => {
   if (state.view !== 'playing') return state;
 
   const currentQuestion = state.round[state.currentQuestionIndex];
@@ -51,7 +54,7 @@ export const advanceQuiz = (state: QuizState): QuizState => {
   };
 };
 
-export const calculateScore = (state: QuizState): number => {
+export const calculateScore = (state: QuizProgressState): number => {
   return state.round.reduce((score, question) => {
     const answer = state.answers.find((candidate) => candidate.questionId === question.id);
 
@@ -59,7 +62,7 @@ export const calculateScore = (state: QuizState): number => {
   }, 0);
 };
 
-export const showReview = (state: QuizState): QuizState => {
+export const showReview = (state: QuizProgressState): QuizProgressState => {
   if (state.view !== 'score') return state;
 
   return {
@@ -68,7 +71,10 @@ export const showReview = (state: QuizState): QuizState => {
   };
 };
 
-export const restartQuiz = (state: QuizState, nextRound: readonly BankQuestion[]): QuizState => {
+export const restartQuiz = (
+  state: QuizProgressState,
+  nextRound: readonly BankQuestion[],
+): QuizProgressState => {
   return {
     ...state,
     round: nextRound,

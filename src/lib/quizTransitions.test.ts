@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { questions } from '../data/questions';
-import type { QuizState } from '../types/quizStore';
+import type { QuizProgressState as QuizState } from '../types/quizStore';
 import {
   advanceQuiz,
   answerCurrentQuestion,

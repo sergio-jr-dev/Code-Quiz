@@ -4,7 +4,8 @@ import { StrictMode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import App from './App';
-import { questions } from './data/questions';
+import { questionCatalog } from './data/questionCatalog';
+import { useQuizStore } from './stores/quizStore';
 import type { QuestionContent } from './types/questionBank';
 
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }));
@@ -13,22 +14,37 @@ function contentText(content: QuestionContent): string {
   return content.map((block) => (block.type === 'text' ? block.text : block.code)).join(' ');
 }
 
-describe('existing quiz flow', () => {
-  it('answers all 25 questions, reviews and starts a fully reset round using the keyboard', async () => {
+describe('configured quiz flow', () => {
+  it('configures, completes and restarts a ten-question round using the keyboard', async () => {
     const user = userEvent.setup();
+    useQuizStore.setState({
+      configuration: { subject: 'html', level: 'basic' },
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+      decks: {},
+      mixedExtraSubjects: {},
+    });
     render(
       <StrictMode>
         <App />
       </StrictMode>,
     );
+
+    await user.click(screen.getByRole('radio', { name: /^CSS/ }));
+    await user.click(screen.getByRole('radio', { name: /^Intermedio/ }));
+    await user.click(screen.getByRole('button', { name: 'Comenzar partida' }));
+
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
     const seen = new Set<string>();
 
-    for (let index = 0; index < 25; index++) {
+    for (let index = 0; index < 10; index++) {
       const heading = screen.getByRole('heading', { level: 2 });
       expect(heading).toHaveFocus();
-      const question = questions.find((item) => item.prompt[0].text === heading.textContent);
+      const question = questionCatalog.find((item) => item.prompt[0].text === heading.textContent);
       if (!question) throw new Error('Unknown question');
+      expect(question).toMatchObject({ subject: 'css', level: 'intermediate' });
       seen.add(question.id);
       const options = screen.getAllByRole('radio');
       await user.tab();
@@ -38,13 +54,13 @@ describe('existing quiz flow', () => {
       expect(screen.getByRole('heading', { name: 'Información adicional' })).toBeVisible();
       expect(options.filter((option) => option.hasAttribute('disabled'))).toHaveLength(3);
       await user.tab();
-      const next = screen.getByRole('button', { name: index === 24 ? 'Finalizar' : 'Siguiente' });
+      const next = screen.getByRole('button', { name: index === 9 ? 'Finalizar' : 'Siguiente' });
       expect(next).toHaveFocus();
       await user.keyboard('{Enter}');
     }
 
-    expect(seen.size).toBe(25);
-    expect(screen.getByText(/^\d+ \/ 25$/)).toBeVisible();
+    expect(seen.size).toBe(10);
+    expect(screen.getByText(/^\d+ \/ 10$/)).toBeVisible();
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
     await user.tab();
     expect(screen.getByRole('button', { name: 'Ver resultados' })).toHaveFocus();
@@ -53,13 +69,13 @@ describe('existing quiz flow', () => {
     expect(
       screen.queryByRole('button', { name: 'Ver resultados', hidden: true }),
     ).not.toBeInTheDocument();
-    expect(screen.getAllByText('Tu respuesta')).toHaveLength(25);
-    expect(screen.getAllByText('Respuesta correcta')).toHaveLength(25);
+    expect(screen.getAllByText('Tu respuesta')).toHaveLength(10);
+    expect(screen.getAllByText('Respuesta correcta')).toHaveLength(10);
     expect(
       within(screen.getByRole('navigation', { name: 'Revisión de preguntas' })).getAllByRole(
         'link',
       ),
-    ).toHaveLength(25);
+    ).toHaveLength(10);
     await user.click(screen.getByRole('button', { name: 'Jugar de nuevo' }));
     expect(
       screen.queryByRole('navigation', { name: 'Revisión de preguntas' }),
@@ -70,10 +86,12 @@ describe('existing quiz flow', () => {
     ).toBe(true);
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
     expect(screen.getByRole('status')).toBeEmptyDOMElement();
+    const secondRound = new Set(useQuizStore.getState().round.map((question) => question.id));
+    expect([...secondRound].every((id) => !seen.has(id))).toBe(true);
 
     // A second completed round proves score and review state do not leak across restarts.
-    for (let index = 0; index < 25; index++) {
-      const question = questions.find(
+    for (let index = 0; index < 10; index++) {
+      const question = questionCatalog.find(
         (item) => item.prompt[0].text === screen.getByRole('heading', { level: 2 }).textContent,
       );
       const answer = question?.options.find((option) => option.id === question.correctAnswer);
@@ -81,10 +99,10 @@ describe('existing quiz flow', () => {
       await user.click(screen.getByRole('radio', { name: contentText(answer.content) }));
       await user.click(screen.getByRole('radio', { checked: true }));
       await user.click(
-        screen.getByRole('button', { name: index === 24 ? 'Finalizar' : 'Siguiente' }),
+        screen.getByRole('button', { name: index === 9 ? 'Finalizar' : 'Siguiente' }),
       );
     }
-    expect(screen.getByText('25 / 25')).toBeVisible();
+    expect(screen.getByText('10 / 10')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();
     expect(screen.getByRole('button', { name: 'Ver resultados' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();

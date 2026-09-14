@@ -1,19 +1,23 @@
 # Code Quiz
 
-Aplicación educativa en español para practicar HTML y CSS con preguntas de opción única, feedback inmediato y explicaciones.
+Aplicación educativa en español para practicar HTML, CSS y JavaScript con preguntas de opción única, feedback inmediato y explicaciones.
 
 **[Abrir Code Quiz](https://codequiz-game.vercel.app/)**
 
-![Code Quiz: quiz de HTML y CSS con identidad violeta](public/images/screenshot.png)
+![Menú de Code Quiz con materias y niveles sobre su identidad violeta](public/images/screenshot.png)
 
-## Primera versión
+## Flujo actual
 
-- 25 preguntas de HTML y CSS en cada partida, en orden aleatorio.
+- Menú para elegir HTML, CSS, JavaScript o un quiz mixto.
+- Niveles básico, intermedio y avanzado.
+- Partidas de 10 preguntas compatibles, sin duplicados dentro de la ronda.
+- Mazo por configuración: las siguientes partidas consumen preguntas no vistas antes de iniciar otro ciclo.
+- Modo mixto equilibrado 4/3/3, con rotación de la materia que aporta la cuarta pregunta.
 - Respuesta correcta e incorrecta indicadas con texto y color.
 - Preguntas, opciones y explicaciones con bloques de texto y código escapados.
 - Posiciones correctas equilibradas y distractores barajados por ID.
 - Puntuación, porcentaje y revisión de todas las respuestas.
-- Reinicio completo con un nuevo barajado.
+- Reinicio completo con una nueva ronda de la misma configuración.
 - Navegación con teclado y respeto a movimiento reducido.
 - Identidad Code Quiz y tema oscuro; modo claro todavía pendiente.
 
@@ -65,29 +69,27 @@ La carpeta local utiliza el historial del nuevo repositorio. El historial anteri
 ```text
 src/
   components/   Interfaz del quiz y resultados (.tsx)
-  context/      Estado compartido y acciones de la partida
-  data/         Partida actual de 25 preguntas y catálogo completo por materia
-  lib/          Validación, barajado y equilibrio de respuestas
-  types/        Contratos de preguntas, opciones y contexto
+  data/         Catálogo completo por materia y banco legado de referencia
+  lib/          Validación, transiciones, mazos, barajado y equilibrio
+  stores/       Estado y acciones de dominio con Zustand
+  types/        Contratos de preguntas, configuración y partida
   test/         Configuración de pruebas
 config/         Metadatos generados durante el build
 specs/          Especificaciones, tareas y decisiones
 public/images/  Logos, favicon, imagen social y captura
 ```
 
-## Catálogo preparado
+## Catálogo de preguntas
 
 La spec 002 incorpora un catálogo de **180 preguntas**, con veinte por cada combinación de HTML, CSS y JavaScript con nivel básico, intermedio y avanzado. `src/data/questionCatalog.ts` reúne los módulos por materia; las pruebas comprueban integridad, cobertura y alertas editoriales.
 
-El flujo disponible sigue usando las 25 preguntas originales de `src/data/questions.ts`. La selección desde el catálogo completo se integrará con el menú y las partidas de diez de la spec 003. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios.
+El flujo disponible filtra este catálogo desde el menú y construye partidas de diez mediante IDs estables. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios. `src/data/questions.ts` conserva el banco original como referencia y para pruebas de compatibilidad.
 
 ## Evolución planificada
 
-Las siguientes funcionalidades todavía no están implementadas:
+Las siguientes funcionalidades todavía no están implementadas por completo:
 
-- HTML, CSS y JavaScript como materias seleccionables.
-- Niveles básico, intermedio y avanzado.
-- Partidas de 10 preguntas y modo mixto sobre el catálogo preparado.
+- Presentación ampliada de la partida, progreso y resumen por categorías.
 - Persistencia del progreso, mejores resultados y repetición de fallos.
 - Modo claro completo con selector y persistencia.
 

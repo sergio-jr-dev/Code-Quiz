@@ -337,7 +337,15 @@ La cabecera de Code Quiz usa el lockup horizontal 3D con el cubo `< >`, `{ }` y 
 
 La tarjeta primary contiene badge, pregunta, opciones, explicación y acciones con separación vertical de `1rem`. Mantén un solo foco narrativo y evita subdividirla en paneles decorativos innecesarios.
 
-Cuando aparezcan menú y selección de partida, reutiliza la misma familia de superficie, radio y ancho; no construyas una home visualmente ajena al quiz.
+El menú y la selección de partida reutilizan la misma superficie primary, radio de `1rem`, sombra compacta y ancho de la tarjeta del quiz; no forman una home visualmente ajena al juego. Su encabezado mantiene una introducción breve, una pregunta principal y una sola acción final.
+
+### Configuración de partida
+
+Materia y nivel se presentan como dos `fieldset` con `legend`, de forma que la relación entre opciones se conserva sin depender del layout. Cada elección sigue siendo un radio nativo: la tarjeta-label amplía el objetivo interactivo, mientras `:has(input:checked)` y `:has(input:focus-visible)` proyectan selección y foco sobre toda la superficie.
+
+Las materias usan el mismo fondo, iconografía violeta y sistema de color. HTML, CSS, JavaScript y mixto se distinguen mediante nombre, icono y descripción, no mediante paletas independientes. En escritorio, las materias pueden ocupar dos columnas y los niveles tres; ambos grupos pasan a una sola columna cuando el contenido necesita espacio.
+
+La selección usa option-surface en reposo e info con borde focus-ring cuando está activa. Las combinaciones con menos de veinte candidatas se deshabilitan de forma nativa y muestran «Próximamente». La franja final confirma que la partida contiene diez preguntas y mantiene una única acción «Comenzar partida».
 
 ### Progress
 
