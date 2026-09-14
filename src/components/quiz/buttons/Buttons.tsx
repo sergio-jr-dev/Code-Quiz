@@ -1,11 +1,38 @@
 import { IconArrowNarrowRightDashed } from '@tabler/icons-react';
+import confetti from 'canvas-confetti';
 
-import { useQuiz } from '../../../context/QuizContext';
+import { useQuizStore } from '../../../stores/quizStore';
 
 import './buttons.css';
 
 export const Buttons = () => {
-  const { currentQuestion, shuffleQuestions, selectedOption, handleNext } = useQuiz();
+  const selectedOption = useQuizStore((state) => {
+    const question = state.round[state.currentQuestionIndex];
+    return (
+      state.answers.find((answer) => answer.questionId === question?.id)?.selectedOptionId ?? null
+    );
+  });
+
+  const isLastQuestion = useQuizStore(
+    (state) => state.currentQuestionIndex === state.round.length - 1,
+  );
+
+  const goToNextQuestion = useQuizStore((state) => state.goToNextQuestion);
+
+  const handleNext = () => {
+    if (selectedOption === null) return;
+
+    goToNextQuestion();
+
+    if (isLastQuestion) {
+      void confetti({
+        particleCount: 150,
+        spread: 360,
+        origin: { y: 0.3, x: 0.5 },
+        disableForReducedMotion: true,
+      });
+    }
+  };
 
   return (
     <div className="buttons">
@@ -15,7 +42,7 @@ export const Buttons = () => {
         onClick={handleNext}
       >
         <IconArrowNarrowRightDashed aria-hidden="true" stroke={2} />
-        {currentQuestion === shuffleQuestions.length - 1 ? 'Finalizar' : 'Siguiente'}
+        {isLastQuestion ? 'Finalizar' : 'Siguiente'}
       </button>
     </div>
   );

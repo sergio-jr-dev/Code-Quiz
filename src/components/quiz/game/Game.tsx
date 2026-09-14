@@ -1,9 +1,9 @@
-import { useQuiz } from '../../../context/QuizContext';
+import { useQuizStore } from '../../../stores/quizStore';
 import { FinalView } from '../../finalView/FinalView';
 import { Quiz } from '../Quiz';
 
 export const Game = () => {
-  const { completed } = useQuiz();
+  const completed = useQuizStore((state) => state.view !== 'playing');
 
   return (
     <main>

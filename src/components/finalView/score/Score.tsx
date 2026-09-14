@@ -1,19 +1,24 @@
 import { IconReload, IconReportAnalytics } from '@tabler/icons-react';
 import { useEffect, useRef } from 'react';
 
-import { useQuiz } from '../../../context/QuizContext';
+import { calculateScore } from '../../../lib/quizTransitions';
+import { useQuizStore } from '../../../stores/quizStore';
 
 import './score.css';
 
 export const Score = () => {
-  const { score, shuffleQuestions, handleRestart, showReview, showResults } = useQuiz();
+  const score = useQuizStore(calculateScore);
+  const totalQuestions = useQuizStore((state) => state.round.length);
+  const restartRound = useQuizStore((state) => state.restartRound);
+  const showReview = useQuizStore((state) => state.showReview);
+  const showResults = useQuizStore((state) => state.view === 'review');
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     headingRef.current?.focus();
   }, []);
 
-  const percentage = (score / shuffleQuestions.length) * 100;
+  const percentage = (score / totalQuestions) * 100;
   const message =
     percentage >= 80
       ? '¡Excelente trabajo!'
@@ -29,7 +34,7 @@ export const Score = () => {
       <div className="score-circles">
         <div>
           <span>
-            {score} / {shuffleQuestions.length}
+            {score} / {totalQuestions}
           </span>
         </div>
         <div>
@@ -37,8 +42,8 @@ export const Score = () => {
         </div>
       </div>
       <p>
-        Has contestado correctamente {score} preguntas de un total de {shuffleQuestions.length},
-        consiguiendo un porcentaje de acierto de ({percentage.toFixed()}%).
+        Has contestado correctamente {score} preguntas de un total de {totalQuestions}, consiguiendo
+        un porcentaje de acierto de ({percentage.toFixed()}%).
       </p>
 
       <div className="buttons">
@@ -48,7 +53,7 @@ export const Score = () => {
             Ver resultados
           </button>
         )}
-        <button onClick={handleRestart}>
+        <button onClick={restartRound}>
           <IconReload aria-hidden="true" stroke={2} />
           Jugar de nuevo
         </button>

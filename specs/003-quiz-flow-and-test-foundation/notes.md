@@ -31,6 +31,7 @@
 - T2.1 añadió `src/types/quizStore.ts` con contratos separados para estado y acciones. Cada respuesta conserva `questionId` y `selectedOptionId`, evitando depender de su posición en el array.
 - T2.2 añadió transiciones puras para responder, avanzar, mostrar la revisión y reiniciar, además del cálculo derivado de puntuación. Las guardas devuelven la misma referencia cuando una acción no es válida; los cambios crean estado nuevo sin mutar las entradas.
 - T2.3 instaló Zustand 5.0.15 y añadió `src/stores/quizStore.ts`. El store mínimo inicializa la partida actual y expone las cuatro acciones de dominio sobre las transiciones puras de T2.2. Un `StateCreator` separado queda envuelto por `devtools` con el nombre `quiz-store`; no se añadió persistencia ni se trasladaron al store efectos de interfaz o valores derivados.
+- T2.4 migró todos los consumidores de interfaz a `useQuizStore` mediante selectores pequeños. Las respuestas se consultan por `questionId`, los valores derivados permanecen fuera del store y los efectos de confeti continúan en los componentes. El test de `Results` prepara directamente el estado de Zustand y conserva la comprobación visible de corrección por ID tras reordenar opciones.
 
 ## Validation Results
 
@@ -38,6 +39,7 @@
 - 2026-09-11, T2.1: el contrato tipado pasó `tsc -b`, `oxfmt --check src/types/quizStore.ts` y `git diff --check`. La revisión confirmó que el estado derivado no se duplica y que los efectos de interfaz quedan fuera del store.
 - 2026-09-12, T2.2: 12 archivos y 76 pruebas pasaron. También pasaron `oxfmt --check .`, `oxlint`, `tsc -b`, `vite build` y `git diff --check`.
 - 2026-09-12, T2.3: Zustand 5.0.15 figura como dependencia. Pasaron `./node_modules/.bin/tsc -b`, `./node_modules/.bin/oxlint src/stores/quizStore.ts`, `./node_modules/.bin/oxfmt --check src/stores/quizStore.ts`, `./node_modules/.bin/vitest run` con 12 archivos y 76 pruebas, y `git diff --check`. Las invocaciones equivalentes mediante `pnpm` se bloquearon sin producir salida en el entorno de esta sesión y se interrumpieron; la validación se completó con los binarios locales ya instalados.
+- 2026-09-14, T2.4: la búsqueda de `useQuiz`, `QuizContext` y `QuizContextProvider` confirmó que no quedan consumidores de interfaz del contexto; solo permanecen la infraestructura legada y el wrapper de `App`, reservados para T2.5. Pasaron `./node_modules/.bin/tsc -b`, Oxlint y Oxfmt sobre `Results` y su test, `./node_modules/.bin/vitest run` con 12 archivos y 76 pruebas, y `git diff --check`.
 
 ## Deviations From Spec
 

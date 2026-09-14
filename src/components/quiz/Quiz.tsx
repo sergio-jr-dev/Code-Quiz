@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useQuiz } from '../../context/QuizContext';
+import { useQuizStore } from '../../stores/quizStore';
 import { QuestionContent } from '../content/QuestionContent';
 import { Answers } from './answers/Answers';
 import { Buttons } from './buttons/Buttons';
@@ -9,12 +9,30 @@ import { Info } from './info/Info';
 import './quiz.css';
 
 export const Quiz = () => {
-  const { currentQuestion, shuffleQuestions, question, selectedOption } = useQuiz();
+  const currentQuestionIndex = useQuizStore((state) => state.currentQuestionIndex);
+
+  const totalQuestions = useQuizStore((state) => state.round.length);
+
+  const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
+
+  const selectedOption = useQuizStore((state) => {
+    const currentQuestion = state.round[state.currentQuestionIndex];
+
+    return (
+      state.answers.find((answer) => answer.questionId === currentQuestion?.id)?.selectedOptionId ??
+      null
+    );
+  });
 
   const headingRef = useRef<HTMLHeadingElement>(null);
+
   useEffect(() => {
     headingRef.current?.focus();
-  }, [question.id]);
+  }, [question?.id]);
+
+  if (!question) {
+    throw new Error('No question found for the current index');
+  }
 
   return (
     <article className="quiz">
@@ -22,9 +40,9 @@ export const Quiz = () => {
         className="badge"
         aria-live="polite"
         aria-atomic="true"
-        aria-label={`Pregunta ${currentQuestion + 1} de ${shuffleQuestions.length}`}
+        aria-label={`Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`}
       >
-        {currentQuestion + 1} / {shuffleQuestions.length}
+        {currentQuestionIndex + 1} / {totalQuestions}
       </span>
 
       <QuestionContent

@@ -1,11 +1,15 @@
-import { useQuiz } from '../../../context/QuizContext';
+import { useQuizStore } from '../../../stores/quizStore';
 import { ExplanationContent } from '../../content/ExplanationContent';
 import { InfoIcon } from '../../icons/InfoIcon';
 
 import './info.css';
 
 export const Info = () => {
-  const { question } = useQuiz();
+  const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
+
+  if (!question) {
+    throw new Error('The question bank must contain a current question');
+  }
 
   return (
     <div className="info">
