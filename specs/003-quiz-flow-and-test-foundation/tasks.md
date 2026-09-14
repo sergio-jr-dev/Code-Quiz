@@ -1,7 +1,7 @@
 # Tasks
 
 **Current task:** T4
-**Blockers:** Antes de implementar T4 falta seleccionar la estrategia de resaltado de sintaxis. Para las tareas posteriores también falta cerrar el criterio de mejores resultados y el comportamiento de «repetir fallos». El cronómetro queda fuera del alcance confirmado salvo nueva decisión.
+**Blockers:** Ninguno para T4. Antes de T6 y T7 falta cerrar, respectivamente, el comportamiento de «repetir fallos» y el criterio de mejores resultados. El modo cronómetro se ha separado en la spec 005.
 
 - [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
 - [x] T2: Sustituir el contexto por Zustand mediante checkpoints implementados por el usuario y revisados antes de avanzar.

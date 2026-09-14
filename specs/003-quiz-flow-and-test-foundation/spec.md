@@ -37,8 +37,8 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Seguir `DESIGN.md`; el menú debe pertenecer a la misma familia visual que la tarjeta del quiz.
 - Mantener una columna protagonista y apilar controles cuando el contenido lo requiera.
 - Presentar cada opción como una unidad compuesta por marcador A–D, contenido y estado textual; los estados seleccionada, correcta e incorrecta no dependerán solo del color.
-- Integrar el resaltado de sintaxis en la identidad violeta existente, con contraste suficiente en claro y oscuro y scroll horizontal contenido para fragmentos largos.
-- La barra de progreso debe reforzar la orientación sin competir con la pregunta ni anunciar actualizaciones redundantes.
+- Integrar MicroLighter con su tema GitHub adaptativo en la identidad violeta existente, con contraste suficiente en claro y oscuro y scroll horizontal contenido para fragmentos largos.
+- La barra de progreso vivirá dentro de la tarjeta, en su parte superior, ocupando el espacio disponible a la izquierda de «Pregunta N de 10»; debe reforzar la orientación sin competir con la pregunta ni anunciar actualizaciones redundantes.
 - Verificar temas claro/oscuro, 320 CSS px, texto ampliado, foco, estados vacíos y movimiento reducido.
 - El logo final y naming dependen de la spec 001; la lógica de preguntas depende de la spec 002.
 
@@ -79,12 +79,12 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Construir el modo mixto mediante selección estratificada por materia, no mediante una muestra plana que pueda omitir una de ellas por azar.
 - Reutilizar la limpieza entre tests y los matchers de `jest-dom` del setup compartido existente; ampliar la configuración solo cuando un nuevo comportamiento lo exija.
 - Derivar A–D del orden visible y conservar la corrección por `option.id`; el marcador no formará parte del banco ni de los datos persistidos.
-- Limitar el resaltado a los lenguajes admitidos por `CodeLanguage`, evitar `dangerouslySetInnerHTML` no sanitizado y evaluar coste de bundle y fallback antes de escoger una dependencia.
+- Usar MicroLighter de forma programática, limitado a los lenguajes admitidos por `CodeLanguage`, sin `dangerouslySetInnerHTML` y con el texto escapado actual como fallback cuando la CSS Custom Highlight API no esté disponible. Validar su integración con los cambios de React, el coste real del bundle y el resaltado en navegador; si el spike no resulta satisfactorio, revisar la estrategia antes de incorporar otra dependencia.
 - Añadir cobertura solo si se define un umbral útil; no perseguir porcentaje sin relación con riesgos.
 
 ## Risks Or Open Questions
 
 - Falta concretar el criterio de “mejor resultado” para modo mixto y filtros distintos.
 - Debe definirse si “repetir fallos” conserva el orden visto o crea una nueva distribución equilibrada.
-- Debe decidirse si la gamificación temporal será un contador meramente informativo o un modo contrarreloj opcional. Un límite que altere la partida requerirá pausa o extensión, alternativa para quien necesite más tiempo, reglas al ocultar la pestaña, impacto en puntuación y pruebas propias; se recomienda tratarlo en una spec posterior.
-- Falta seleccionar la estrategia de resaltado de sintaxis y validar su peso, compatibilidad con Vite, seguridad y paridad claro/oscuro antes de añadir una dependencia.
+- El modo cronómetro opcional se ha separado en la spec 005 para definir sus tiempos, accesibilidad, pausa, puntuación, persistencia y pruebas sin ampliar T4.
+- MicroLighter depende de una API Baseline Newly available; se acepta la falta de resaltado en navegadores antiguos siempre que el contenido permanezca legible y escapado.

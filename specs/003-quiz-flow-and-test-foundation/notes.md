@@ -12,9 +12,9 @@
 - Los componentes usarán selectores pequeños. La persistencia tendrá versión y validación propia para tolerar datos ausentes, antiguos o corruptos.
 - La migración a Zustand se realizará como práctica guiada: el usuario implementará los checkpoints de T2, consultará dudas cuando lo necesite y pedirá una revisión antes de avanzar. El asistente no implementará esos checkpoints salvo petición explícita.
 - Las respuestas conservarán radios nativos y añadirán marcadores visuales A–D derivados del orden mostrado, sin sustituir los IDs de dominio.
-- Preguntas, opciones y explicaciones con código tendrán resaltado de sintaxis seguro para los lenguajes tipados admitidos y fallback como texto escapado.
-- La partida mostrará barra y texto de progreso sincronizados.
-- Los límites de tiempo no forman parte del alcance confirmado. Antes de incorporarlos debe decidirse si son informativos u opcionales, qué efecto tienen y cómo se garantiza una alternativa accesible; se recomienda una spec posterior para un modo contrarreloj.
+- Preguntas, opciones y explicaciones con código usarán MicroLighter de forma programática con el tema GitHub adaptativo, limitado a los lenguajes tipados admitidos y con fallback como texto escapado. Se acepta que navegadores antiguos sin CSS Custom Highlight API no muestren colores.
+- La partida mostrará barra y texto de progreso sincronizados dentro de la parte superior de la tarjeta: la barra ocupará el espacio disponible a la izquierda de «Pregunta N de 10».
+- El modo cronómetro opcional queda fuera de esta spec y se define en la spec 005.
 - La configuración de Vitest y Testing Library ya existe por la spec 004; T1 la auditará y ampliará sin rehacerla.
 - El contrato acordado para Zustand conserva como estado de dominio `round`, `currentQuestionIndex`, respuestas vinculadas por `questionId` y una vista explícita `playing | score | review`. La pregunta y respuesta actuales, la puntuación, los porcentajes y los totales se derivarán; el foco, los anuncios y el confeti seguirán fuera del store.
 - La migración inicial a Zustand reproducirá solo el flujo que ya existe. La configuración y las transiciones del mazo se implementarán en T3 junto al menú y los filtros que definen sus invariantes, evitando ampliar el store mínimo con estado todavía especulativo.
@@ -24,7 +24,7 @@
 
 - La dependencia de datos/equidad está resuelta: la spec 002 figura como `Implemented`.
 - Permanece la dependencia de la spec 001 para la identidad pública final.
-- La estrategia y posible dependencia de resaltado de sintaxis se decidirán antes de implementar T4.
+- T4 comenzará con un spike de MicroLighter para validar HTML, CSS y JavaScript, cambios de contenido en React, fallback, tema GitHub claro/oscuro y coste real del bundle. No se incorporará otra estrategia sin revisar primero el resultado.
 - T1 auditó la infraestructura heredada de la spec 004. `vitest.config.ts` ya usa jsdom, carga `src/test/setup.ts` y restaura mocks; el setup registra `jest-dom`, limpia Testing Library tras cada prueba y simula `matchMedia` para movimiento reducido.
 - Los scripts `test` y `test:watch` son reproducibles y funcionan con la suite actual. No se añadió configuración, dependencia ni script de cobertura porque la spec no define un umbral asociado a un riesgo concreto.
 - La limpieza específica de `localStorage`, los temporizadores falsos y cualquier mock adicional se incorporarán junto a las funcionalidades que los necesiten, no de forma anticipada en T1.
