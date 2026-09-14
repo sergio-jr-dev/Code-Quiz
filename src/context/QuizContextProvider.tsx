@@ -1,37 +1,45 @@
 import confetti from 'canvas-confetti';
-import { useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
-import { questions } from '../data/questions';
-import { buildRound } from '../lib/buildRound';
+import { calculateScore } from '../lib/quizTransitions';
+import { useQuizStore } from '../stores/quizStore';
 import type { OptionId } from '../types/questionBank';
+import type { QuizAnswer } from '../types/quizStore';
 import { QuizContext } from './QuizContext';
 
 export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
-  const [shuffleQuestions, setShuffleQuestions] = useState(() =>
-    buildRound(questions, questions.length),
-  );
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<OptionId | null>(null);
-  const [completed, setCompleted] = useState(false);
-  const [userAnswers, setUserAnswers] = useState<OptionId[]>([]);
-  const [showResults, setShowResults] = useState(false);
-  const question = shuffleQuestions[currentQuestion];
-  if (!question) throw new Error('The question bank must contain a current question');
+  const round = useQuizStore((state) => state.round);
+  const currentQuestionIndex = useQuizStore((state) => state.currentQuestionIndex);
+  const answers = useQuizStore((state) => state.answers);
+  const view = useQuizStore((state) => state.view);
+  const score = useQuizStore(calculateScore);
+  const goToNextQuestion = useQuizStore((state) => state.goToNextQuestion);
+  const restartRound = useQuizStore((state) => state.restartRound);
+  const selectOption = useQuizStore((state) => state.selectOption);
+  const showReview = useQuizStore((state) => state.showReview);
 
-  const score = userAnswers.reduce(
-    (total, answer, index) => total + Number(answer === shuffleQuestions[index]?.correctAnswer),
-    0,
-  );
+  const question = round[currentQuestionIndex];
+  if (!question) {
+    throw new Error('The question bank must contain a current question');
+  }
 
-  const selectOption = (id: OptionId) => {
+  const selectedOption =
+    answers.find((answer: QuizAnswer) => answer.questionId === question.id)?.selectedOptionId ??
+    null;
+  const completed = view !== 'playing';
+  const showResults = view === 'review';
+  const userAnswers = answers.map(({ selectedOptionId }) => selectedOptionId);
+
+  const onSelectOption = (id: OptionId) => {
     if (
       completed ||
       selectedOption !== null ||
       !question.options.some((option) => option.id === id)
     )
       return;
-    setUserAnswers((previous) => [...previous, id]);
-    setSelectedOption(id);
+
+    selectOption(id);
+
     if (id === question.correctAnswer) {
       void confetti({
         startVelocity: 50,
@@ -42,12 +50,13 @@ export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleNext = () => {
+  const onNext = () => {
     if (completed || selectedOption === null) return;
-    if (currentQuestion < shuffleQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setCompleted(true);
+
+    const isLastQuestion = currentQuestionIndex === round.length - 1;
+    goToNextQuestion();
+
+    if (isLastQuestion) {
       void confetti({
         particleCount: 150,
         spread: 360,
@@ -55,33 +64,23 @@ export const QuizContextProvider = ({ children }: { children: ReactNode }) => {
         disableForReducedMotion: true,
       });
     }
-    setSelectedOption(null);
-  };
-
-  const handleRestart = () => {
-    setShuffleQuestions(buildRound(questions, questions.length));
-    setCurrentQuestion(0);
-    setSelectedOption(null);
-    setCompleted(false);
-    setUserAnswers([]);
-    setShowResults(false);
   };
 
   return (
     <QuizContext
       value={{
-        currentQuestion,
+        currentQuestion: currentQuestionIndex,
         question,
         selectedOption,
         score,
         completed,
         userAnswers,
         showResults,
-        shuffleQuestions,
-        selectOption,
-        handleNext,
-        handleRestart,
-        showReview: () => setShowResults(true),
+        shuffleQuestions: round,
+        selectOption: onSelectOption,
+        handleNext: onNext,
+        handleRestart: restartRound,
+        showReview,
       }}
     >
       {children}
