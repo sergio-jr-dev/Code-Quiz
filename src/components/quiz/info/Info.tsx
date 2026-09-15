@@ -17,7 +17,7 @@ export const Info = () => {
         <InfoIcon />
         Información adicional
       </h3>
-      <ExplanationContent content={question.explanation} />
+      <ExplanationContent content={question.explanation} language={question.subject} />
     </div>
   );
 };

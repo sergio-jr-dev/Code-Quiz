@@ -37,9 +37,16 @@ describe('configured quiz flow', () => {
     await user.click(screen.getByRole('button', { name: 'Comenzar partida' }));
 
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
+    expect(screen.getByRole('progressbar', { name: 'Pregunta 1 de 10' })).toHaveAttribute(
+      'value',
+      '1',
+    );
     const seen = new Set<string>();
 
     for (let index = 0; index < 10; index++) {
+      expect(
+        screen.getByRole('progressbar', { name: `Pregunta ${index + 1} de 10` }),
+      ).toHaveAttribute('value', String(index + 1));
       const heading = screen.getByRole('heading', { level: 2 });
       expect(heading).toHaveFocus();
       const question = questionCatalog.find((item) => item.prompt[0].text === heading.textContent);
@@ -50,7 +57,7 @@ describe('configured quiz flow', () => {
       await user.tab();
       expect(options[0]).toHaveFocus();
       await user.keyboard(' ');
-      expect(screen.getByRole('status')).toHaveTextContent('Respuesta');
+      expect(screen.getByRole('status')).toHaveTextContent(/respuesta/i);
       expect(screen.getByRole('heading', { name: 'Información adicional' })).toBeVisible();
       expect(options.filter((option) => option.hasAttribute('disabled'))).toHaveLength(3);
       await user.tab();
@@ -63,14 +70,14 @@ describe('configured quiz flow', () => {
     expect(screen.getByText(/^\d+ \/ 10$/)).toBeVisible();
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
     await user.tab();
-    expect(screen.getByRole('button', { name: 'Ver resultados' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toHaveFocus();
     await user.keyboard('{Enter}');
     expect(screen.getByRole('heading', { name: 'Pregunta 1' })).toHaveFocus();
     expect(
-      screen.queryByRole('button', { name: 'Ver resultados', hidden: true }),
+      screen.queryByRole('button', { name: 'Revisar respuestas', hidden: true }),
     ).not.toBeInTheDocument();
-    expect(screen.getAllByText('Tu respuesta')).toHaveLength(10);
-    expect(screen.getAllByText('Respuesta correcta')).toHaveLength(10);
+    expect(screen.getAllByText(/Tu respuesta/)).toHaveLength(10);
+    expect(document.querySelectorAll('.results .answer.correct')).toHaveLength(10);
     expect(
       within(screen.getByRole('navigation', { name: 'Revisión de preguntas' })).getAllByRole(
         'link',
@@ -85,7 +92,7 @@ describe('configured quiz flow', () => {
       screen.getAllByRole('radio').every((option) => !(option as HTMLInputElement).checked),
     ).toBe(true);
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
-    expect(screen.getByRole('status')).toBeEmptyDOMElement();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
     const secondRound = new Set(useQuizStore.getState().round.map((question) => question.id));
     expect([...secondRound].every((id) => !seen.has(id))).toBe(true);
 
@@ -104,7 +111,7 @@ describe('configured quiz flow', () => {
     }
     expect(screen.getByText('10 / 10')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();
-    expect(screen.getByRole('button', { name: 'Ver resultados' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
   });
 });

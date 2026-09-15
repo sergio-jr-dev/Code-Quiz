@@ -1,3 +1,5 @@
+import { IconCheck, IconX } from '@tabler/icons-react';
+
 import { useQuizStore } from '../../../stores/quizStore';
 
 import './dots.css';
@@ -22,7 +24,10 @@ export const Dots = () => {
             aria-label={`Pregunta ${i + 1}: ${isCorrect ? 'correcta' : 'incorrecta'}`}
             className={`dot ${isCorrect ? 'correct' : 'incorrect'}`}
           >
-            {i + 1}
+            <span>{i + 1}</span>
+            <span className="dot-state" aria-hidden="true">
+              {isCorrect ? <IconCheck /> : <IconX />}
+            </span>
           </a>
         );
       })}

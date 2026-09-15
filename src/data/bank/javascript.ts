@@ -143,6 +143,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'if evalúa una condición y else permite una rama alternativa. Los bucles repiten trabajo y try/finally controla ejecución y limpieza ante salidas.',
+      ['if', 'else', 'try/finally'],
     ),
   ),
   question(
@@ -716,16 +717,23 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'try-finally',
-    '¿Cuándo se ejecuta finally en un try ordinario que puede lanzar una excepción?',
     [
-      text('Solo cuando el try termina sin errores'),
-      text('Solo cuando existe una cláusula catch'),
-      text('Solo si se llama a finally manualmente'),
-      text('Al salir del try, también si hay una excepción'),
+      {
+        type: 'text',
+        text: '¿Cuándo se ejecuta finally en un try ordinario que puede lanzar una excepción?',
+        inlineCode: ['finally', 'try'],
+      },
+    ],
+    [
+      text('Solo cuando el try termina sin errores', ['try']),
+      text('Solo cuando existe una cláusula catch', ['catch']),
+      text('Solo si se llama a finally manualmente', ['finally']),
+      text('Al salir del try, también si hay una excepción', ['try']),
     ],
     'd',
     text(
       'finally se ejecuta al abandonar try o catch, incluso ante una excepción o un return. Resulta útil para limpieza; un nuevo return o throw dentro de finally puede reemplazar la salida previa.',
+      ['finally', 'try', 'catch', 'return', 'throw'],
     ),
   ),
   question(
@@ -806,7 +814,13 @@ export const javascriptQuestions = [
     'javascript',
     'advanced',
     'promise-all',
-    'Si dos promesas se cumplen en orden inverso al array de Promise.all, ¿en qué orden aparecen sus valores en el resultado?',
+    [
+      {
+        type: 'text',
+        text: 'Si dos promesas se cumplen en orden inverso al array de Promise.all, ¿en qué orden aparecen sus valores en el resultado?',
+        inlineCode: ['Promise.all'],
+      },
+    ],
     [
       text('En el orden del array de entrada'),
       text('En el orden de cumplimiento'),
@@ -816,6 +830,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Promise.all conserva la correspondencia con las posiciones de entrada, independientemente del momento en que se cumpla cada promesa.',
+      ['Promise.all'],
     ),
   ),
   question(
@@ -823,16 +838,23 @@ export const javascriptQuestions = [
     'javascript',
     'advanced',
     'promise-all-rejection',
-    'Una promesa de Promise.all rechaza mientras otras siguen pendientes. ¿Qué sucede?',
+    [
+      {
+        type: 'text',
+        text: 'Una promesa de Promise.all rechaza mientras otras siguen pendientes. ¿Qué sucede?',
+        inlineCode: ['Promise.all'],
+      },
+    ],
     [
       text('Espera a que todas rechacen para rechazar'),
       text('Cancela automáticamente las otras operaciones'),
       text('La promesa agregada rechaza sin cancelar las otras'),
-      text('Convierte el rechazo en un resultado undefined'),
+      text('Convierte el rechazo en un resultado undefined', ['undefined']),
     ],
     'c',
     text(
       'Promise.all rechaza cuando recibe un rechazo, pero no cancela el trabajo subyacente de las demás promesas. La cancelación requiere un mecanismo independiente.',
+      ['Promise.all'],
     ),
   ),
   question(
@@ -892,6 +914,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Un finally que termina normalmente preserva el resultado original. Su valor de retorno ordinario no sustituye al de cumplimiento; un throw o rechazo sí puede cambiar la salida.',
+      ['finally', 'throw'],
     ),
   ),
   question(
@@ -1099,13 +1122,14 @@ export const javascriptQuestions = [
     '¿Cuándo empieza a ejecutarse el cuerpo de una función generadora al usarla normalmente?',
     [
       text('Al evaluar su declaración'),
-      text('Al llamar por primera vez a next()'),
+      text('Al llamar por primera vez a next()', ['next()']),
       text('Al obtener el objeto generador mediante la llamada'),
       text('Al consultar su propiedad Symbol.iterator'),
     ],
     'b',
     text(
       'Llamar a una función generadora crea un objeto generador suspendido. El cuerpo comienza al reanudarlo con next().',
+      ['next()'],
     ),
   ),
   question(
@@ -1138,7 +1162,11 @@ export const javascriptQuestions = [
     'advanced',
     'numeric-sort',
     [
-      { type: 'text', text: '¿Qué resultado produce este sort sin comparador?' },
+      {
+        type: 'text',
+        text: '¿Qué resultado produce este sort sin comparador?',
+        inlineCode: ['sort'],
+      },
       { type: 'code', language: 'javascript', code: '[2, 10, 1].sort();' },
     ],
     [
@@ -1150,6 +1178,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Sin comparador, sort ordena según representaciones de cadena. Para ordenar estos números de menor a mayor puede usarse (a, b) => a - b; sort modifica el array.',
+      ['sort', '(a, b) => a - b'],
     ),
   ),
   question(

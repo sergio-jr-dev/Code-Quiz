@@ -2,6 +2,7 @@ import { IconArrowNarrowRightDashed } from '@tabler/icons-react';
 import confetti from 'canvas-confetti';
 
 import { useQuizStore } from '../../../stores/quizStore';
+import { Button } from '../../button/Button';
 
 import './buttons.css';
 
@@ -36,14 +37,14 @@ export const Buttons = () => {
 
   return (
     <div className="buttons">
-      <button
+      <Button
         className={`${selectedOption === null ? 'disabled' : ''}`}
         disabled={selectedOption === null}
         onClick={handleNext}
       >
         <IconArrowNarrowRightDashed aria-hidden="true" stroke={2} />
         {isLastQuestion ? 'Finalizar' : 'Siguiente'}
-      </button>
+      </Button>
     </div>
   );
 };

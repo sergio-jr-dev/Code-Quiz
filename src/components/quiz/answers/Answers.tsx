@@ -12,8 +12,8 @@ export const Answers = () => {
 
   return (
     <div className="answers" role="radiogroup" aria-labelledby="question-title">
-      {question.options.map((option) => (
-        <Answer key={option.id} option={option} />
+      {question.options.map((option, index) => (
+        <Answer key={option.id} option={option} position={index} />
       ))}
     </div>
   );

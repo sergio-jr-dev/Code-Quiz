@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { questionExamples } from '../../../data/questionExamples';
 import { buildRound } from '../../../lib/buildRound';
@@ -8,6 +8,12 @@ import { Results } from './Results';
 
 describe('Results', () => {
   it('keeps the selected and correct options associated by ID after shuffling', () => {
+    const scrollIntoView = vi.fn();
+    Object.defineProperty(Element.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    });
+
     const source = questionExamples[0];
     const [shuffled] = buildRound([source], 1, () => 0);
 
@@ -33,6 +39,9 @@ describe('Results', () => {
 
     const { container } = render(<Results />);
 
+    expect(screen.getByRole('heading', { name: 'Pregunta 1' })).toHaveFocus();
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
+
     const correctAnswer = screen.getByText('<main>').closest('.answer');
     const selectedAnswer = screen.getByText('<footer>').closest('.answer');
 
@@ -44,7 +53,7 @@ describe('Results', () => {
       within(correctAnswer as HTMLElement).queryByText('Tu respuesta'),
     ).not.toBeInTheDocument();
     expect(selectedAnswer).toHaveClass('incorrect');
-    expect(within(selectedAnswer as HTMLElement).getByText('Tu respuesta')).toBeVisible();
+    expect(within(selectedAnswer as HTMLElement).getByText(/Tu respuesta/)).toBeVisible();
     expect(
       within(selectedAnswer as HTMLElement).queryByText('Respuesta correcta'),
     ).not.toBeInTheDocument();

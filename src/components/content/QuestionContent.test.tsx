@@ -8,6 +8,7 @@ describe('QuestionContent', () => {
     render(
       <QuestionContent
         headingId="question-title"
+        language="javascript"
         content={[
           { type: 'text', text: '¿Qué imprime este fragmento?' },
           { type: 'code', language: 'javascript', code: 'console.log("hola");' },
@@ -19,5 +20,23 @@ describe('QuestionContent', () => {
       screen.getByRole('heading', { level: 2, name: '¿Qué imprime este fragmento?' }),
     ).toHaveAttribute('id', 'question-title');
     expect(screen.getByText('console.log("hola");')).toHaveAttribute('data-language', 'javascript');
+  });
+
+  it('renders explicit inline code inside the question heading', () => {
+    render(
+      <QuestionContent
+        headingId="question-title"
+        language="javascript"
+        content={[
+          {
+            type: 'text',
+            text: '¿Qué devuelve Promise.all?',
+            inlineCode: ['Promise.all'],
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText('Promise.all')).toHaveClass('inline-code', 'language-javascript');
   });
 });

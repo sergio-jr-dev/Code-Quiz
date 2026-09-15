@@ -96,6 +96,24 @@ describe('validateQuestionBank', () => {
     expect(result.issues.filter((issue) => issue.code === 'invalid-content')).toHaveLength(2);
   });
 
+  it('rejects invalid or missing explicit inline code terms', () => {
+    const base = cloneQuestion(questionExamples[0]);
+    const invalid = {
+      ...base,
+      explanation: [
+        {
+          type: 'text',
+          text: 'Promise.all conserva el orden.',
+          inlineCode: ['Promise.race'],
+        },
+      ],
+    };
+
+    expect(validateQuestionBank([invalid]).issues.map((issue) => issue.code)).toContain(
+      'invalid-content',
+    );
+  });
+
   it('warns when the correct answer reveals itself by length or block structure', () => {
     const base = cloneQuestion(questionExamples[0]);
     const biased: BankQuestion = {

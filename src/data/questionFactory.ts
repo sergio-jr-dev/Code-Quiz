@@ -9,7 +9,13 @@ import type {
 } from '../types/questionBank';
 
 const optionIds = ['a', 'b', 'c', 'd'] as const;
-export const text = (value: string): QuestionContent => [{ type: 'text', text: value }];
+export const text = (value: string, inlineCode: readonly string[] = []): QuestionContent => [
+  {
+    type: 'text',
+    text: value,
+    ...(inlineCode.length > 0 ? { inlineCode } : {}),
+  },
+];
 export const code = (language: CodeLanguage, value: string): QuestionContent => [
   { type: 'code', language, code: value },
 ];

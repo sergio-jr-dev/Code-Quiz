@@ -13,13 +13,15 @@ Aplicación educativa en español para practicar HTML, CSS y JavaScript con preg
 - Partidas de 10 preguntas compatibles, sin duplicados dentro de la ronda.
 - Mazo por configuración: las siguientes partidas consumen preguntas no vistas antes de iniciar otro ciclo.
 - Modo mixto equilibrado 4/3/3, con rotación de la materia que aporta la cuarta pregunta.
-- Respuesta correcta e incorrecta indicadas con texto y color.
-- Preguntas, opciones y explicaciones con bloques de texto y código escapados.
+- Progreso sincronizado mediante barra nativa y texto «Pregunta N de 10».
+- Respuestas A–D en una sola columna, con radios nativos, foco visible y una banda de feedback que no altera su tamaño.
+- Código escapado: MicroLighter resalta solo bloques completos y los términos técnicos inline se declaran como unidades completas en preguntas, respuestas y explicaciones.
 - Posiciones correctas equilibradas y distractores barajados por ID.
-- Puntuación, porcentaje y revisión de todas las respuestas.
+- Cierre visual con anillos de progreso e iconos 3D para aciertos, fallos y precisión, además de logos por materia.
+- Revisión de todas las respuestas con navegación numerada fija y estado visible.
 - Reinicio completo con una nueva ronda de la misma configuración.
 - Navegación con teclado y respeto a movimiento reducido.
-- Identidad Code Quiz y tema oscuro; modo claro todavía pendiente.
+- Identidad Code Quiz sobre un fondo técnico oscuro, una columna común de hasta `90ch` y la misma sombra de tarjeta en todo el flujo; modo claro todavía pendiente.
 
 La base utiliza **React 19, TypeScript estricto, Vite 8, OXLint y Oxfmt**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
 
@@ -89,7 +91,6 @@ El flujo disponible filtra este catálogo desde el menú y construye partidas de
 
 Las siguientes funcionalidades todavía no están implementadas por completo:
 
-- Presentación ampliada de la partida, progreso y resumen por categorías.
 - Persistencia del progreso, mejores resultados y repetición de fallos.
 - Modo claro completo con selector y persistencia.
 
@@ -99,6 +100,7 @@ Especificaciones:
 - [002 · Banco y equidad](specs/002-question-bank-and-answer-fairness/spec.md)
 - [003 · Flujo ampliado](specs/003-quiz-flow-and-test-foundation/spec.md)
 - [004 · Base TypeScript de la primera versión](specs/004-typescript-release-foundation/spec.md)
+- [005 · Modo cronómetro](specs/005-timed-quiz-mode/spec.md)
 
 ## Marca y autoría
 

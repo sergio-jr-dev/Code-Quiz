@@ -1,0 +1,31 @@
+@layer components {
+  @scope (.button) {
+    :scope {
+      border-radius: 16px;
+      border: none;
+      background-color: var(--secondary-color);
+      padding: 1rem 2rem;
+      color: var(--text-on-accent-color);
+      cursor: pointer;
+      transition:
+        filter 0.3s,
+        scale 0.3s;
+
+      &.disabled {
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        filter: brightness(1.15);
+      }
+
+      &:active:not(:disabled) {
+        scale: 0.9;
+
+        @media (prefers-reduced-motion: reduce) {
+          scale: none;
+        }
+      }
+    }
+  }
+}

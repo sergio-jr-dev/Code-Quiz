@@ -1,17 +1,12 @@
-import {
-  IconBrandCss3,
-  IconBrandHtml5,
-  IconBrandJavascript,
-  IconLayersSelected,
-  IconPlayerPlayFilled,
-} from '@tabler/icons-react';
-import type { FormEvent, ReactNode } from 'react';
+import { IconPlayerPlayFilled } from '@tabler/icons-react';
+import type { FormEvent } from 'react';
 
 import { questionCatalog } from '../../data/questionCatalog';
 import { isConfigurationPlayable } from '../../lib/quizRound';
 import { useQuizStore } from '../../stores/quizStore';
 import type { Level } from '../../types/questionBank';
 import type { QuizSubject } from '../../types/quizStore';
+import { Button } from '../button/Button';
 
 import './menu.css';
 
@@ -19,39 +14,50 @@ const subjectChoices: readonly {
   value: QuizSubject;
   label: string;
   description: string;
-  icon: ReactNode;
+  icon: string;
 }[] = [
   {
     value: 'html',
     label: 'HTML',
     description: 'Semántica, formularios y estructura web',
-    icon: <IconBrandHtml5 aria-hidden="true" stroke={1.8} />,
+    icon: 'html-logo-3d.png',
   },
   {
     value: 'css',
     label: 'CSS',
     description: 'Selectores, cascada y composición visual',
-    icon: <IconBrandCss3 aria-hidden="true" stroke={1.8} />,
+    icon: 'css-logo-3d.png',
   },
   {
     value: 'javascript',
     label: 'JavaScript',
     description: 'Lenguaje, DOM y comportamiento',
-    icon: <IconBrandJavascript aria-hidden="true" stroke={1.8} />,
+    icon: 'javascript-logo-3d.png',
   },
   {
     value: 'mixed',
     label: 'Quiz mixto',
     description: 'Una partida equilibrada con las tres materias',
-    icon: <IconLayersSelected aria-hidden="true" stroke={1.8} />,
+    icon: 'mixed-logo-3d.png',
   },
 ];
 
-const levelChoices: readonly { value: Level; label: string; description: string }[] = [
-  { value: 'basic', label: 'Básico', description: 'Afianza los fundamentos' },
-  { value: 'intermediate', label: 'Intermedio', description: 'Conecta conceptos y casos reales' },
-  { value: 'advanced', label: 'Avanzado', description: 'Resuelve matices y casos límite' },
-];
+const levelChoices: readonly { value: Level; label: string; description: string; icon: string }[] =
+  [
+    { value: 'basic', label: 'Básico', description: 'Afianza los fundamentos', icon: 'basic.png' },
+    {
+      value: 'intermediate',
+      label: 'Intermedio',
+      description: 'Conecta conceptos y casos reales',
+      icon: 'intermediate.png',
+    },
+    {
+      value: 'advanced',
+      label: 'Avanzado',
+      description: 'Resuelve matices y casos límite',
+      icon: 'advanced.png',
+    },
+  ];
 
 export const Menu = () => {
   const subject = useQuizStore((state) => state.configuration.subject);
@@ -73,7 +79,7 @@ export const Menu = () => {
       <header className="menu-intro">
         <p className="eyebrow">Configura tu partida</p>
         <h2 id="menu-title">¿Qué quieres practicar hoy?</h2>
-        <p>Elige una materia y un nivel. Prepararemos 10 preguntas sin repeticiones.</p>
+        <p>Elige una materia y un nivel para empezar.</p>
       </header>
 
       <form onSubmit={handleSubmit}>
@@ -96,7 +102,14 @@ export const Menu = () => {
                     disabled={!available}
                     onChange={() => selectSubject(choice.value)}
                   />
-                  <span className="subject-icon">{choice.icon}</span>
+                  <span className="subject-icon" aria-hidden="true">
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/subjects/${choice.icon}`}
+                      alt=""
+                      width="256"
+                      height="256"
+                    />
+                  </span>
                   <span className="option-copy">
                     <strong>{choice.label}</strong>
                     <small>{available ? choice.description : 'Próximamente'}</small>
@@ -126,6 +139,14 @@ export const Menu = () => {
                     disabled={!available}
                     onChange={() => selectLevel(choice.value)}
                   />
+                  <span className="level-icon" aria-hidden="true">
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/levels/${choice.icon}`}
+                      alt=""
+                      width="228"
+                      height="256"
+                    />
+                  </span>
                   <span className="option-copy">
                     <strong>{choice.label}</strong>
                     <small>{available ? choice.description : 'Próximamente'}</small>
@@ -142,10 +163,10 @@ export const Menu = () => {
               ? 'La partida tendrá 10 preguntas.'
               : 'Esta combinación todavía no está disponible.'}
           </p>
-          <button type="submit" disabled={!canStart}>
+          <Button type="submit" disabled={!canStart}>
             <IconPlayerPlayFilled aria-hidden="true" stroke={2} />
             Comenzar partida
-          </button>
+          </Button>
         </div>
       </form>
     </section>

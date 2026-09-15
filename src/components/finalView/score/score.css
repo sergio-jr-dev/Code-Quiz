@@ -10,27 +10,128 @@
       row-gap: 1rem;
     }
 
-    h2 {
-      font-size: 2.2rem;
+    .score-heading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: start;
+
+      .score-trophy {
+        flex: 0 0 auto;
+        inline-size: 5rem;
+        block-size: 5rem;
+        object-fit: contain;
+        rotate: -6deg;
+      }
+
+      h2 {
+        font-size: clamp(1.75rem, calc(1.25rem + 2vw), 2.5rem);
+      }
     }
 
-    .score-circles {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-inline-size: 100%;
+    .score-eyebrow {
+      color: var(--progress-color);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-      div {
-        background-color: var(--info-color);
-        border-radius: 50%;
-        inline-size: min(5rem, 100%);
-        min-block-size: 5rem;
-        aspect-ratio: 1;
+    .score-message {
+      max-inline-size: 55ch;
+      color: color-mix(in srgb, var(--text-color) 88%, transparent);
+    }
+
+    .score-metrics {
+      inline-size: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+
+      .circular-metric {
+        --metric-color: var(--progress-color);
+
+        min-inline-size: 0;
+        padding: 0.5rem;
         display: grid;
         place-items: center;
-        font-size: 1.25rem;
-        font-weight: bold;
+        row-gap: 0.25rem;
+
+        &[data-tone='correct'] {
+          --metric-color: color-mix(in srgb, var(--correct-color) 62%, var(--text-color));
+
+          img {
+            translate: 8% -2%;
+          }
+        }
+
+        &[data-tone='incorrect'] {
+          --metric-color: color-mix(in srgb, var(--incorrect-color) 58%, var(--text-color));
+        }
+
+        strong {
+          font-size: 1.25rem;
+        }
+
+        span {
+          color: color-mix(in srgb, var(--text-color) 78%, transparent);
+        }
+      }
+
+      .metric-visual {
+        inline-size: clamp(5rem, 14vw, 7.5rem);
+        aspect-ratio: 1;
+        position: relative;
+        display: grid;
+        place-items: center;
+
+        svg {
+          position: absolute;
+          inset: 0;
+          inline-size: 100%;
+          block-size: 100%;
+          overflow: visible;
+          rotate: -90deg;
+        }
+
+        circle {
+          fill: none;
+          stroke-width: 7;
+        }
+
+        .metric-track {
+          stroke: color-mix(in srgb, var(--option-color) 78%, transparent);
+        }
+
+        .metric-value {
+          stroke: var(--metric-color);
+          stroke-dasharray: 100;
+          stroke-linecap: round;
+          transition: stroke-dashoffset 0.5s ease;
+
+          @media (prefers-reduced-motion: reduce) {
+            transition: none;
+          }
+        }
+
+        img {
+          inline-size: 58%;
+          block-size: 58%;
+          object-fit: contain;
+        }
+      }
+
+      @media (width <= 30rem) {
+        gap: 0.25rem;
+
+        .circular-metric {
+          padding-inline: 0.125rem;
+
+          strong,
+          span {
+            font-size: 1rem;
+          }
+        }
       }
     }
   }

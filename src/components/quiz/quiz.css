@@ -4,7 +4,7 @@
       background-color: var(--primary-color);
       border-radius: 16px;
       padding: 2rem 1.5rem;
-      box-shadow: 2px 2px 3px var(--secondary-color);
+      box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
       row-gap: 1rem;
@@ -13,14 +13,11 @@
       @media (width <= 30rem) {
         padding-inline: 0.5rem;
       }
-    }
 
-    .badge {
-      align-self: flex-end;
-      color: var(--text-on-accent-color);
-      background-color: var(--secondary-color);
-      padding: 0.3rem 0.6rem;
-      border-radius: 16px;
+      @media (width >= 48rem) and (height <= 56.25rem) {
+        padding-block: 1.25rem;
+        row-gap: 0.75rem;
+      }
     }
   }
 }

@@ -11,20 +11,33 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.6rem;
-      position: relative;
-      inline-size: min(100%, 500px);
-      margin-inline: auto;
-      margin-block: 1rem;
+      position: fixed;
+      z-index: 10;
+      inset-block-end: max(0.75rem, env(safe-area-inset-bottom, 0px));
+      inset-inline-start: 50%;
+      translate: -50% 0;
+      inline-size: min(calc(100% - 1rem), 43rem);
+      margin: 0;
+
+      @media (width <= 30rem) {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
     }
 
     .dot {
+      position: relative;
       display: grid;
       place-items: center;
-      inline-size: 1.7rem;
+      inline-size: 2.75rem;
+      min-block-size: 2.75rem;
       aspect-ratio: 1;
       border-radius: 50%;
       text-decoration: none;
       color: var(--text-color);
+      font-weight: 700;
 
       &.correct {
         background-color: var(--correct-color);
@@ -32,6 +45,24 @@
 
       &.incorrect {
         background-color: var(--incorrect-color);
+      }
+
+      .dot-state {
+        position: absolute;
+        inset-block-start: -0.25rem;
+        inset-inline-end: -0.25rem;
+        inline-size: 1rem;
+        block-size: 1rem;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: grid;
+        place-items: center;
+
+        svg {
+          inline-size: 0.75rem;
+          block-size: 0.75rem;
+        }
       }
     }
   }

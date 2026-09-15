@@ -6,7 +6,7 @@ import { OptionContent } from '../../content/OptionContent';
 
 import './answer.css';
 
-export const Answer = ({ option }: { option: QuestionOption }) => {
+export const Answer = ({ option, position }: { option: QuestionOption; position: number }) => {
   const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
 
   const selectedOption = useQuizStore(
@@ -22,6 +22,7 @@ export const Answer = ({ option }: { option: QuestionOption }) => {
 
   const correctAnswer = selectedOption !== null && option.id === question.correctAnswer;
   const incorrectAnswer = selectedOption === option.id && option.id !== question.correctAnswer;
+  const marker = String.fromCharCode(65 + position);
 
   const handleSelectOption = () => {
     if (selectedOption !== null) return;
@@ -48,16 +49,18 @@ export const Answer = ({ option }: { option: QuestionOption }) => {
       `}
     >
       <input
+        className="answer-input"
         type="radio"
         name="option"
         checked={selectedOption === option.id}
         onChange={handleSelectOption}
         disabled={selectedOption !== null && selectedOption !== option.id}
       />
+      <span className="answer-marker" aria-hidden="true">
+        {marker}
+      </span>
       <div className="answer-content">
-        <OptionContent content={option.content} />
-        {correctAnswer && <small>Respuesta correcta</small>}
-        {incorrectAnswer && <small>Tu respuesta · Incorrecta</small>}
+        <OptionContent content={option.content} language={question.subject} />
       </div>
     </label>
   );

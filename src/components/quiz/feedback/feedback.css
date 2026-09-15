@@ -1,0 +1,28 @@
+@layer components {
+  @scope (.quiz-feedback) {
+    :scope {
+      border-radius: 16px;
+      padding: 0.625rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+
+      &.correct {
+        color: light-dark(#155724, #b8f2c2);
+        background-color: color-mix(in srgb, var(--correct-color) 45%, var(--primary-color));
+      }
+
+      &.incorrect {
+        color: light-dark(#7b1731, #ffd3dc);
+        background-color: color-mix(in srgb, var(--incorrect-color) 45%, var(--primary-color));
+      }
+
+      svg {
+        flex: 0 0 auto;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+      }
+    }
+  }
+}

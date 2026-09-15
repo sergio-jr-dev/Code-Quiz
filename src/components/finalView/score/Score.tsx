@@ -3,6 +3,9 @@ import { useEffect, useRef } from 'react';
 
 import { calculateScore } from '../../../lib/quizTransitions';
 import { useQuizStore } from '../../../stores/quizStore';
+import { Button } from '../../button/Button';
+import { ResultsSummary } from '../summary/ResultsSummary';
+import { CircularMetric } from './CircularMetric';
 
 import './score.css';
 
@@ -20,43 +23,83 @@ export const Score = () => {
 
   const percentage = (score / totalQuestions) * 100;
   const message =
-    percentage >= 80
-      ? '¡Excelente trabajo!'
-      : percentage >= 60
-        ? '¡Buen intento!'
-        : '¡Sigue practicando!';
+    percentage === 100
+      ? '¡Ronda perfecta!'
+      : percentage >= 80
+        ? '¡Excelente trabajo!'
+        : percentage >= 60
+          ? '¡Buen progreso!'
+          : 'Cada intento suma';
+
+  const supportingMessage =
+    percentage === 100
+      ? 'Has dominado esta selección. ¿Te atreves con otra ronda?'
+      : percentage >= 80
+        ? 'Muy cerca del pleno. Revisa los detalles y consolida lo aprendido.'
+        : percentage >= 60
+          ? 'La base está ahí. La revisión te mostrará dónde ganar precisión.'
+          : 'Revisa las respuestas con calma: entender el porqué es el verdadero avance.';
 
   return (
     <article className="score">
-      <h2 className="message" ref={headingRef} tabIndex={-1}>
-        {message}
-      </h2>
-      <div className="score-circles">
+      <div className="score-heading">
+        <img
+          className="score-trophy"
+          src={`${import.meta.env.BASE_URL}images/results/trophy.png`}
+          alt=""
+          aria-hidden="true"
+          width="256"
+          height="256"
+        />
         <div>
-          <span>
-            {score} / {totalQuestions}
-          </span>
-        </div>
-        <div>
-          <span>{percentage.toFixed()}%</span>
+          <p className="score-eyebrow">Partida completada</p>
+          <h2 className="message" ref={headingRef} tabIndex={-1}>
+            {message}
+          </h2>
         </div>
       </div>
-      <p>
-        Has contestado correctamente {score} preguntas de un total de {totalQuestions}, consiguiendo
-        un porcentaje de acierto de ({percentage.toFixed()}%).
-      </p>
+      <p className="score-message">{supportingMessage}</p>
+
+      <div className="score-metrics" aria-label="Resumen de la puntuación">
+        <CircularMetric
+          label="Aciertos"
+          displayValue={`${score} / ${totalQuestions}`}
+          value={score}
+          max={totalQuestions}
+          icon={`${import.meta.env.BASE_URL}images/results/correct.png`}
+          tone="correct"
+        />
+        <CircularMetric
+          label="Errores"
+          displayValue={String(totalQuestions - score)}
+          value={totalQuestions - score}
+          max={totalQuestions}
+          icon={`${import.meta.env.BASE_URL}images/results/errors.png`}
+          tone="incorrect"
+        />
+        <CircularMetric
+          label="Precisión"
+          displayValue={`${percentage.toFixed()}%`}
+          value={percentage}
+          max={100}
+          icon={`${import.meta.env.BASE_URL}images/results/accuracy.png`}
+          tone="progress"
+        />
+      </div>
+
+      <ResultsSummary />
 
       <div className="buttons">
         {!showResults && (
-          <button onClick={showReview}>
+          <Button onClick={showReview}>
             <IconReportAnalytics aria-hidden="true" stroke={2} />
-            Ver resultados
-          </button>
+            Revisar respuestas
+          </Button>
         )}
-        <button onClick={restartRound}>
+        <Button onClick={restartRound}>
           <IconReload aria-hidden="true" stroke={2} />
           Jugar de nuevo
-        </button>
+        </Button>
       </div>
     </article>
   );

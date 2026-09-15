@@ -4,15 +4,13 @@ import { useQuizStore } from '../../stores/quizStore';
 import { QuestionContent } from '../content/QuestionContent';
 import { Answers } from './answers/Answers';
 import { Buttons } from './buttons/Buttons';
+import { Feedback } from './feedback/Feedback';
 import { Info } from './info/Info';
+import { QuizProgress } from './progress/QuizProgress';
 
 import './quiz.css';
 
 export const Quiz = () => {
-  const currentQuestionIndex = useQuizStore((state) => state.currentQuestionIndex);
-
-  const totalQuestions = useQuizStore((state) => state.round.length);
-
   const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
 
   const selectedOption = useQuizStore((state) => {
@@ -36,30 +34,19 @@ export const Quiz = () => {
 
   return (
     <article className="quiz">
-      <span
-        className="badge"
-        aria-live="polite"
-        aria-atomic="true"
-        aria-label={`Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`}
-      >
-        {currentQuestionIndex + 1} / {totalQuestions}
-      </span>
+      <QuizProgress />
 
       <QuestionContent
         content={question.prompt}
         headingId="question-title"
         ref={headingRef}
         tabIndex={-1}
+        language={question.subject}
       />
 
       <Answers />
 
-      <p role="status" className={selectedOption === null ? 'sr-only' : undefined}>
-        {selectedOption !== null &&
-          (selectedOption === question.correctAnswer
-            ? 'Respuesta correcta.'
-            : 'Respuesta incorrecta. Consulta la opción marcada como correcta.')}
-      </p>
+      {selectedOption !== null && <Feedback />}
 
       {selectedOption !== null && <Info />}
 

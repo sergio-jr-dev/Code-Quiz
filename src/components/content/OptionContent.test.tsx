@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { questionCatalog } from '../../data/questionCatalog';
 import type { QuestionContent } from '../../types/questionBank';
+import { isCompleteCodeBlock } from './codePresentation';
 import { OptionContent } from './OptionContent';
 
 const mixedContent: QuestionContent = [
@@ -16,6 +17,23 @@ describe('OptionContent', () => {
 
     expect(screen.getByText('Usa esta declaración:')).toBeInTheDocument();
     expect(screen.getByText('.card { display: grid; }')).toHaveClass('language-css');
+  });
+
+  it('renders explicitly authored inline code inside a textual answer', () => {
+    render(
+      <OptionContent
+        language="javascript"
+        content={[
+          {
+            type: 'text',
+            text: 'Se ejecuta al llamar a next()',
+            inlineCode: ['next()'],
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText('next()')).toHaveClass('inline-code', 'language-javascript');
   });
 
   it.each(['html', 'css', 'javascript'] as const)(
@@ -35,11 +53,16 @@ describe('OptionContent', () => {
       }
 
       const { container } = render(<OptionContent content={correct.content} />);
-      const code = container.querySelector('pre > code');
+      const code = container.querySelector('code');
 
       expect(code).toHaveClass(`language-${subject}`);
       expect(code).toHaveAttribute('data-language', subject);
       expect(code?.textContent).toBe(codeBlock.code);
+      expect(
+        container.querySelector(
+          isCompleteCodeBlock(codeBlock) ? 'pre.code-block > code' : 'code.code-snippet',
+        ),
+      ).toBe(code);
     },
   );
 });

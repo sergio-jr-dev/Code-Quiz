@@ -14,6 +14,10 @@
         padding-inline: 0.5rem;
       }
 
+      @media (width >= 48rem) and (height <= 56.25rem) {
+        padding-block: 0.625rem;
+      }
+
       &.correct {
         background-color: var(--correct-color);
       }
@@ -32,7 +36,20 @@
       }
 
       .answer-content {
+        flex: 1;
         min-inline-size: 0;
+      }
+
+      .answer-marker {
+        display: grid;
+        flex: 0 0 2rem;
+        place-items: center;
+        inline-size: 2rem;
+        block-size: 2rem;
+        border: 2px solid currentColor;
+        border-radius: 9999px;
+        font-weight: 700;
+        line-height: 1;
       }
 
       small {
@@ -46,8 +63,12 @@
       }
 
       input {
-        flex-shrink: 0;
-        accent-color: var(--secondary-color);
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
       }
     }
   }

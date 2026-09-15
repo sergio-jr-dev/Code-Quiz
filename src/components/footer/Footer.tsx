@@ -1,9 +1,11 @@
+import { Container } from '../container/Container';
+
 import './footer.css';
 
 export const Footer = () => {
   return (
     <footer>
-      <div className="container">
+      <Container>
         <p>
           &copy; 2026 - Creado por
           <a
@@ -14,7 +16,7 @@ export const Footer = () => {
             Sergio Jiménez Rubio
           </a>
         </p>
-      </div>
+      </Container>
     </footer>
   );
 };

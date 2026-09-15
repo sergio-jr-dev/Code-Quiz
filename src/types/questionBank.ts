@@ -10,6 +10,7 @@ export type CodeLanguage = (typeof CODE_LANGUAGES)[number];
 export interface TextContentBlock {
   readonly type: 'text';
   readonly text: string;
+  readonly inlineCode?: readonly string[];
 }
 
 export interface CodeContentBlock {

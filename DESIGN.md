@@ -14,6 +14,9 @@ colors:
   text-primary: "#EFEEEE"
   text-on-accent: "#EFEEEE"
   focus-ring: "#F2C94C"
+  progress: "#A78BFA"
+  code-surface: "#0D0A18"
+  code-border: "#4F3C7A"
   primary-light: "#FFFFFF"
   secondary-light: "#462A8C"
   canvas-light: "#F7F5FC"
@@ -25,6 +28,9 @@ colors:
   text-primary-light: "#1D1533"
   text-on-accent-light: "#FFFFFF"
   focus-ring-light: "#5A2CA0"
+  progress-light: "#462A8C"
+  code-surface-light: "#F4F1FB"
+  code-border-light: "#CFC4E8"
 typography:
   display:
     fontFamily: "'Trebuchet MS', 'Avenir Next', Avenir, sans-serif"
@@ -129,24 +135,25 @@ components:
     textColor: "{colors.primary}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
-  progress-badge:
-    backgroundColor: "{colors.secondary}"
-    textColor: "{colors.text-on-accent}"
+  quiz-progress:
+    backgroundColor: "{colors.option-surface}"
+    accentColor: "{colors.progress}"
+    textColor: "{colors.text-primary}"
     typography: "{typography.body}"
-    rounded: "{rounded.lg}"
-    padding: "{spacing.sm}"
+    rounded: "{rounded.full}"
   score-heading:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.text-primary}"
     typography: "{typography.heading-lg}"
   score-metric:
-    backgroundColor: "{colors.info}"
+    backgroundColor: "{colors.primary}"
+    accentColor: "{colors.progress}"
     textColor: "{colors.text-primary}"
     typography: "{typography.metric}"
     rounded: "{rounded.full}"
-    size: 5rem
+    size: 7.5rem
   inline-code:
-    backgroundColor: "{colors.option-surface}"
+    backgroundColor: "{colors.code-surface}"
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.sm}"
@@ -204,14 +211,21 @@ components:
     textColor: "{colors.primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
+  quiz-progress-light:
+    backgroundColor: "{colors.option-surface-light}"
+    accentColor: "{colors.progress-light}"
+    textColor: "{colors.text-primary-light}"
+    typography: "{typography.body}"
+    rounded: "{rounded.full}"
   score-metric-light:
-    backgroundColor: "{colors.info-light}"
+    backgroundColor: "{colors.primary-light}"
+    accentColor: "{colors.progress-light}"
     textColor: "{colors.text-primary-light}"
     typography: "{typography.metric}"
     rounded: "{rounded.full}"
-    size: 5rem
+    size: 7.5rem
   inline-code-light:
-    backgroundColor: "{colors.option-surface-light}"
+    backgroundColor: "{colors.code-surface-light}"
     textColor: "{colors.text-primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.sm}"
@@ -232,7 +246,7 @@ HTML, CSS y futuras materias comparten la misma paleta. Se distinguen mediante e
 
 La base documentada procede de la aplicación, sus capturas actuales y esta decisión de producto. Las reglas de foco, movimiento reducido, reflow y estados no cromáticos son requisitos normativos aunque todavía necesiten implementarse o verificarse en todas las vistas.
 
-La cascada se organiza mediante las capas `reset`, `tokens`, `base`, `components` y `utilities`, declaradas en ese orden antes de cargar los componentes. Cada hoja de componente vive en `components` y usa `@scope` con una raíz propia; los estilos globales se limitan a responsabilidades compartidas. La proximidad de scope forma parte del contrato al combinar variantes o componentes anidados.
+La cascada se organiza mediante las capas `reset`, `tokens`, `base`, `components` y `utilities`, declaradas en ese orden antes de cargar los componentes. Cada hoja de componente vive en `components` y usa `@scope` con una raíz propia; los estilos globales se limitan a responsabilidades compartidas. El ancho, centrado y gutters comunes pertenecen al componente `Container`, reutilizado por cabecera, juego y pie. La apariencia y los estados comunes del control nativo pertenecen al componente `Button`; sus contenedores solo ajustan composición y responsive. La proximidad de scope forma parte del contrato al combinar variantes o componentes anidados.
 
 ## Colors
 
@@ -253,6 +267,9 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
   --text-color: light-dark(#1d1533, #efeeee);
   --text-on-accent-color: light-dark(#ffffff, #efeeee);
   --focus-ring-color: light-dark(#5a2ca0, #f2c94c);
+  --progress-color: light-dark(#462a8c, #a78bfa);
+  --code-surface-color: light-dark(#f4f1fb, #0d0a18);
+  --code-border-color: light-dark(#cfc4e8, #4f3c7a);
 }
 ```
 
@@ -260,12 +277,16 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
 - **Secondary:** `#462A8C` en ambos esquemas. Botones, badges y acentos interactivos; mantiene el violeta como firma común.
 - **Canvas:** `#F7F5FC` / `#121212`. Fondo base de página.
 - **Canvas accent:** `#E8DFF6` / `#462A8C`. Extremo del halo o degradado, separado de secondary para que el tema claro no oscurezca toda la página.
-- **Option surface:** `#ECE9F2` / `#434343`. Respuestas neutrales y bloques de código.
+- **Option surface:** `#ECE9F2` / `#434343`. Respuestas neutrales.
+- **Code surface:** `#F4F1FB` / `#0D0A18`, con borde `#CFC4E8` / `#4F3C7A`. Separa el contenido técnico de las tarjetas grises sin salir de la profundidad violeta.
 - **Info:** `#E9E2F5` / `#5E458E`. Explicaciones, contexto y métricas secundarias.
 - **Success:** `#D9F2DE` / `#007500`; **error:** `#F8E0E6` / `#750019`. Feedback semántico, siempre acompañado de texto, icono o estado anunciado.
 - **Text primary:** `#1D1533` / `#EFEEEE`. Texto sobre superficies de contenido.
 - **Text on accent:** `#FFFFFF` / `#EFEEEE`. Texto sobre secondary; no usarlo sobre superficies claras.
 - **Focus ring:** `#5A2CA0` / `#F2C94C`. Indicador de foco, no color decorativo ni identificador de materia.
+- **Progress:** `#462A8C` / `#A78BFA`. Relleno del avance frente a option-surface; se acompaña siempre de «Pregunta N de 10».
+
+El resaltado de sintaxis usa el tema GitHub adaptativo distribuido por MicroLighter. Sus variables `--syntax-*` y colores `light-dark()` pertenecen al contenido técnico, no amplían la paleta de marca ni diferencian materias. La superficie, el overflow y la tipografía del bloque continúan bajo el componente de Code Quiz.
 
 Las combinaciones normativas superan WCAG AA para texto normal en ambos esquemas. El par con menor contraste es text-primary sobre success en oscuro, con `5.12:1`. Los estados con opacidad y cualquier gradiente deben validarse sobre el fondo compuesto real.
 
@@ -292,7 +313,7 @@ El contenido debe tolerar texto al 200 %, zoom del navegador al 400 %, palabras 
 
 El CSS usa nesting nativo para agrupar descendientes y estados relacionados. Las media queries se anidan dentro del selector afectado y permanecen próximas a sus declaraciones base. Se prefieren propiedades lógicas para dimensiones, espaciados y posiciones; las excepciones físicas deben responder a una necesidad real del contenido, como un eje de desplazamiento de código.
 
-La página usa tres bandas intrínsecas: cabecera, contenido flexible y pie. El quiz vive en una única columna centrada con un ancho máximo de `43.75rem` y gutters de `1rem`.
+La página usa tres bandas intrínsecas: cabecera, contenido flexible y pie. Cabecera, menú, partida, puntuación, revisión y pie comparten una columna centrada con un ancho máximo de `90ch` y gutters de `1rem`. Las cuatro respuestas permanecen apiladas también en escritorio: leer completa cada opción y comparar código prima sobre reducir la altura mediante una cuadrícula.
 
 La escala espacial se basa en múltiplos de `0.5rem`, con un cuarto de rem para ajustes pequeños. Los grupos internos usan `1rem`; la tarjeta usa `2rem` en el eje de bloque y `1.5rem` en el eje inline. En anchos estrechos puede reducirse el padding, nunca el tamaño de texto esencial.
 
@@ -300,16 +321,16 @@ El diseño es mobile-first y cambia cuando el contenido lo requiere:
 
 - Desde 320 CSS px, todo el flujo principal se presenta en una columna sin scroll horizontal de página.
 - Preguntas, respuestas y botones crecen en altura y permiten wrap.
-- El badge de progreso no debe superponerse con preguntas largas; si falta espacio, pasa al flujo normal o reserva espacio suficiente según el contenido.
+- La fila de progreso puede envolver el texto debajo de la barra cuando falte espacio, sin superponerse con preguntas largas.
 - Los grupos de acciones pueden envolver o apilarse. La acción primaria mantiene un objetivo táctil preferente de al menos `2.75rem` por eje.
-- Los indicadores flotantes de revisión deben respetar safe areas, no ocultar contenido o foco y convertirse en contenido normal si el viewport o el zoom no permiten fijarlos.
-- En escritorio se mantiene una columna contenida; no se estira la tarjeta para llenar el viewport.
+- Los indicadores fijos de revisión respetan safe areas y reservan espacio al final del documento para no ocultar contenido o foco.
+- En escritorio se mantiene una columna contenida. En viewports de poca altura se compactan cabecera y separaciones; nunca se reduce el texto esencial ni se fija la altura del contenido para eliminar scroll.
 
 Evita alturas fijas y dependencias de `100vh`. Usa `min-height: 100dvh` solo como base de página y conserva crecimiento y scroll naturales.
 
 ## Elevation & Depth
 
-La profundidad procede principalmente de capas tonales: canvas casi negro, halo violeta de fondo y tarjeta primary. La sombra de tarjeta implementada es compacta, `2px 2px 3px` en secondary; no debe convertirse en una sombra difusa o realista.
+La profundidad procede principalmente de capas tonales: canvas casi negro, relieve técnico violeta en los bordes y tarjeta primary. Menú, partida, resultado y tarjetas de revisión comparten exactamente el token `card-shadow`, una sombra compacta `2px 2px 3px` en secondary; no debe convertirse en una sombra difusa o realista.
 
 El título usa una sombra breve en info para mantener la firma visual. Limita este tratamiento al lockup principal; no apliques glow a párrafos, respuestas o todos los encabezados.
 
@@ -327,7 +348,7 @@ Las formas deben crecer con el texto. No fijes alturas en botones, respuestas, b
 
 ### Page shell and header
 
-El fondo radial parte de canvas y se abre hacia canvas-accent, con el contenido centrado encima. En oscuro conserva exactamente el recorrido actual de `#121212` a `#462A8C`; en claro usa una transición suave de `#F7F5FC` a `#E8DFF6`. El lockup combina el logo de la materia y el nombre del producto en columna, con `0.5rem` entre ambos. El logo se escala de forma fluida aproximadamente entre `11.25rem` y `14rem` sin distorsión.
+El fondo común representa un laboratorio nocturno de código: una base `canvas` casi negra con relieves 3D muy tenues de corchetes angulares, llaves, nodos y líneas técnicas en los bordes. El centro queda oscuro y sin detalle para proteger el contraste de las tarjetas. La imagen cubre el viewport y permanece estable durante el scroll; no contiene texto ni información necesaria. El lockup combina el logo de la materia y el nombre del producto en columna, con `0.5rem` entre ambos. El logo se escala de forma fluida aproximadamente entre `11.25rem` y `14rem` sin distorsión.
 
 La cabecera de Code Quiz usa el lockup horizontal 3D con el cubo `< >`, `{ }` y `JS` y la marca «CODE QUIZ». El WebP transparente mide 960 × 448 y se presenta a un ancho máximo de `24rem`, limitado por el contenedor y con altura automática. El encabezado obtiene su nombre accesible del `alt="Code Quiz"` de la imagen, sin repetir texto.
 
@@ -335,7 +356,7 @@ La cabecera de Code Quiz usa el lockup horizontal 3D con el cubo `< >`, `{ }` y 
 
 ### Quiz card
 
-La tarjeta primary contiene badge, pregunta, opciones, explicación y acciones con separación vertical de `1rem`. Mantén un solo foco narrativo y evita subdividirla en paneles decorativos innecesarios.
+La tarjeta primary contiene progreso, pregunta, opciones, explicación y acciones con separación vertical de `1rem`. Cuando la pregunta incluye un bloque de código, este conserva al menos `0.875rem` respecto al título. Mantén un solo foco narrativo y evita subdividirla en paneles decorativos innecesarios.
 
 El menú y la selección de partida reutilizan la misma superficie primary, radio de `1rem`, sombra compacta y ancho de la tarjeta del quiz; no forman una home visualmente ajena al juego. Su encabezado mantiene una introducción breve, una pregunta principal y una sola acción final.
 
@@ -343,32 +364,42 @@ El menú y la selección de partida reutilizan la misma superficie primary, radi
 
 Materia y nivel se presentan como dos `fieldset` con `legend`, de forma que la relación entre opciones se conserva sin depender del layout. Cada elección sigue siendo un radio nativo: la tarjeta-label amplía el objetivo interactivo, mientras `:has(input:checked)` y `:has(input:focus-visible)` proyectan selección y foco sobre toda la superficie.
 
-Las materias usan el mismo fondo, iconografía violeta y sistema de color. HTML, CSS, JavaScript y mixto se distinguen mediante nombre, icono y descripción, no mediante paletas independientes. En escritorio, las materias pueden ocupar dos columnas y los niveles tres; ambos grupos pasan a una sola columna cuando el contenido necesita espacio.
+Las materias usan el mismo fondo y sistema de color de interfaz. HTML, CSS, JavaScript y mixto se distinguen mediante nombre, icono y descripción, no mediante paletas completas de pantalla. Sus iconos sí conservan los colores reconocibles de cada tecnología como detalle de identidad. En escritorio, las materias pueden ocupar dos columnas y los niveles tres; ambos grupos pasan a una sola columna cuando el contenido necesita espacio.
+
+El cubo 3D queda reservado al logo de Code Quiz. Las materias usan versiones 3D independientes de sus símbolos reconocibles: HTML naranja, JavaScript amarillo y el nuevo logo CSS morado de esquina redondeada; mixto agrupa los tres sin introducir otro contenedor. Los niveles forman otra familia 3D común: brote para básico, escalones ascendentes para intermedio y trofeo para avanzado. Son imágenes decorativas con `alt` vacío porque el nombre visible de cada opción ya aporta su significado. La introducción no repite el tamaño de ronda; la única confirmación de las diez preguntas vive junto a la acción de inicio.
 
 La selección usa option-surface en reposo e info con borde focus-ring cuando está activa. Las combinaciones con menos de veinte candidatas se deshabilitan de forma nativa y muestran «Próximamente». La franja final confirma que la partida contiene diez preguntas y mantiene una única acción «Comenzar partida».
 
+En dispositivos que admiten hover, las tarjetas de materia y nivel cambian solo el tono de su superficie. No se desplazan ni escalan, de modo que la configuración conserva una retícula estable al explorar opciones.
+
 ### Progress
 
-El progreso se expresa como texto comprensible, por ejemplo, “Pregunta 3 de 10”. El formato compacto `3 / 10` puede mantenerse como apoyo visual si existe un nombre accesible equivalente. Una futura barra debe incluir valor textual y no depender solo de longitud o color.
+El progreso vive dentro de la parte superior de la tarjeta. Combina un `<progress>` nativo que crece en el espacio disponible a la izquierda y el texto visible «Pregunta 3 de 10» alineado al final. Ambos representan el mismo valor desde la primera hasta la décima pregunta.
+
+La pista usa option-surface y el valor usa progress, con radio completo y una altura compacta de `0.75rem`. La fila permite wrap: si el texto ampliado o el viewport no permiten mantener ambos elementos juntos, la barra conserva un ancho útil y la etiqueta pasa a otra línea. El texto es la referencia comprensible; longitud, color o animación nunca son la única señal. El progreso no es una región viva propia para evitar anuncios redundantes al mover el foco a cada pregunta.
 
 ### Answer option
 
-La opción completa es el objetivo interactivo, pero conserva el control radio nativo y su semántica. Usa option-surface en reposo, un aumento prudente de luminosidad en hover y un anillo focus-ring de al menos `0.1875rem`, separado por `0.125rem`, en `:focus-visible`.
+La opción completa es el objetivo interactivo y conserva el control radio nativo y su semántica, aunque su círculo queda oculto solo visualmente. El único marcador circular visible es la letra `A`, `B`, `C` o `D`, derivada del orden presentado; nunca se usa para resolver la corrección. La tarjeta usa option-surface en reposo, un aumento prudente de luminosidad en hover y refleja el foco del radio mediante un anillo focus-ring de al menos `0.1875rem`, separado por `0.125rem`, en `:focus-visible`.
 
 Tras responder:
 
-- la correcta usa success más una marca y texto accesible;
-- la selección incorrecta usa error más una marca y texto accesible;
+- la correcta usa success y la selección incorrecta usa error sin añadir contenido dentro de las tarjetas;
+- una única banda situada entre el grupo y la información identifica mediante texto e icono si se acertó, la letra elegida y la correcta cuando difieren;
 - las demás opciones permanecen legibles y no desaparecen;
-- el estado no cambia el tamaño o la posición de la tarjeta de forma inesperada.
+- ninguna tarjeta cambia de tamaño al mostrar el estado.
 
 La vibración de error es decorativa, dura como máximo `300ms` y se desactiva con `prefers-reduced-motion: reduce`.
 
 ### Information panel
 
-El panel info aparece después de responder e incluye un encabezado con icono, texto explicativo y código cuando proceda. El código usa option-surface, radio pequeño y scroll horizontal propio solo si una línea técnica no puede envolver de manera segura.
+El panel info aparece después de responder e incluye un encabezado con icono, texto explicativo y código cuando proceda. El código usa code-surface y code-border. Las menciones técnicas reconocibles dentro de preguntas, respuestas y explicaciones se presentan como código inline con fondo y esquinas redondeadas, sin intentar colorear una gramática incompleta; el texto restante permanece intacto y escapado.
 
-Pregunta, respuestas y explicación comparten bloques de contenido. El primer bloque de una pregunta es texto y conserva el encabezado `h2`; los bloques posteriores viven debajo sin introducir `pre` dentro del encabezado. Cada fragmento técnico se representa como texto literal en `pre > code`, declara su lenguaje mediante `data-language`, conserva espacios y saltos y usa tipografía monoespaciada. Las opciones completas mantienen su radio nativo y pueden crecer o desplazar horizontalmente solo el bloque de código.
+Los bloques de texto pueden declarar términos inline explícitos. Esta anotación editorial es la fuente principal para unidades que una expresión regular no puede delimitar de forma fiable, como `Promise.all`, `finally`, `throw` o `(a, b) => a - b`; siempre gana el término completo frente a coincidencias parciales. Los patrones automáticos permanecen solo como compatibilidad para contenido todavía no anotado. El código inline admite wrap sin perder su superficie para no crear overflow a 320 px.
+
+Pregunta, respuestas y explicación comparten bloques de contenido. El primer bloque de una pregunta es texto y conserva el encabezado `h2`; los bloques posteriores viven debajo sin introducir `pre` dentro del encabezado. Un programa, regla CSS o elemento HTML completo se representa como texto literal en `pre > code`; un selector, propiedad, declaración aislada, etiqueta suelta, valor o expresión breve se presenta como `code` de snippet. Ambos declaran su lenguaje mediante `data-language`, conservan espacios y usan tipografía monoespaciada. Los bloques completos dentro de respuestas permiten wrap y crecimiento vertical para no generar scroll horizontal.
+
+MicroLighter se ejecuta como mejora progresiva únicamente sobre los bloques completos y carga bajo demanda las gramáticas HTML, CSS o JavaScript presentes. Los snippets no se envían al parser para evitar resaltados parciales como `min-` + `width`. El tema GitHub adaptativo aporta los colores de tokens sin insertar HTML. Si la CSS Custom Highlight API no existe o el resaltado falla, se conserva exactamente el texto escapado, el lenguaje declarado y la superficie legible.
 
 La entrada puede animar opacidad y tamaño durante `300ms`. Con movimiento reducido aparece de inmediato. La animación nunca retrasa el acceso al contenido ni mueve el foco sin intención.
 
@@ -388,9 +419,9 @@ Los grupos de acciones permiten wrap y respetan el ancho disponible. Hasta `30re
 
 ### Results and review
 
-El resultado presenta mensaje, puntuación, porcentaje y explicación textual. Los círculos de `5rem` son apropiados para métricas breves; deben crecer o abandonar la forma circular si el contenido se amplía.
+El resultado presenta un mensaje adaptado al rendimiento y tres anillos de progreso para aciertos, fallos y precisión, seguido de un resumen por materia con aciertos y un `<progress>` nativo. Cada anillo conserva su cifra y etiqueta como texto accesible, mientras centra respectivamente un check verde, una cruz roja o una diana violeta 3D de carácter decorativo. Los iconos ocupan el 58 % del anillo; el check compensa ópticamente la transparencia asimétrica de su lienzo con un desplazamiento del 8 % en el eje inline y del -2 % en el eje block, sin alterar la geometría del indicador. La jerarquía usa además un trofeo 3D y una llamada principal; el resumen sitúa el logo 3D de la materia a la izquierda de su nombre. Los anillos representan el valor de 0 a 100, se adaptan desde `5rem` hasta `7.5rem` y eliminan su transición con movimiento reducido.
 
-La revisión conserva las preguntas en orden de partida y muestra respuesta elegida, respuesta correcta y explicación. Los dots son navegación secundaria: cada enlace necesita nombre accesible con número y estado, objetivo táctil suficiente y foco visible. En reflow estrecho o zoom alto, la navegación no debe cubrir la última tarjeta.
+La revisión conserva las preguntas en orden de partida y muestra respuesta elegida, respuesta correcta y explicación. Al activarla, el encabezado «Pregunta 1» recibe foco sin provocar un desplazamiento implícito y la primera tarjeta se alinea después de forma deliberada al inicio del viewport; el comportamiento suave depende del scroll global y se vuelve inmediato con movimiento reducido. El estado visible se consolida dentro de cada opción; una región de estado solo para tecnologías de asistencia conserva el anuncio inmediato sin repetir el mismo mensaje encima de la explicación. Los dots son navegación secundaria fija al borde inferior: cada enlace muestra número e icono de estado, necesita nombre accesible, objetivo de `44px` y foco visible. En móvil conservan una sola fila con scroll horizontal propio para no convertir la barra en un overlay alto. La vista reserva padding equivalente a la barra, incluida la safe area, para que nunca cubra la última tarjeta al llegar al final.
 
 ### Empty, error and persistence states
 
@@ -435,11 +466,11 @@ El sistema apunta a WCAG 2.2 AA. Estas reglas son requisitos de diseño y deben 
 
 Se conserva el tema oscuro y la identidad existentes. La variante clara continúa planificada.
 
-- El badge de progreso vive en el flujo normal, alineado al final, para tolerar preguntas largas y texto al 200 %.
-- Las respuestas muestran etiquetas textuales de correcta y elegida además del color; en revisión se apilan dentro de cada opción.
+- La barra de progreso y «Pregunta N de 10» comparten la fila superior de la tarjeta y pueden envolver sin perder su asociación.
+- Durante la partida, una banda de feedback exterior a las respuestas identifica con texto e icono la opción elegida y la correcta; en revisión, las etiquetas se apilan dentro de cada opción.
 - El foco usa un contorno de 3px con separación de 4px y el token focus-ring; el contorno de la opción acompaña el foco del radio.
 - Los botones deshabilitados conservan el contraste del texto, comunican disabled y no aplican hover ni escala.
-- La navegación numerada de revisión vive en el flujo después de las tarjetas, sin cubrir el contenido ni el pie. Usa primary y text-primary.
+- La navegación numerada de revisión queda fija al borde inferior, respeta la safe area y la vista reserva espacio suficiente para no cubrir la última tarjeta. Usa primary, text-primary e iconos además del color.
 - Con movimiento reducido se omiten confeti, vibración, transiciones y escala; el desplazamiento es inmediato.
 - Al ampliar texto, los contenedores pueden reducir su ancho intrínseco, las palabras largas se parten y las métricas permiten wrap. Hasta 30rem, las acciones usan 1rem de padding inline y los iconos conservan tamaño.
 - Hasta 30rem, gutters y padding inline de tarjetas, respuestas y explicaciones usan 0.5rem para mantener ancho de lectura con texto ampliado. Al abrir revisión, el foco va al encabezado de la primera pregunta, no al centro de una tarjeta extensa.

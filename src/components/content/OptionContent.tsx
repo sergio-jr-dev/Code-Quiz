@@ -1,12 +1,18 @@
-import type { QuestionContent } from '../../types/questionBank';
+import type { CodeLanguage, QuestionContent } from '../../types/questionBank';
 import { ContentBlocks } from './ContentBlocks';
 
 import './optionContent.css';
 
-export function OptionContent({ content }: { content: QuestionContent }) {
+export function OptionContent({
+  content,
+  language,
+}: {
+  content: QuestionContent;
+  language?: CodeLanguage;
+}) {
   return (
     <div className="content-blocks option-content">
-      <ContentBlocks content={content} />
+      <ContentBlocks content={content} inlineLanguage={language} wrapCode />
     </div>
   );
 }

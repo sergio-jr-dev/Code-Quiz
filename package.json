@@ -17,6 +17,7 @@
   "dependencies": {
     "@tabler/icons-react": "^3.46.0",
     "canvas-confetti": "^1.9.4",
+    "microlighter": "^2.2.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "zustand": "^5.0.15"

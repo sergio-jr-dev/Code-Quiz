@@ -53,7 +53,15 @@ function isContent(value: unknown): boolean {
 
   return value.every((block) => {
     if (!isRecord(block)) return false;
-    if (block.type === 'text') return isNonEmptyString(block.text);
+    if (block.type === 'text') {
+      if (!isNonEmptyString(block.text)) return false;
+      if (block.inlineCode === undefined) return true;
+      if (!Array.isArray(block.inlineCode) || block.inlineCode.length === 0) return false;
+
+      return block.inlineCode.every(
+        (term) => isNonEmptyString(term) && String(block.text).includes(term),
+      );
+    }
     return (
       block.type === 'code' &&
       LANGUAGE_SET.has(String(block.language)) &&

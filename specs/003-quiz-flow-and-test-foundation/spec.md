@@ -29,15 +29,17 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - REQ-15: La selección usará un mazo aleatorio por configuración: no repetirá preguntas hasta agotar las candidatas disponibles y, con un banco de veinte, una repetición inmediata usará las diez preguntas restantes antes de iniciar un nuevo ciclo.
 - REQ-16: Una partida mixta repartirá las diez preguntas entre HTML, CSS y JavaScript como 4/3/3 y alternará de forma equilibrada la materia que aporta la cuarta pregunta.
 - REQ-17: Cada respuesta conservará un `input` de tipo radio y mostrará un marcador visual A, B, C o D determinado por su posición en la partida, sin sustituir el ID estable usado para corregirla.
-- REQ-18: Los bloques de código de preguntas, respuestas y explicaciones tendrán resaltado de sintaxis para los lenguajes permitidos por el modelo, conservarán espacios y saltos, y usarán texto escapado como fallback seguro.
+- REQ-18: Los bloques completos de código de preguntas, respuestas y explicaciones tendrán resaltado de sintaxis para los lenguajes permitidos por el modelo; los fragmentos aislados usarán una superficie técnica sin coloreado parcial. Los bloques de texto podrán declarar términos inline explícitos para conservar completas unidades como `Promise.all` o `(a, b) => a - b`. Todo el contenido conservará el texto escapado como fallback seguro.
 - REQ-19: Durante la partida se mostrará una barra de progreso acompañada por el texto «Pregunta N de 10»; ambos representarán el mismo avance y el valor será comprensible sin depender del color ni de la animación.
 
 ## Design Requirements
 
 - Seguir `DESIGN.md`; el menú debe pertenecer a la misma familia visual que la tarjeta del quiz.
-- Mantener una columna protagonista y apilar controles cuando el contenido lo requiera.
+- Mantener una columna protagonista; las cuatro respuestas se apilan siempre para que el código y el texto largo se comparen completos sin lectura en zigzag.
+- Compartir un contenedor centrado de hasta `90ch` y la misma sombra compacta entre menú, partida, resultado y revisión. El hover de materias y niveles cambia el fondo sin desplazar las tarjetas.
 - Presentar cada opción como una unidad compuesta por marcador A–D, contenido y estado textual; los estados seleccionada, correcta e incorrecta no dependerán solo del color.
-- Integrar MicroLighter con su tema GitHub adaptativo en la identidad violeta existente, con contraste suficiente en claro y oscuro y scroll horizontal contenido para fragmentos largos.
+- Integrar MicroLighter con su tema GitHub adaptativo en la identidad violeta existente, limitado a bloques sintácticamente completos. Los fragmentos y las respuestas largas deben envolver sin provocar scroll horizontal de la opción.
+- Usar un fondo técnico oscuro y discreto durante todo el flujo. Los símbolos decorativos se concentran en los bordes para preservar el contraste y el foco de lectura central.
 - La barra de progreso vivirá dentro de la tarjeta, en su parte superior, ocupando el espacio disponible a la izquierda de «Pregunta N de 10»; debe reforzar la orientación sin competir con la pregunta ni anunciar actualizaciones redundantes.
 - Verificar temas claro/oscuro, 320 CSS px, texto ampliado, foco, estados vacíos y movimiento reducido.
 - El logo final y naming dependen de la spec 001; la lógica de preguntas depende de la spec 002.
@@ -58,7 +60,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - [ ] AC-12: Dos partidas consecutivas de la misma combinación con un banco de veinte no comparten preguntas; el siguiente ciclo vuelve a barajar de forma determinista bajo una semilla de prueba. [REQ-15]
 - [ ] AC-13: Una partida mixta siempre contiene las tres materias, ninguna supera a otra por más de una pregunta y la materia con cuatro preguntas no queda fijada entre partidas. [REQ-16]
 - [ ] AC-14: Las respuestas muestran marcadores A–D en orden visual, siguen siendo un grupo de radios operable con teclado y se corrigen por ID aunque se reordenen. [REQ-17]
-- [ ] AC-15: El código de HTML, CSS y JavaScript se distingue visualmente mediante resaltado de sintaxis, permanece escapado y conserva una presentación legible si el resaltador no reconoce un lenguaje. [REQ-18]
+- [ ] AC-15: El código completo de HTML, CSS y JavaScript se distingue mediante resaltado de sintaxis; los fragmentos aislados no reciben coloreado parcial y los términos inline declarados se mantienen completos. Todo permanece escapado, legible y sin desbordar las respuestas. [REQ-18]
 - [ ] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
 
 ## Out Of Scope
@@ -88,3 +90,4 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Debe definirse si “repetir fallos” conserva el orden visto o crea una nueva distribución equilibrada.
 - El modo cronómetro opcional se ha separado en la spec 005 para definir sus tiempos, accesibilidad, pausa, puntuación, persistencia y pruebas sin ampliar T4.
 - MicroLighter depende de una API Baseline Newly available; se acepta la falta de resaltado en navegadores antiguos siempre que el contenido permanezca legible y escapado.
+- Muchos ejemplos CSS son fragmentos deliberadamente breves y no reglas completas. La decisión cerrada es no enviarlos a MicroLighter: conservan fondo técnico, radio y tipografía monoespaciada sin un coloreado parcial engañoso.

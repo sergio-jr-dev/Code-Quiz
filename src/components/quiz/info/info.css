@@ -18,6 +18,10 @@
         padding-inline: 0.5rem;
       }
 
+      @media (width >= 48rem) and (height <= 56.25rem) {
+        padding-block: 0.75rem;
+      }
+
       @starting-style {
         opacity: 0;
         block-size: 0;
@@ -28,21 +32,6 @@
       display: flex;
       align-items: center;
       column-gap: 0.5rem;
-    }
-
-    code,
-    pre {
-      background-color: var(--option-color);
-      border-radius: 4px;
-    }
-
-    code {
-      padding: 0.125rem 0.25rem;
-    }
-
-    pre {
-      padding: 10px;
-      overflow-x: auto;
     }
   }
 }
