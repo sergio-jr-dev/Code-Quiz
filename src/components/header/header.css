@@ -5,7 +5,7 @@
     }
 
     .brand-logo {
-      inline-size: clamp(250px, 180px + 11.667vw, 320px);
+      inline-size: clamp(230px, 160px + 11.667vw, 300px);
       block-size: auto;
       margin-inline: auto;
     }

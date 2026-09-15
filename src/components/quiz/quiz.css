@@ -3,7 +3,7 @@
     :scope {
       background-color: var(--primary-color);
       border-radius: 16px;
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
       box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;

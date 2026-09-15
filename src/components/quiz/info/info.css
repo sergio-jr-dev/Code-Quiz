@@ -5,7 +5,7 @@
       flex-direction: column;
       row-gap: 0.5rem;
       background-color: var(--info-color);
-      padding: 1rem;
+      padding: 0.75rem;
       border-radius: 16px;
       opacity: 1;
       block-size: max-content;
@@ -13,14 +13,6 @@
       transition:
         opacity 0.3s,
         block-size 0.3s;
-
-      @media (width <= 30rem) {
-        padding-inline: 0.5rem;
-      }
-
-      @media (width >= 48rem) and (height <= 56.25rem) {
-        padding-block: 0.75rem;
-      }
 
       @starting-style {
         opacity: 0;

@@ -2,7 +2,7 @@
   @scope (.quiz-feedback) {
     :scope {
       border-radius: 16px;
-      padding: 0.625rem 0.75rem;
+      padding: 0.75rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;

@@ -3,20 +3,12 @@
     :scope {
       background-color: var(--option-color);
       border-radius: 16px;
-      padding: 1rem;
+      padding: 0.75rem;
       display: flex;
       align-items: center;
       column-gap: 1rem;
       font-size: 1.1rem;
       transition: filter 0.3s;
-
-      @media (width <= 30rem) {
-        padding-inline: 0.5rem;
-      }
-
-      @media (width >= 48rem) and (height <= 56.25rem) {
-        padding-block: 0.625rem;
-      }
 
       &.correct {
         background-color: var(--correct-color);

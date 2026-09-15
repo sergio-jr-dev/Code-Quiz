@@ -246,7 +246,7 @@ HTML, CSS y futuras materias comparten la misma paleta. Se distinguen mediante e
 
 La base documentada procede de la aplicación, sus capturas actuales y esta decisión de producto. Las reglas de foco, movimiento reducido, reflow y estados no cromáticos son requisitos normativos aunque todavía necesiten implementarse o verificarse en todas las vistas.
 
-La cascada se organiza mediante las capas `reset`, `tokens`, `base`, `components` y `utilities`, declaradas en ese orden antes de cargar los componentes. Cada hoja de componente vive en `components` y usa `@scope` con una raíz propia; los estilos globales se limitan a responsabilidades compartidas. El ancho, centrado y gutters comunes pertenecen al componente `Container`, reutilizado por cabecera, juego y pie. La apariencia y los estados comunes del control nativo pertenecen al componente `Button`; sus contenedores solo ajustan composición y responsive. La proximidad de scope forma parte del contrato al combinar variantes o componentes anidados.
+La cascada se organiza mediante las capas `reset`, `tokens`, `base`, `components` y `utilities`, declaradas en ese orden antes de cargar los componentes. Cada hoja de componente vive en `components` y usa `@scope` con una raíz propia; los estilos globales se limitan a responsabilidades compartidas. El ancho, centrado y gutters comunes pertenecen al componente `Container`, reutilizado por cabecera, juego y pie. Su ancho de lectura predeterminado es `90ch`; una composición puede ampliar ese máximo mediante `--container-max-inline-size` sin duplicar centrado ni gutters. La apariencia y los estados comunes del control nativo pertenecen al componente `Button`; sus contenedores solo ajustan composición y responsive. La proximidad de scope forma parte del contrato al combinar variantes o componentes anidados.
 
 ## Colors
 
@@ -313,7 +313,7 @@ El contenido debe tolerar texto al 200 %, zoom del navegador al 400 %, palabras 
 
 El CSS usa nesting nativo para agrupar descendientes y estados relacionados. Las media queries se anidan dentro del selector afectado y permanecen próximas a sus declaraciones base. Se prefieren propiedades lógicas para dimensiones, espaciados y posiciones; las excepciones físicas deben responder a una necesidad real del contenido, como un eje de desplazamiento de código.
 
-La página usa tres bandas intrínsecas: cabecera, contenido flexible y pie. Cabecera, menú, partida, puntuación, revisión y pie comparten una columna centrada con un ancho máximo de `90ch` y gutters de `1rem`. Las cuatro respuestas permanecen apiladas también en escritorio: leer completa cada opción y comparar código prima sobre reducir la altura mediante una cuadrícula.
+La página usa tres bandas intrínsecas: cabecera, contenido flexible y pie. Cabecera, menú, partida, puntuación y revisión comparten una columna centrada con un ancho máximo de `90ch` y gutters de `1rem`; el pie puede ampliar esa misma columna para mantener compactos sus enlaces. Las cuatro respuestas permanecen apiladas también en escritorio: leer completa cada opción y comparar código prima sobre reducir la altura mediante una cuadrícula.
 
 La escala espacial se basa en múltiplos de `0.5rem`, con un cuarto de rem para ajustes pequeños. Los grupos internos usan `1rem`; la tarjeta usa `2rem` en el eje de bloque y `1.5rem` en el eje inline. En anchos estrechos puede reducirse el padding, nunca el tamaño de texto esencial.
 
@@ -416,6 +416,14 @@ El botón primario usa secondary, text-on-accent, radio grande y padding mínimo
 Los botones con icono y texto mantienen al menos `0.5rem` entre ambos. Los iconos decorativos usan `aria-hidden="true"` y no repiten la etiqueta.
 
 Los grupos de acciones permiten wrap y respetan el ancho disponible. Hasta `30rem` de viewport, cada botón ocupa una fila completa para evitar desbordamientos en resultados. Esa media query vive anidada dentro del selector de botón del grupo.
+
+### Footer
+
+El pie mantiene una jerarquía compacta en tres grupos: autoría, destinos del proyecto y acciones externas. El repositorio de Code Quiz, el portfolio y BaselineLab conservan etiquetas visibles; LinkedIn y X usan iconos con nombres accesibles; la donación se distingue como una llamada secundaria «Apoyar el proyecto».
+
+Todos los destinos son enlaces nativos porque cambian de documento, incluido el apoyo económico: la apariencia de llamada a la acción no lo convierte en `Button`. Los iconos son decorativos respecto a sus etiquetas o nombres accesibles. Las redes mantienen objetivos circulares de `2.75rem`, foco visible y borde perceptible; la llamada de apoyo reutiliza secondary y text-on-accent.
+
+El pie amplía su `Container` hasta `75rem` y, desde `64rem` de viewport, mantiene los tres grupos en una sola fila. En anchos menores pueden envolver de forma natural usando exclusivamente el `gap` del grupo, sin márgenes de lista adicionales. Hasta `30rem`, los destinos y la llamada ocupan todo el ancho mientras las redes permanecen juntas. El pie no compite con la tarjeta principal ni introduce colores o superficies nuevos.
 
 ### Results and review
 

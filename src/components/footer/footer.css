@@ -1,11 +1,33 @@
 @layer components {
   @scope (footer) {
     :scope {
-      text-align: center;
       padding-block: 1rem;
 
-      p,
-      a {
+      & .footer-container {
+        --container-max-inline-size: 75rem;
+      }
+
+      & .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem 1.5rem;
+
+        @media (width >= 64rem) {
+          flex-wrap: nowrap;
+          justify-content: space-between;
+        }
+      }
+
+      & .footer-author {
+        flex: none;
+        text-align: center;
+      }
+
+      & ul,
+      & .footer-actions,
+      & a {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -13,12 +35,102 @@
         gap: 0.5rem;
       }
 
+      & ul {
+        margin: 0;
+        padding: 0;
+      }
+
       a {
+        min-block-size: 2.75rem;
+        color: inherit;
         text-decoration: none;
         font-weight: bold;
 
-        &:hover {
-          text-decoration: underline;
+        & svg {
+          inline-size: 1.25rem;
+          block-size: 1.25rem;
+          flex: none;
+        }
+
+        @media (hover: hover) {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          transition:
+            background-color 150ms ease,
+            filter 150ms ease;
+        }
+      }
+
+      & .project-links a {
+        padding-inline: 0.25rem;
+      }
+
+      & .social-links a {
+        inline-size: 2.75rem;
+        border: 1px solid var(--info-color);
+        border-radius: 50%;
+
+        & svg {
+          inline-size: 1.5rem;
+          block-size: 1.5rem;
+        }
+
+        @media (hover: hover) {
+          &:hover {
+            background-color: var(--info-color);
+            text-decoration: none;
+          }
+        }
+      }
+
+      & .support-link {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid transparent;
+        border-radius: 1rem;
+        color: var(--text-on-accent-color);
+        background-color: var(--secondary-color);
+
+        @media (hover: hover) {
+          &:hover {
+            filter: brightness(1.2);
+            text-decoration: none;
+          }
+        }
+      }
+
+      @media (width <= 30rem) {
+        & .project-links,
+        & .project-links ul,
+        & .project-links li,
+        & .project-links a,
+        & .footer-actions,
+        & .support-link {
+          inline-size: 100%;
+        }
+
+        & .project-links ul,
+        & .footer-actions {
+          flex-direction: column;
+        }
+
+        & .social-links a {
+          inline-size: 2.75rem;
+        }
+      }
+
+      @media (forced-colors: active) {
+        & .social-links a,
+        & .support-link {
+          border-color: ButtonText;
+        }
+
+        & .support-link {
+          color: LinkText;
+          background-color: Canvas;
         }
       }
     }
