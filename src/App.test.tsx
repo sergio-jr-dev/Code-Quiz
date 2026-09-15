@@ -83,7 +83,7 @@ describe('configured quiz flow', () => {
         'link',
       ),
     ).toHaveLength(10);
-    await user.click(screen.getByRole('button', { name: 'Jugar de nuevo' }));
+    await user.click(screen.getByRole('button', { name: 'Repetir configuración' }));
     expect(
       screen.queryByRole('navigation', { name: 'Revisión de preguntas' }),
     ).not.toBeInTheDocument();

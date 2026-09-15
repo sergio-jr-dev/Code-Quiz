@@ -37,6 +37,8 @@ export interface QuizActions {
   goToNextQuestion: () => void;
   showReview: () => void;
   restartRound: () => void;
+  retryIncorrectAnswers: () => void;
+  returnToMenu: () => void;
 }
 
 export type QuizStore = QuizState & QuizActions;

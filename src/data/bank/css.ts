@@ -399,7 +399,10 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'object-fit',
-    'En un img con ancho y alto definidos, ¿qué hace object-fit: cover?',
+    text('En un img con ancho y alto definidos, ¿qué hace object-fit: cover?', [
+      'img',
+      'object-fit: cover',
+    ]),
     [
       text('Deforma la imagen hasta llenar la caja'),
       text('Reduce la caja al tamaño del archivo'),
@@ -409,6 +412,7 @@ export const cssQuestions = [
     'c',
     text(
       'cover conserva la proporción y cubre el área disponible, con recorte si las proporciones difieren. contain prioriza mostrar el recurso completo dentro del área.',
+      ['cover', 'contain'],
     ),
   ),
   // advanced

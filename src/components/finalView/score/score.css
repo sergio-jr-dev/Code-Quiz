@@ -2,8 +2,6 @@
   @scope (.score) {
     :scope {
       text-align: center;
-      min-inline-size: 0;
-      max-inline-size: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -19,8 +17,8 @@
 
       .score-trophy {
         flex: 0 0 auto;
-        inline-size: 5rem;
-        block-size: 5rem;
+        inline-size: 8rem;
+        block-size: 8rem;
         object-fit: contain;
         rotate: -6deg;
       }

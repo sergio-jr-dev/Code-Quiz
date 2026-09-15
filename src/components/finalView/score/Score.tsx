@@ -1,9 +1,8 @@
-import { IconReload, IconReportAnalytics } from '@tabler/icons-react';
 import { useEffect, useRef } from 'react';
 
 import { calculateScore } from '../../../lib/quizTransitions';
 import { useQuizStore } from '../../../stores/quizStore';
-import { Button } from '../../button/Button';
+import { PostQuizActions } from '../postQuizActions/PostQuizActions';
 import { ResultsSummary } from '../summary/ResultsSummary';
 import { CircularMetric } from './CircularMetric';
 
@@ -12,9 +11,6 @@ import './score.css';
 export const Score = () => {
   const score = useQuizStore(calculateScore);
   const totalQuestions = useQuizStore((state) => state.round.length);
-  const restartRound = useQuizStore((state) => state.restartRound);
-  const showReview = useQuizStore((state) => state.showReview);
-  const showResults = useQuizStore((state) => state.view === 'review');
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
@@ -56,9 +52,9 @@ export const Score = () => {
           <h2 className="message" ref={headingRef} tabIndex={-1}>
             {message}
           </h2>
+          <p className="score-message">{supportingMessage}</p>
         </div>
       </div>
-      <p className="score-message">{supportingMessage}</p>
 
       <div className="score-metrics" aria-label="Resumen de la puntuación">
         <CircularMetric
@@ -89,18 +85,7 @@ export const Score = () => {
 
       <ResultsSummary />
 
-      <div className="buttons">
-        {!showResults && (
-          <Button onClick={showReview}>
-            <IconReportAnalytics aria-hidden="true" stroke={2} />
-            Revisar respuestas
-          </Button>
-        )}
-        <Button onClick={restartRound}>
-          <IconReload aria-hidden="true" stroke={2} />
-          Jugar de nuevo
-        </Button>
-      </div>
+      <PostQuizActions />
     </article>
   );
 };

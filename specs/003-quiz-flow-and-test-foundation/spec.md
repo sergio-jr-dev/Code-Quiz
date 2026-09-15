@@ -49,7 +49,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - [ ] AC-1: El usuario configura materia y nivel y solo recibe diez preguntas compatibles sin duplicados. [REQ-1–REQ-3]
 - [ ] AC-2: Cada combinación jugable dispone de al menos veinte candidatas y genera una partida de diez. [REQ-2, REQ-3]
 - [ ] AC-3: El flujo completo puede terminarse y reiniciarse con teclado sin conservar estado anterior. [REQ-4, REQ-6, REQ-8]
-- [ ] AC-4: Resultados ofrece menú, repetición, cambio de categoría y repetición de fallos según proceda. [REQ-5]
+- [x] AC-4: Resultados ofrece menú, repetición, cambio de categoría y repetición de fallos según proceda. [REQ-5]
 - [ ] AC-5: Datos persistidos válidos se restauran y datos inválidos se ignoran sin romper la aplicación. [REQ-7]
 - [ ] AC-6: Feedback, progreso y resultado están disponibles para tecnologías de asistencia y no dependen solo del color. [REQ-8]
 - [ ] AC-7: Con movimiento reducido no se ejecuta confeti, vibración, scroll suave ni escalado decorativo. [REQ-9]
@@ -87,7 +87,6 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 ## Risks Or Open Questions
 
 - Falta concretar el criterio de “mejor resultado” para modo mixto y filtros distintos.
-- Debe definirse si “repetir fallos” conserva el orden visto o crea una nueva distribución equilibrada.
 - El modo cronómetro opcional se ha separado en la spec 005 para definir sus tiempos, accesibilidad, pausa, puntuación, persistencia y pruebas sin ampliar T4.
 - MicroLighter depende de una API Baseline Newly available; se acepta la falta de resaltado en navegadores antiguos siempre que el contenido permanezca legible y escapado.
 - Muchos ejemplos CSS son fragmentos deliberadamente breves y no reglas completas. La decisión cerrada es no enviarlos a MicroLighter: conservan fondo técnico, radio y tipografía monoespaciada sin un coloreado parcial engañoso.

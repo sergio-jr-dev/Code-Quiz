@@ -11,6 +11,8 @@ import {
 import {
   advanceQuiz,
   answerCurrentQuestion,
+  retryIncorrectAnswers as retryIncorrectAnswersTransition,
+  returnToMenu as returnToMenuTransition,
   showReview as showReviewTransition,
 } from '../lib/quizTransitions';
 import type { QuizStore } from '../types/quizStore';
@@ -47,6 +49,12 @@ const quizStoreCreator: StateCreator<QuizStore> = (set) => ({
   },
   restartRound: () => {
     set((state) => restartConfiguredQuiz(state, questionCatalog));
+  },
+  retryIncorrectAnswers: () => {
+    set((state) => retryIncorrectAnswersTransition(state));
+  },
+  returnToMenu: () => {
+    set((state) => returnToMenuTransition(state));
   },
 });
 

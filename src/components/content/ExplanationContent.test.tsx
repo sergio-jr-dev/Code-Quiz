@@ -84,4 +84,39 @@ describe('ExplanationContent', () => {
     expect(screen.queryByText('Promise')).not.toBeInTheDocument();
     expect(screen.queryByText('=>')).not.toBeInTheDocument();
   });
+
+  it('recognizes bare member accesses and array method names', () => {
+    render(
+      <ExplanationContent
+        language="javascript"
+        content={[
+          {
+            type: 'text',
+            text: 'Object.freeze es superficial y slice no modifica el array original.',
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText('Object.freeze')).toHaveClass('inline-code', 'language-javascript');
+    expect(screen.getByText('slice')).toHaveClass('inline-code', 'language-javascript');
+  });
+
+  it('recognizes HTML element names and object-fit values in CSS prose', () => {
+    render(
+      <ExplanationContent
+        language="css"
+        content={[
+          {
+            type: 'text',
+            text: 'La imagen img usa cover para cubrir la caja y contain para mostrarse completa.',
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText('img')).toHaveClass('inline-code', 'language-css');
+    expect(screen.getByText('cover')).toHaveClass('inline-code', 'language-css');
+    expect(screen.getByText('contain')).toHaveClass('inline-code', 'language-css');
+  });
 });

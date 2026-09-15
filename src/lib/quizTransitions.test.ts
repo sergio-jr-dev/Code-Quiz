@@ -7,6 +7,8 @@ import {
   answerCurrentQuestion,
   calculateScore,
   restartQuiz,
+  retryIncorrectAnswers,
+  returnToMenu,
   showReview,
 } from './quizTransitions';
 
@@ -371,5 +373,102 @@ describe('quizTransitions', () => {
     expect(state.currentQuestionIndex).toBe(1);
     expect(state.answers).toHaveLength(1);
     expect(state.view).toBe('review');
+  });
+
+  it('retries only incorrect questions in their original order without consuming decks', () => {
+    const firstQuestion = questions[0]!;
+    const secondQuestion = questions[1]!;
+    const thirdQuestion = questions[2]!;
+    const incorrectOption = thirdQuestion.options.find(
+      (option) => option.id !== thirdQuestion.correctAnswer,
+    )!;
+    const decks = { 'html:basic:html': [questions[3]!.id] };
+    const state = {
+      configuration: { subject: 'html' as const, level: 'basic' as const },
+      round: [firstQuestion, secondQuestion, thirdQuestion],
+      currentQuestionIndex: 2,
+      answers: [
+        { questionId: firstQuestion.id, selectedOptionId: firstQuestion.correctAnswer },
+        { questionId: secondQuestion.id, selectedOptionId: secondQuestion.correctAnswer },
+        { questionId: thirdQuestion.id, selectedOptionId: incorrectOption.id },
+      ],
+      view: 'review' as const,
+      decks,
+      mixedExtraSubjects: {},
+    };
+
+    const result = retryIncorrectAnswers(state);
+
+    expect(result.round).toEqual([thirdQuestion]);
+    expect(result.currentQuestionIndex).toBe(0);
+    expect(result.answers).toEqual([]);
+    expect(result.view).toBe('playing');
+    expect(result.decks).toBe(decks);
+  });
+
+  it('keeps every failed question in the order in which it was seen', () => {
+    const round = [questions[0]!, questions[1]!, questions[2]!];
+    const state = {
+      configuration: { subject: 'html' as const, level: 'basic' as const },
+      round,
+      currentQuestionIndex: 2,
+      answers: round.map((question) => ({
+        questionId: question.id,
+        selectedOptionId: question.options.find((option) => option.id !== question.correctAnswer)!
+          .id,
+      })),
+      view: 'score' as const,
+      decks: {},
+      mixedExtraSubjects: {},
+    };
+
+    const result = retryIncorrectAnswers(state);
+
+    expect(result.round).toEqual(round);
+    expect(result.round).not.toBe(round);
+  });
+
+  it('does not retry when there are no incorrect answers or the view is invalid', () => {
+    const question = questions[0]!;
+    const state = {
+      configuration: { subject: 'html' as const, level: 'basic' as const },
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [{ questionId: question.id, selectedOptionId: question.correctAnswer }],
+      view: 'score' as const,
+      decks: {},
+      mixedExtraSubjects: {},
+    };
+
+    const playingState = { ...state, view: 'playing' as const };
+
+    expect(retryIncorrectAnswers(state)).toBe(state);
+    expect(retryIncorrectAnswers(playingState)).toBe(playingState);
+  });
+
+  it('returns to the menu and clears completed-round progress while preserving configuration', () => {
+    const question = questions[0]!;
+    const state = {
+      configuration: { subject: 'css' as const, level: 'advanced' as const },
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [{ questionId: question.id, selectedOptionId: question.correctAnswer }],
+      view: 'score' as const,
+      decks: { 'css:advanced:css': [question.id] },
+      mixedExtraSubjects: {},
+    };
+
+    const result = returnToMenu(state);
+
+    expect(result).toMatchObject({
+      configuration: state.configuration,
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+      decks: state.decks,
+    });
+    const playingState = { ...state, view: 'playing' as const };
+    expect(returnToMenu(playingState)).toBe(playingState);
   });
 });

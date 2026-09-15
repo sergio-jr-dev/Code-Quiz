@@ -629,7 +629,7 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'json-parse',
-    '¿Qué hace JSON.parse con una cadena JSON válida?',
+    text('¿Qué hace JSON.parse con una cadena JSON válida?', ['JSON.parse']),
     [
       text('Convierte un objeto en texto JSON'),
       text('Construye el valor representado por el texto'),
@@ -639,6 +639,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'JSON.parse interpreta la sintaxis JSON y construye su valor. JSON.stringify realiza la conversión en sentido contrario; parse no es eval.',
+      ['JSON.parse', 'JSON.stringify', 'parse', 'eval'],
     ),
   ),
   question(
@@ -741,16 +742,17 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'array-slice',
-    '¿Qué diferencia slice de splice en un array?',
+    text('¿Qué diferencia slice de splice en un array?', ['slice', 'splice']),
     [
-      text('slice copia un tramo; splice modifica el array'),
-      text('slice modifica el array; splice copia un tramo'),
+      text('slice copia un tramo; splice modifica el array', ['slice', 'splice']),
+      text('slice modifica el array; splice copia un tramo', ['slice', 'splice']),
       text('Ambos ordenan el array numéricamente'),
       text('Ambos convierten el array en una cadena'),
     ],
     'a',
     text(
       'slice devuelve una copia superficial de un tramo sin eliminarlo. splice puede insertar o eliminar elementos en el array original.',
+      ['slice', 'splice'],
     ),
   ),
   question(

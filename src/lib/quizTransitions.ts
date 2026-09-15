@@ -1,5 +1,5 @@
 import type { BankQuestion, OptionId } from '../types/questionBank';
-import type { QuizProgressState } from '../types/quizStore';
+import type { QuizProgressState, QuizState } from '../types/quizStore';
 
 export const answerCurrentQuestion = (
   state: QuizProgressState,
@@ -81,5 +81,38 @@ export const restartQuiz = (
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',
+  };
+};
+
+export const retryIncorrectAnswers = (state: QuizState): QuizState => {
+  if (state.view !== 'score' && state.view !== 'review') return state;
+
+  const selectedOptions = new Map(
+    state.answers.map((answer) => [answer.questionId, answer.selectedOptionId]),
+  );
+  const incorrectQuestions = state.round.filter(
+    (question) => selectedOptions.get(question.id) !== question.correctAnswer,
+  );
+
+  if (incorrectQuestions.length === 0) return state;
+
+  return {
+    ...state,
+    round: incorrectQuestions,
+    currentQuestionIndex: 0,
+    answers: [],
+    view: 'playing',
+  };
+};
+
+export const returnToMenu = (state: QuizState): QuizState => {
+  if (state.view !== 'score' && state.view !== 'review') return state;
+
+  return {
+    ...state,
+    round: [],
+    currentQuestionIndex: 0,
+    answers: [],
+    view: 'menu',
   };
 };

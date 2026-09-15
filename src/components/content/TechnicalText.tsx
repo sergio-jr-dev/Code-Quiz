@@ -9,9 +9,9 @@ interface TechnicalMatch {
 
 const technicalPatterns: Readonly<Record<CodeLanguage, RegExp>> = {
   html: /<\/?[a-z][^>]*>|\b(?:alt|article|aside|audio|body|button|canvas|charset|details|dialog|div|footer|form|h[1-6]|head|header|href|html|id|iframe|img|input|label|lang|li|link|main|meta|nav|ol|option|script|section|select|slot|span|src|style|summary|table|tbody|td|template|textarea|tfoot|th|thead|title|tr|ul|video)\b/gi,
-  css: /--[\w-]+|@[a-z-]+|::?[\w-]+|#[\w-]+|\.[a-z][\w-]*|\b[a-z-]+:\s*(?:-?\d*\.?\d+(?:[a-z%]+)?|#[\da-f]+|[a-z-]+\([^)]*\)|[a-z-]+)(?:\s*!important)?;?|\b(?:auto|border-box|color|display|flex|grid|inherit|initial|margin|none|padding|width)\b|[a-z-]+\([^)]*\)/gi,
+  css: /--[\w-]+|@[a-z-]+|::?[\w-]+|#[\w-]+|\.[a-z][\w-]*|\b[a-z-]+:\s*(?:-?\d*\.?\d+(?:[a-z%]+)?|#[\da-f]+|[a-z-]+\([^)]*\)|[a-z-]+)(?:\s*!important)?;?|\b(?:article|auto|border-box|color|contain|cover|display|flex|grid|img|inherit|initial|margin|none|padding|width)\b|[a-z-]+\([^)]*\)/gi,
   javascript:
-    /\b(?:Array|NaN|Object\.is|Promise|SameValue|SameValueZero|Set|async|await|const|false|function|let|new|null|return|this|true|typeof|undefined|var|yield)\b|===|!==|==|!=|=>|\?\?|[A-Za-z_$][\w$]*\([^)]*\)/g,
+    /\b[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+\b|\b(?:Array|Map|NaN|Promise|SameValue|SameValueZero|Set|async|await|catch|const|eval|false|filter|finally|find|findIndex|function|let|map|new|null|pop|push|reduce|return|shift|slice|sort|splice|this|throw|true|try|typeof|undefined|var|yield)\b|===|!==|==|!=|=>|\?\?|[A-Za-z_$][\w$]*\([^)]*\)/g,
 };
 
 function findExplicitMatches(text: string, terms: readonly string[]): TechnicalMatch[] {

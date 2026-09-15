@@ -110,4 +110,41 @@ describe('quizStore', () => {
       ),
     ).toBe(true);
   });
+
+  it('retries incorrect answers and returns to the menu through public actions', () => {
+    const correctQuestion = questions[0]!;
+    const incorrectQuestion = questions[1]!;
+    const incorrectOption = incorrectQuestion.options.find(
+      (option) => option.id !== incorrectQuestion.correctAnswer,
+    )!;
+
+    useQuizStore.setState({
+      round: [correctQuestion, incorrectQuestion],
+      currentQuestionIndex: 1,
+      answers: [
+        { questionId: correctQuestion.id, selectedOptionId: correctQuestion.correctAnswer },
+        { questionId: incorrectQuestion.id, selectedOptionId: incorrectOption.id },
+      ],
+      view: 'score',
+    });
+
+    useQuizStore.getState().retryIncorrectAnswers();
+
+    expect(useQuizStore.getState()).toMatchObject({
+      round: [incorrectQuestion],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    });
+
+    useQuizStore.setState({ view: 'score' });
+    useQuizStore.getState().returnToMenu();
+
+    expect(useQuizStore.getState()).toMatchObject({
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+    });
+  });
 });

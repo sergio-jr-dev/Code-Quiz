@@ -19,7 +19,8 @@ Aplicación educativa en español para practicar HTML, CSS y JavaScript con preg
 - Posiciones correctas equilibradas y distractores barajados por ID.
 - Cierre visual con anillos de progreso e iconos 3D para aciertos, fallos y precisión, además de logos por materia.
 - Revisión de todas las respuestas con navegación numerada fija y estado visible.
-- Reinicio completo con una nueva ronda de la misma configuración.
+- Navegación posterior para repetir la configuración, volver al menú o practicar únicamente los
+  fallos en el orden en que aparecieron.
 - Navegación con teclado y respeto a movimiento reducido.
 - Identidad Code Quiz sobre un fondo técnico oscuro, una columna común de hasta `90ch` y la misma sombra de tarjeta en todo el flujo; modo claro todavía pendiente.
 
@@ -91,7 +92,7 @@ El flujo disponible filtra este catálogo desde el menú y construye partidas de
 
 Las siguientes funcionalidades todavía no están implementadas por completo:
 
-- Persistencia del progreso, mejores resultados y repetición de fallos.
+- Persistencia del progreso y mejores resultados.
 - Modo claro completo con selector y persistencia.
 
 Especificaciones:

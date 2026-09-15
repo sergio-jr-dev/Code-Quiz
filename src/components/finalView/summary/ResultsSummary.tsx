@@ -19,7 +19,10 @@ const subjectIcons: Readonly<Record<Subject, string>> = {
 export function ResultsSummary() {
   const round = useQuizStore((state) => state.round);
   const answers = useQuizStore((state) => state.answers);
+  const configuration = useQuizStore((state) => state.configuration);
   const summary = summarizeRoundBySubject(round, answers);
+
+  if (configuration.subject !== 'mixed') return;
 
   return (
     <section className="results-summary" aria-labelledby="results-summary-title">
