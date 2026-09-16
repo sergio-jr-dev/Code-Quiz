@@ -75,9 +75,10 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Consumir el modelo, el banco validado y las funciones puras ya implementadas en la spec 002.
 - Sustituir el contexto actual por un store de Zustand al comenzar esta spec. Separar estado y acciones de dominio de los efectos de interfaz, consumir el store mediante selectores pequeños y mantener las transformaciones puras fuera de Zustand.
 - Ejecutar la migración a Zustand como trabajo guiado: el usuario implementará cada checkpoint, podrá consultar dudas durante el proceso y solicitará revisión antes de avanzar al siguiente. No retirar el contexto hasta que no queden consumidores.
-- Usar persistencia versionada y validada para el mínimo estado necesario; no delegar en el middleware la validación de datos antiguos o corruptos.
-- Versionar claves de `localStorage` bajo un namespace de Code Quiz y nunca persistir contenido HTML.
+- Usar el middleware `persist` de Zustand para el ciclo de almacenamiento e hidratación del mínimo estado necesario. Un `PersistStorage` propio validará con Zod el contenedor y el estado serializado al leer y escribir; `merge` conservará la validación semántica contra el catálogo vigente.
+- Mantener una clave de `localStorage` estable bajo un namespace de Code Quiz, versionar su payload mediante `persist` y nunca guardar contenido HTML.
 - Persistir el estado mínimo del mazo por configuración para mantener la variedad entre recargas, validando IDs frente al banco vigente.
+- Guardar el mayor número de aciertos por combinación exacta de materia o modo mixto y nivel. Solo cuentan partidas configuradas completas de diez preguntas; las repeticiones de fallos no alteran el récord y los empates conservan el valor existente.
 - Construir el modo mixto mediante selección estratificada por materia, no mediante una muestra plana que pueda omitir una de ellas por azar.
 - Reutilizar la limpieza entre tests y los matchers de `jest-dom` del setup compartido existente; ampliar la configuración solo cuando un nuevo comportamiento lo exija.
 - Derivar A–D del orden visible y conservar la corrección por `option.id`; el marcador no formará parte del banco ni de los datos persistidos.
@@ -86,7 +87,6 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 
 ## Risks Or Open Questions
 
-- Falta concretar el criterio de “mejor resultado” para modo mixto y filtros distintos.
 - El modo cronómetro opcional se ha separado en la spec 005 para definir sus tiempos, accesibilidad, pausa, puntuación, persistencia y pruebas sin ampliar T4.
 - MicroLighter depende de una API Baseline Newly available; se acepta la falta de resaltado en navegadores antiguos siempre que el contenido permanezca legible y escapado.
 - Muchos ejemplos CSS son fragmentos deliberadamente breves y no reglas completas. La decisión cerrada es no enviarlos a MicroLighter: conservan fondo técnico, radio y tipografía monoespaciada sin un coloreado parcial engañoso.

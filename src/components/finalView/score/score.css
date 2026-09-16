@@ -40,6 +40,12 @@
       color: color-mix(in srgb, var(--text-color) 88%, transparent);
     }
 
+    .score-best-result {
+      margin-block-start: 0.5rem;
+      color: var(--progress-color);
+      font-weight: 700;
+    }
+
     .score-metrics {
       inline-size: 100%;
       display: grid;

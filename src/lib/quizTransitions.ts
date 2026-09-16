@@ -99,6 +99,7 @@ export const retryIncorrectAnswers = (state: QuizState): QuizState => {
   return {
     ...state,
     round: incorrectQuestions,
+    roundSource: 'incorrect-retry',
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',
@@ -111,6 +112,7 @@ export const returnToMenu = (state: QuizState): QuizState => {
   return {
     ...state,
     round: [],
+    roundSource: 'configured',
     currentQuestionIndex: 0,
     answers: [],
     view: 'menu',

@@ -1,7 +1,7 @@
 # Tasks
 
-**Current task:** T7
-**Blockers:** Antes de T7 falta cerrar el criterio de mejores resultados. El modo cronómetro se ha separado en la spec 005.
+**Current task:** T8
+**Blockers:** None
 
 - [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
 - [x] T2: Sustituir el contexto por Zustand mediante checkpoints implementados por el usuario y revisados antes de avanzar.
@@ -15,7 +15,7 @@
 - [x] T4: Implementar la presentación de la partida: marcadores A–D sin perder los radios nativos, estados de respuesta, feedback, información adicional, resaltado seguro de sintaxis y barra de progreso; actualizar `DESIGN.md` con los patrones reutilizables acordados.
 - [x] T5: Implementar resultados y resumen por categorías.
 - [x] T6: Implementar navegación posterior y repetición de fallos.
-- [ ] T7: Implementar persistencia versionada del progreso, mejores resultados y mazos, con recuperación segura.
+- [x] T7: Implementar persistencia versionada del progreso, mejores resultados y mazos, con recuperación segura.
 - [ ] T8: Añadir gestión de foco, anuncios y movimiento reducido, incluyendo la semántica accesible del progreso y los estados no cromáticos.
 - [ ] T9: Completar pruebas de integración con interacciones reales de usuario, reordenación de opciones, contenido con código y progreso.
 - [ ] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.

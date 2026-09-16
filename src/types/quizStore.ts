@@ -2,6 +2,7 @@ import type { BankQuestion, Level, OptionId, QuestionId, Subject } from './quest
 
 export type QuizSubject = Subject | 'mixed';
 export type QuizView = 'menu' | 'playing' | 'score' | 'review';
+export type QuizRoundSource = 'configured' | 'incorrect-retry';
 
 export interface QuizConfiguration {
   subject: QuizSubject;
@@ -10,6 +11,7 @@ export interface QuizConfiguration {
 
 export type QuizDecks = Readonly<Record<string, readonly QuestionId[]>>;
 export type MixedExtraSubjects = Readonly<Partial<Record<Level, Subject>>>;
+export type QuizBestResults = Readonly<Record<string, number>>;
 
 export interface QuizAnswer {
   questionId: QuestionId;
@@ -25,8 +27,10 @@ export interface QuizProgressState {
 
 export interface QuizState extends QuizProgressState {
   configuration: QuizConfiguration;
+  roundSource: QuizRoundSource;
   decks: QuizDecks;
   mixedExtraSubjects: MixedExtraSubjects;
+  bestResults: QuizBestResults;
 }
 
 export interface QuizActions {

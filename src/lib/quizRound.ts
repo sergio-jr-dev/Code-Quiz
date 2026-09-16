@@ -175,6 +175,7 @@ export const startConfiguredQuiz = (
   return {
     ...state,
     ...selection,
+    roundSource: 'configured',
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',
@@ -200,6 +201,7 @@ export const restartConfiguredQuiz = (
   return {
     ...state,
     ...selection,
+    roundSource: 'configured',
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',

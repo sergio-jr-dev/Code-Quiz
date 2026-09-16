@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { selectBestResult } from '../../../lib/quizRecords';
 import { calculateScore } from '../../../lib/quizTransitions';
 import { useQuizStore } from '../../../stores/quizStore';
 import { PostQuizActions } from '../postQuizActions/PostQuizActions';
@@ -11,6 +12,7 @@ import './score.css';
 export const Score = () => {
   const score = useQuizStore(calculateScore);
   const totalQuestions = useQuizStore((state) => state.round.length);
+  const bestResult = useQuizStore(selectBestResult);
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
@@ -53,6 +55,11 @@ export const Score = () => {
             {message}
           </h2>
           <p className="score-message">{supportingMessage}</p>
+          {bestResult !== undefined ? (
+            <p className="score-best-result">
+              Mejor resultado en esta configuración: {bestResult} / 10
+            </p>
+          ) : null}
         </div>
       </div>
 

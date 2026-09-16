@@ -393,8 +393,10 @@ describe('quizTransitions', () => {
         { questionId: thirdQuestion.id, selectedOptionId: incorrectOption.id },
       ],
       view: 'review' as const,
+      roundSource: 'configured' as const,
       decks,
       mixedExtraSubjects: {},
+      bestResults: {},
     };
 
     const result = retryIncorrectAnswers(state);
@@ -418,8 +420,10 @@ describe('quizTransitions', () => {
           .id,
       })),
       view: 'score' as const,
+      roundSource: 'configured' as const,
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     };
 
     const result = retryIncorrectAnswers(state);
@@ -436,8 +440,10 @@ describe('quizTransitions', () => {
       currentQuestionIndex: 0,
       answers: [{ questionId: question.id, selectedOptionId: question.correctAnswer }],
       view: 'score' as const,
+      roundSource: 'configured' as const,
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     };
 
     const playingState = { ...state, view: 'playing' as const };
@@ -454,8 +460,10 @@ describe('quizTransitions', () => {
       currentQuestionIndex: 0,
       answers: [{ questionId: question.id, selectedOptionId: question.correctAnswer }],
       view: 'score' as const,
+      roundSource: 'configured' as const,
       decks: { 'css:advanced:css': [question.id] },
       mixedExtraSubjects: {},
+      bestResults: {},
     };
 
     const result = returnToMenu(state);

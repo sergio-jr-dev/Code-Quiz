@@ -73,7 +73,7 @@ La carpeta local utiliza el historial del nuevo repositorio. El historial anteri
 src/
   components/   Interfaz del quiz y resultados (.tsx)
   data/         Catálogo completo por materia y banco legado de referencia
-  lib/          Validación, transiciones, mazos, barajado y equilibrio
+  lib/          Validación, transiciones, mazos, persistencia, barajado y equilibrio
   stores/       Estado y acciones de dominio con Zustand
   types/        Contratos de preguntas, configuración y partida
   test/         Configuración de pruebas
@@ -88,11 +88,12 @@ La spec 002 incorpora un catálogo de **180 preguntas**, con veinte por cada com
 
 El flujo disponible filtra este catálogo desde el menú y construye partidas de diez mediante IDs estables. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios. `src/data/questions.ts` conserva el banco original como referencia y para pruebas de compatibilidad.
 
+La configuración, el progreso, los mazos sin repetición y el mejor resultado por materia o modo mixto y nivel se conservan localmente mediante un esquema versionado de Zustand. Zod valida su estructura y el catálogo valida sus IDs y relaciones; los datos inválidos se ignoran sin bloquear la aplicación.
+
 ## Evolución planificada
 
 Las siguientes funcionalidades todavía no están implementadas por completo:
 
-- Persistencia del progreso y mejores resultados.
 - Modo claro completo con selector y persistencia.
 
 Especificaciones:

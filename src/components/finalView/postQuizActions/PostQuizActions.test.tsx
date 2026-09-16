@@ -23,8 +23,10 @@ describe('PostQuizActions', () => {
         { questionId: incorrectQuestion.id, selectedOptionId: incorrectOption.id },
       ],
       view: 'score',
+      roundSource: 'configured',
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     });
   });
 

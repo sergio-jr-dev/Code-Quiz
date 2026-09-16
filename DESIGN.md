@@ -427,7 +427,7 @@ El pie amplía su `Container` hasta `75rem` y, desde `64rem` de viewport, mantie
 
 ### Results and review
 
-El resultado presenta un mensaje adaptado al rendimiento y tres anillos de progreso para aciertos, fallos y precisión, seguido de un resumen por materia con aciertos y un `<progress>` nativo. Cada anillo conserva su cifra y etiqueta como texto accesible, mientras centra respectivamente un check verde, una cruz roja o una diana violeta 3D de carácter decorativo. Los iconos ocupan el 58 % del anillo; el check compensa ópticamente la transparencia asimétrica de su lienzo con un desplazamiento del 8 % en el eje inline y del -2 % en el eje block, sin alterar la geometría del indicador. La jerarquía usa además un trofeo 3D y una llamada principal; el resumen sitúa el logo 3D de la materia a la izquierda de su nombre. Los anillos representan el valor de 0 a 100, se adaptan desde `5rem` hasta `7.5rem` y eliminan su transición con movimiento reducido.
+El resultado presenta un mensaje adaptado al rendimiento, el mejor resultado de la configuración actual como texto destacado y tres anillos de progreso para aciertos, fallos y precisión, seguido de un resumen por materia con aciertos y un `<progress>` nativo. Cada anillo conserva su cifra y etiqueta como texto accesible, mientras centra respectivamente un check verde, una cruz roja o una diana violeta 3D de carácter decorativo. Los iconos ocupan el 58 % del anillo; el check compensa ópticamente la transparencia asimétrica de su lienzo con un desplazamiento del 8 % en el eje inline y del -2 % en el eje block, sin alterar la geometría del indicador. La jerarquía usa además un trofeo 3D y una llamada principal; el resumen sitúa el logo 3D de la materia a la izquierda de su nombre. Los anillos representan el valor de 0 a 100, se adaptan desde `5rem` hasta `7.5rem` y eliminan su transición con movimiento reducido.
 
 Las acciones posteriores forman una navegación con nombre accesible. Desde el resultado permiten revisar respuestas, repetir únicamente los fallos cuando existan, generar otra ronda con la misma configuración o volver al menú. La repetición de fallos conserva el orden en que se vieron, puede contener menos de diez preguntas y no consume el mazo configurado. La vuelta al menú mantiene la materia y el nivel elegidos para que puedan confirmarse o cambiarse. Todas las acciones usan texto e icono; «Volver al menú» adopta option-surface como acción secundaria. Hasta `30rem` se apilan y ocupan el ancho disponible.
 
@@ -435,7 +435,7 @@ La revisión conserva las preguntas en orden de partida y muestra respuesta eleg
 
 ### Empty, error and persistence states
 
-Si una combinación no alcanza las veinte preguntas aprobadas necesarias para partidas de diez, no la presentes como jugable: muestra un mensaje accionable y permite cambiar materia o nivel. Si `localStorage` contiene datos inválidos, ignóralos de forma segura y continúa con valores predeterminados; no expongas errores técnicos al usuario.
+Si una combinación no alcanza las veinte preguntas aprobadas necesarias para partidas de diez, no la presentes como jugable: muestra un mensaje accionable y permite cambiar materia o nivel. Si `localStorage` contiene datos inválidos, ignóralos de forma segura y continúa con valores predeterminados; no expongas errores técnicos al usuario. La persistencia guarda solo identificadores y estado de dominio versionado; el contenido se reconstruye desde el catálogo vigente.
 
 ## Do's and Don'ts
 

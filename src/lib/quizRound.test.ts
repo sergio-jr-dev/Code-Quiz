@@ -25,8 +25,10 @@ const menuState = (overrides: Partial<QuizState> = {}): QuizState => ({
   currentQuestionIndex: 0,
   answers: [],
   view: 'menu',
+  roundSource: 'configured',
   decks: {},
   mixedExtraSubjects: {},
+  bestResults: {},
   ...overrides,
 });
 

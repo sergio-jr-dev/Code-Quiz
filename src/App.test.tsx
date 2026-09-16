@@ -23,8 +23,10 @@ describe('configured quiz flow', () => {
       currentQuestionIndex: 0,
       answers: [],
       view: 'menu',
+      roundSource: 'configured',
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     });
     render(
       <StrictMode>
@@ -111,6 +113,7 @@ describe('configured quiz flow', () => {
     }
     expect(screen.getByText('10 / 10')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();
+    expect(screen.getByText('Mejor resultado en esta configuración: 10 / 10')).toBeVisible();
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
   });

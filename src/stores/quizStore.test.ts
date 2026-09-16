@@ -1,6 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { questionCatalog } from '../data/questionCatalog';
 import { questions } from '../data/questions';
+import {
+  QUIZ_STORAGE_KEY,
+  QUIZ_STORAGE_VERSION,
+  type PersistedQuizStateV1,
+} from '../lib/quizPersistence';
 import { useQuizStore } from './quizStore';
 
 describe('quizStore', () => {
@@ -13,8 +19,10 @@ describe('quizStore', () => {
       currentQuestionIndex: 0,
       answers: [],
       view: 'playing',
+      roundSource: 'configured',
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     });
   });
 
@@ -36,6 +44,22 @@ describe('quizStore', () => {
     ]);
   });
 
+  it('uses Zustand persist with the versioned minimal state', () => {
+    const persisted = JSON.parse(localStorage.getItem(QUIZ_STORAGE_KEY)!) as {
+      state: PersistedQuizStateV1;
+      version: number;
+    };
+
+    expect(useQuizStore.persist.getOptions()).toMatchObject({
+      name: QUIZ_STORAGE_KEY,
+      version: QUIZ_STORAGE_VERSION,
+    });
+    expect(persisted.version).toBe(QUIZ_STORAGE_VERSION);
+    expect(persisted.state.progress.round[0]?.questionId).toBe(questions[0]!.id);
+    expect(JSON.stringify(persisted)).not.toContain('prompt');
+    expect(JSON.stringify(persisted)).not.toContain('explanation');
+  });
+
   it('moves from playing to score and then to review', () => {
     const question = questions[0]!;
     const validOption = question.options[0]!;
@@ -52,6 +76,30 @@ describe('quizStore', () => {
     showReview();
 
     expect(useQuizStore.getState().view).toBe('review');
+  });
+
+  it('records a completed configured round through the final advance action', () => {
+    const round = questionCatalog
+      .filter((question) => question.subject === 'html' && question.level === 'basic')
+      .slice(0, 10);
+    useQuizStore.setState({
+      round,
+      roundSource: 'configured',
+      currentQuestionIndex: 9,
+      answers: round.map((question) => ({
+        questionId: question.id,
+        selectedOptionId: question.correctAnswer,
+      })),
+      view: 'playing',
+      bestResults: {},
+    });
+
+    useQuizStore.getState().goToNextQuestion();
+
+    expect(useQuizStore.getState()).toMatchObject({
+      view: 'score',
+      bestResults: { 'html:basic': 10 },
+    });
   });
 
   it('reset the quiz', () => {
@@ -92,8 +140,10 @@ describe('quizStore', () => {
       currentQuestionIndex: 0,
       answers: [],
       view: 'menu',
+      roundSource: 'configured',
       decks: {},
       mixedExtraSubjects: {},
+      bestResults: {},
     });
 
     useQuizStore.getState().selectSubject('javascript');
