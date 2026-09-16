@@ -23,6 +23,7 @@
 - El mejor resultado es el mayor número de aciertos de una partida configurada completa, separado por combinación exacta de materia o modo mixto y nivel. «Repetir fallos» no cuenta y un empate conserva el récord anterior.
 - La persistencia aprovecha el middleware `persist` de Zustand antes de mantener un ciclo manual equivalente. `partialize` limita el esquema a IDs y estado de dominio; un `PersistStorage` propio valida con Zod el contenedor y el estado serializado tanto al leer como al escribir; `merge` valida la coherencia semántica y reconstruye el contenido contra el catálogo vigente. El adaptador conserva la recuperación ante acceso deshabilitado o cuota agotada.
 - «Salir de la partida» es una acción distinta de la vuelta al menú posterior a resultados. Requiere confirmación porque descarta progreso persistido; conserva configuración, mazos, rotación mixta y mejores marcas para impedir que abandonar regenere preguntas ya consumidas.
+- `questionCatalog` será la única composición del banco de producción. Las 25 preguntas originales se integrarán directamente en `html.ts` y `css.ts`, conservando sus IDs y su orden relativo, y se retirará `questions.ts`. Su papel secundario como fixture se reemplazará por datos de prueba pequeños y explícitos para no acoplar las pruebas unitarias al contenido editorial ni a las posiciones del catálogo. Esta refactorización se ejecutará como T8.1 antes de ampliar la integración en T9.
 
 ## Implementation Notes
 
