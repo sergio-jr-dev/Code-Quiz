@@ -31,6 +31,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - REQ-17: Cada respuesta conservará un `input` de tipo radio y mostrará un marcador visual A, B, C o D determinado por su posición en la partida, sin sustituir el ID estable usado para corregirla.
 - REQ-18: Los bloques completos de código de preguntas, respuestas y explicaciones tendrán resaltado de sintaxis para los lenguajes permitidos por el modelo; los fragmentos aislados usarán una superficie técnica sin coloreado parcial. Los bloques de texto podrán declarar términos inline explícitos para conservar completas unidades como `Promise.all` o `(a, b) => a - b`. Todo el contenido conservará el texto escapado como fallback seguro.
 - REQ-19: Durante la partida se mostrará una barra de progreso acompañada por el texto «Pregunta N de 10»; ambos representarán el mismo avance y el valor será comprensible sin depender del color ni de la animación.
+- REQ-20: Durante una partida se podrá solicitar la salida al menú. Una confirmación permitirá continuar sin cambios o descartar la ronda activa; al descartarla se conservarán la configuración, los mazos, la rotación mixta y las mejores marcas.
 
 ## Design Requirements
 
@@ -62,6 +63,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - [ ] AC-14: Las respuestas muestran marcadores A–D en orden visual, siguen siendo un grupo de radios operable con teclado y se corrigen por ID aunque se reordenen. [REQ-17]
 - [ ] AC-15: El código completo de HTML, CSS y JavaScript se distingue mediante resaltado de sintaxis; los fragmentos aislados no reciben coloreado parcial y los términos inline declarados se mantienen completos. Todo permanece escapado, legible y sin desbordar las respuestas. [REQ-18]
 - [ ] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
+- [x] AC-17: «Salir de la partida» abre una confirmación modal; cancelar conserva la ronda y confirmar vuelve al menú sin borrar configuración, mazos ni mejores marcas. [REQ-20]
 
 ## Out Of Scope
 
@@ -69,6 +71,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Backend o base de datos.
 - Traducción a otros idiomas.
 - Límites de tiempo, rachas, logros u otras mecánicas de gamificación hasta definir su efecto en la partida y sus alternativas accesibles.
+- El futuro panel personal de mejores marcas, preferencias, tema y sonido, definido como borrador independiente en la spec 006.
 
 ## Technical Notes
 
@@ -84,6 +87,7 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - Derivar A–D del orden visible y conservar la corrección por `option.id`; el marcador no formará parte del banco ni de los datos persistidos.
 - Usar MicroLighter de forma programática, limitado a los lenguajes admitidos por `CodeLanguage`, sin `dangerouslySetInnerHTML` y con el texto escapado actual como fallback cuando la CSS Custom Highlight API no esté disponible. Validar su integración con los cambios de React, el coste real del bundle y el resaltado en navegador; si el spike no resulta satisfactorio, revisar la estrategia antes de incorporar otra dependencia.
 - Añadir cobertura solo si se define un umbral útil; no perseguir porcentaje sin relación con riesgos.
+- Usar un `<dialog>` modal nativo para confirmar la salida de una partida. El efecto de apertura, cierre y restauración de foco pertenece al componente; el store solo expone la transición de dominio que descarta la ronda.
 
 ## Risks Or Open Questions
 

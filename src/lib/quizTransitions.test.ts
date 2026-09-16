@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { questions } from '../data/questions';
 import type { QuizProgressState as QuizState } from '../types/quizStore';
 import {
+  abandonRound,
   advanceQuiz,
   answerCurrentQuestion,
   calculateScore,
@@ -478,5 +479,36 @@ describe('quizTransitions', () => {
     });
     const playingState = { ...state, view: 'playing' as const };
     expect(returnToMenu(playingState)).toBe(playingState);
+  });
+
+  it('abandons a playing round while preserving configuration, decks and records', () => {
+    const question = questions[0]!;
+    const state = {
+      configuration: { subject: 'html' as const, level: 'basic' as const },
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [{ questionId: question.id, selectedOptionId: question.correctAnswer }],
+      view: 'playing' as const,
+      roundSource: 'incorrect-retry' as const,
+      decks: { 'html:basic:html': [questions[1]!.id] },
+      mixedExtraSubjects: { basic: 'css' as const },
+      bestResults: { 'html:basic': 8 },
+    };
+
+    const result = abandonRound(state);
+
+    expect(result).toMatchObject({
+      configuration: state.configuration,
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+      roundSource: 'configured',
+      decks: state.decks,
+      mixedExtraSubjects: state.mixedExtraSubjects,
+      bestResults: state.bestResults,
+    });
+    const scoreState = { ...state, view: 'score' as const };
+    expect(abandonRound(scoreState)).toBe(scoreState);
   });
 });

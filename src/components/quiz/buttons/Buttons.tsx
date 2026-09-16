@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 
 import { useQuizStore } from '../../../stores/quizStore';
 import { Button } from '../../button/Button';
+import { ExitQuiz } from '../exitQuiz/ExitQuiz';
 
 import './buttons.css';
 
@@ -45,6 +46,7 @@ export const Buttons = () => {
         <IconArrowNarrowRightDashed aria-hidden="true" stroke={2} />
         {isLastQuestion ? 'Finalizar' : 'Siguiente'}
       </Button>
+      <ExitQuiz />
     </div>
   );
 };

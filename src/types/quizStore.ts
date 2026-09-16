@@ -42,6 +42,7 @@ export interface QuizActions {
   showReview: () => void;
   restartRound: () => void;
   retryIncorrectAnswers: () => void;
+  abandonRound: () => void;
   returnToMenu: () => void;
 }
 

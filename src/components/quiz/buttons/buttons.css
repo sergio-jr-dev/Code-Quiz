@@ -2,6 +2,7 @@
   @scope (.buttons) {
     :scope {
       display: flex;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 1rem;
       max-inline-size: 100%;

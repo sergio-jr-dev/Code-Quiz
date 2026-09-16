@@ -16,6 +16,7 @@
 - [x] T5: Implementar resultados y resumen por categorías.
 - [x] T6: Implementar navegación posterior y repetición de fallos.
 - [x] T7: Implementar persistencia versionada del progreso, mejores resultados y mazos, con recuperación segura.
+  - [x] T7.1: Permitir abandonar una partida en curso mediante confirmación accesible, conservando configuración, mazos, rotación y mejores marcas.
 - [ ] T8: Añadir gestión de foco, anuncios y movimiento reducido, incluyendo la semántica accesible del progreso y los estados no cromáticos.
 - [ ] T9: Completar pruebas de integración con interacciones reales de usuario, reordenación de opciones, contenido con código y progreso.
 - [ ] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.

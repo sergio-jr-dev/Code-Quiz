@@ -118,3 +118,16 @@ export const returnToMenu = (state: QuizState): QuizState => {
     view: 'menu',
   };
 };
+
+export const abandonRound = (state: QuizState): QuizState => {
+  if (state.view !== 'playing') return state;
+
+  return {
+    ...state,
+    round: [],
+    roundSource: 'configured',
+    currentQuestionIndex: 0,
+    answers: [],
+    view: 'menu',
+  };
+};

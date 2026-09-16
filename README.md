@@ -95,6 +95,7 @@ La configuración, el progreso, los mazos sin repetición y el mejor resultado p
 Las siguientes funcionalidades todavía no están implementadas por completo:
 
 - Modo claro completo con selector y persistencia.
+- Panel personal con mejores marcas, preferencias y futuros efectos sonoros; el posible historial de partidas continúa en evaluación.
 
 Especificaciones:
 
@@ -103,6 +104,7 @@ Especificaciones:
 - [003 · Flujo ampliado](specs/003-quiz-flow-and-test-foundation/spec.md)
 - [004 · Base TypeScript de la primera versión](specs/004-typescript-release-foundation/spec.md)
 - [005 · Modo cronómetro](specs/005-timed-quiz-mode/spec.md)
+- [006 · Panel personal y preferencias](specs/006-personal-panel-and-preferences/spec.md)
 
 ## Marca y autoría
 

@@ -17,6 +17,7 @@ import {
   startConfiguredQuiz,
 } from '../lib/quizRound';
 import {
+  abandonRound as abandonRoundTransition,
   advanceQuiz,
   answerCurrentQuestion,
   retryIncorrectAnswers as retryIncorrectAnswersTransition,
@@ -70,6 +71,9 @@ const quizStoreCreator: StateCreator<QuizStore> = (set) => ({
   },
   retryIncorrectAnswers: () => {
     set((state) => retryIncorrectAnswersTransition(state));
+  },
+  abandonRound: () => {
+    set((state) => abandonRoundTransition(state));
   },
   returnToMenu: () => {
     set((state) => returnToMenuTransition(state));

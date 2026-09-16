@@ -417,6 +417,16 @@ Los botones con icono y texto mantienen al menos `0.5rem` entre ambos. Los icono
 
 Los grupos de acciones permiten wrap y respetan el ancho disponible. Hasta `30rem` de viewport, cada botón ocupa una fila completa para evitar desbordamientos en resultados. Esa media query vive anidada dentro del selector de botón del grupo.
 
+### Confirmación para salir de la partida
+
+«Salir de la partida» es una acción secundaria situada junto a la navegación de la pregunta. Usa fondo transparente, borde perceptible, texto e icono de salida; no compite con «Siguiente» ni parece una navegación accidental del navegador.
+
+La confirmación usa un `<dialog>` modal nativo abierto con `showModal()`. Mantiene una sola superficie primary, el radio de `1rem`, borde visible y la sombra compacta de las tarjetas. El backdrop oscurece el canvas sin introducir blur ni una nueva superficie. El título y la descripción explican que se pierde solo el progreso de la ronda y que se conservan configuración y resultados.
+
+«Continuar partida» recibe el foco inicial y usa option-surface; «Salir de la partida» usa error como acción destructiva y conserva una etiqueta textual completa. Escape o la acción de continuar cierran el modal y devuelven el foco al disparador. Hasta `30rem`, ambas acciones se apilan y ocupan todo el ancho.
+
+La entrada combina opacidad, un desplazamiento vertical de `0.5rem` y escala `0.98 → 1` durante `200ms`; el backdrop aparece en el mismo intervalo. `@starting-style` define el estado inicial y las transiciones discretas de `display` y `overlay`, habilitadas mediante `transition-behavior: allow-discrete`, mantienen el diálogo en el top layer durante la salida inversa. Con `prefers-reduced-motion: reduce` ambas transiciones son instantáneas. El diálogo debe seguir siendo perceptible en `forced-colors`.
+
 ### Footer
 
 El pie mantiene una jerarquía compacta en tres grupos: autoría, destinos del proyecto y acciones externas. El repositorio de Code Quiz, el portfolio y BaselineLab conservan etiquetas visibles; LinkedIn y X usan iconos con nombres accesibles; la donación se distingue como una llamada secundaria «Apoyar el proyecto».

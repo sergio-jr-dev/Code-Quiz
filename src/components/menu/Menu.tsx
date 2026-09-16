@@ -1,5 +1,5 @@
 import { IconPlayerPlayFilled } from '@tabler/icons-react';
-import type { FormEvent } from 'react';
+import { type FormEvent, useEffect, useRef } from 'react';
 
 import { questionCatalog } from '../../data/questionCatalog';
 import { isConfigurationPlayable } from '../../lib/quizRound';
@@ -65,6 +65,11 @@ export const Menu = () => {
   const selectSubject = useQuizStore((state) => state.selectSubject);
   const selectLevel = useQuizStore((state) => state.selectLevel);
   const startRound = useQuizStore((state) => state.startRound);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
 
   const configuration = { subject, level };
   const canStart = isConfigurationPlayable(questionCatalog, configuration);
@@ -78,7 +83,9 @@ export const Menu = () => {
     <section className="quiz-menu" aria-labelledby="menu-title">
       <header className="menu-intro">
         <p className="eyebrow">Configura tu partida</p>
-        <h2 id="menu-title">¿Qué quieres practicar hoy?</h2>
+        <h2 id="menu-title" ref={headingRef} tabIndex={-1}>
+          ¿Qué quieres practicar hoy?
+        </h2>
         <p>Elige una materia y un nivel para empezar.</p>
       </header>
 
