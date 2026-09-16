@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import confetti from 'canvas-confetti';
 import { StrictMode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -114,6 +115,10 @@ describe('configured quiz flow', () => {
     expect(screen.getByText('10 / 10')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();
     expect(screen.getByText('Mejor resultado en esta configuración: 10 / 10')).toBeVisible();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Resultado: 10 de 10 aciertos. Precisión: 100%.',
+    );
+    expect(confetti).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
   });

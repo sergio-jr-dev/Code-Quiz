@@ -1,9 +1,9 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { questionExamples } from '../../../data/questionExamples';
 import { buildRound } from '../../../lib/buildRound';
 import { useQuizStore } from '../../../stores/quizStore';
+import { questionExamples } from '../../../test/fixtures/questionExamples';
 import { Results } from './Results';
 
 describe('Results', () => {

@@ -1,5 +1,6 @@
 import confetti from 'canvas-confetti';
 
+import { prefersReducedMotion } from '../../../lib/motionPreference';
 import { useQuizStore } from '../../../stores/quizStore';
 import type { QuestionOption } from '../../../types/questionBank';
 import { OptionContent } from '../../content/OptionContent';
@@ -29,7 +30,7 @@ export const Answer = ({ option, position }: { option: QuestionOption; position:
 
     selectOption(option.id);
 
-    if (option.id === question.correctAnswer) {
+    if (option.id === question.correctAnswer && !prefersReducedMotion()) {
       void confetti({
         startVelocity: 50,
         particleCount: 10,

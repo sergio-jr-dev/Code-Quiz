@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { questionExamples } from '../data/questionExamples';
+import { questionExamples } from '../test/fixtures/questionExamples';
 import type { BankQuestion } from '../types/questionBank';
 import { validateQuestionBank } from './validateQuestionBank';
 

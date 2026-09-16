@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { questionExamples } from '../../../data/questionExamples';
 import { useQuizStore } from '../../../stores/quizStore';
+import { questionExamples } from '../../../test/fixtures/questionExamples';
 import { Feedback } from './Feedback';
 
 describe('Feedback', () => {

@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { questionCatalog } from '../data/questionCatalog';
-import { questions } from '../data/questions';
 import {
   QUIZ_STORAGE_KEY,
   QUIZ_STORAGE_VERSION,
   type PersistedQuizStateV1,
 } from '../lib/quizPersistence';
+import { questionExamples as questions } from '../test/fixtures/questionExamples';
 import { useQuizStore } from './quizStore';
 
 describe('quizStore', () => {

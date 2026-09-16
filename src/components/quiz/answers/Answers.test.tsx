@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { questionExamples } from '../../../data/questionExamples';
 import { useQuizStore } from '../../../stores/quizStore';
+import { questionExamples } from '../../../test/fixtures/questionExamples';
 import { Answers } from './Answers';
 
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }));

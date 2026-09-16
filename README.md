@@ -86,7 +86,7 @@ public/images/  Logos, favicon, imagen social y captura
 
 La spec 002 incorpora un catálogo de **180 preguntas**, con veinte por cada combinación de HTML, CSS y JavaScript con nivel básico, intermedio y avanzado. `src/data/questionCatalog.ts` reúne los módulos por materia; las pruebas comprueban integridad, cobertura y alertas editoriales.
 
-El flujo disponible filtra este catálogo desde el menú y construye partidas de diez mediante IDs estables. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios. `src/data/questions.ts` conserva el banco original como referencia y para pruebas de compatibilidad.
+El flujo disponible filtra este catálogo desde el menú y construye partidas de diez mediante IDs estables. Los niveles describen una progresión editorial (fundamentos, aplicación y casos límite), no una dificultad calibrada con resultados de usuarios. Los módulos de HTML, CSS y JavaScript son la única fuente del banco de producción; las pruebas unitarias usan fixtures pequeñas independientes del orden editorial.
 
 La configuración, el progreso, los mazos sin repetición y el mejor resultado por materia o modo mixto y nivel se conservan localmente mediante un esquema versionado de Zustand. Zod valida su estructura y el catálogo valida sus IDs y relaciones; los datos inválidos se ignoran sin bloquear la aplicación.
 

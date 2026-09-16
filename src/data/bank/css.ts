@@ -1,9 +1,287 @@
 import type { BankQuestion } from '../../types/questionBank';
 import { question, text, code } from '../questionFactory';
-import { questions } from '../questions';
 
 export const cssQuestions = [
-  ...questions.filter((question) => question.subject === 'css'),
+  question(
+    'css-fundamentals-001',
+    'css',
+    'basic',
+    'fundamentals',
+    '¿Cuál es la función principal de CSS?',
+    [
+      text('Definir la estructura del documento'),
+      text('Estilizar y dar formato a los elementos HTML'),
+      text('Manejar la lógica del lado del cliente'),
+      text('Procesar datos del servidor'),
+    ],
+    'b',
+    text(
+      'CSS (Cascading Style Sheets) se utiliza principalmente para controlar el diseño, formato y presentación visual de los documentos HTML.',
+    ),
+  ),
+  question(
+    'css-comments-001',
+    'css',
+    'basic',
+    'comments',
+    '¿Cuál es la forma correcta de comentar en CSS?',
+    [
+      code('css', '// Este es un comentario en CSS'),
+      code('css', '<!-- Este es un comentario en CSS -->'),
+      code('css', '/* Este es un comentario en CSS */'),
+      code('css', '# Este es un comentario en CSS'),
+    ],
+    'c',
+    text(
+      'En CSS los comentarios se delimitan con /* y */ y pueden ocupar una o varias líneas. Las formas //, <!-- --> y # no son sintaxis de comentario CSS.',
+    ),
+  ),
+  question(
+    'css-color-001',
+    'css',
+    'basic',
+    'color',
+    '¿Qué propiedad CSS se usa para cambiar el color del texto?',
+    [
+      code('css', 'text-color'),
+      code('css', 'font-color'),
+      code('css', 'color'),
+      code('css', 'text-style'),
+    ],
+    'c',
+    [
+      {
+        type: 'text',
+        text: 'En CSS se usa la propiedad color para especificar el color del texto. Por ejemplo:',
+      },
+      { type: 'code', language: 'css', code: 'color: red;' },
+    ],
+  ),
+  question(
+    'css-selectors-001',
+    'css',
+    'basic',
+    'selectors',
+    '¿Qué selector CSS se utiliza para seleccionar todos los elementos de una página?',
+    [code('css', '#all'), code('css', '.all'), code('css', '*'), code('css', 'all')],
+    'c',
+    text(
+      'El selector universal * selecciona todos los elementos de un documento HTML. Hay que usarlo con precaución, ya que puede afectar a muchos elementos del documento.',
+    ),
+  ),
+  question(
+    'css-box-model-001',
+    'css',
+    'basic',
+    'box-model',
+    '¿Cuál es la diferencia principal entre margin y padding en CSS?',
+    [
+      text('No hay diferencia, son sinónimos'),
+      text(
+        'Margin es el espacio desde el borde del elemento hacia fuera, padding es el espacio desde el borde del elemento hacia dentro',
+      ),
+      text('Margin es para texto, padding es para imágenes'),
+      text(
+        'Padding es el espacio desde el borde del elemento hacia fuera, margin es el espacio desde el borde del elemento hacia dentro',
+      ),
+    ],
+    'b',
+    text(
+      'Margin crea espacio fuera del borde del elemento. Padding crea espacio dentro de ese borde, entre el borde y el contenido; por eso intercambiar ambos conceptos invierte su función.',
+    ),
+  ),
+  question(
+    'css-flexbox-001',
+    'css',
+    'basic',
+    'flexbox',
+    '¿Qué declaración CSS convierte un elemento en un contenedor flex?',
+    [
+      code('css', 'flexible'),
+      code('css', 'display: flex'),
+      code('css', 'position: flex'),
+      code('css', 'flex: true'),
+    ],
+    'b',
+    text(
+      'display: flex convierte el elemento en un contenedor flex y dispone sus hijos como elementos flex. Las otras opciones no son declaraciones CSS válidas para activar este modelo de layout.',
+    ),
+  ),
+  question(
+    'css-custom-properties-001',
+    'css',
+    'intermediate',
+    'custom-properties',
+    '¿Cómo funcionan las variables CSS (custom properties) y cuál es su sintaxis?',
+    [
+      text('Se definen con $variable y se usan con @variable'),
+      text('Se definen con @variable y se usan con $variable'),
+      text('Se definen con --variable y se usan con var(--variable)'),
+      text('Se definen con var(variable) y se usan con --variable'),
+    ],
+    'c',
+    [
+      {
+        type: 'text',
+        text: 'Las custom properties se definen con dos guiones y se leen mediante la función var(). Por ejemplo:',
+      },
+      { type: 'code', language: 'css', code: '--main-color: #06c;\ncolor: var(--main-color);' },
+    ],
+  ),
+  question(
+    'css-attribute-selectors-001',
+    'css',
+    'intermediate',
+    'attribute-selectors',
+    '¿Qué son los selectores de atributo en CSS y cómo se utilizan?',
+    [
+      text('Seleccionan elementos según su posición en el DOM'),
+      text('Seleccionan elementos solo mediante selectores de clase o de ID'),
+      text('Seleccionan elementos según la presencia o el valor de sus atributos'),
+      text('Seleccionan elementos según su estado mediante pseudoclases'),
+    ],
+    'c',
+    [
+      {
+        type: 'text',
+        text: 'Los selectores de atributo usan corchetes para comprobar la presencia de un atributo o comparar su valor. Los selectores de clase, ID y pseudoclase tienen sintaxis propia. Por ejemplo:',
+      },
+      { type: 'code', language: 'css', code: '[type="text"]' },
+    ],
+  ),
+  question(
+    'css-visibility-001',
+    'css',
+    'intermediate',
+    'visibility',
+    '¿Cuál es la diferencia entre visibility: hidden y display: none en CSS?',
+    [
+      text('No hay diferencia, ambos ocultan el elemento'),
+      text(
+        '"visibility: hidden" oculta el elemento pero mantiene su espacio, "display: none" lo elimina del flujo del documento',
+      ),
+      text(
+        '"display: none" oculta el elemento pero mantiene su espacio, "visibility: hidden" lo elimina del flujo del documento',
+      ),
+      text(
+        'visibility: hidden solo funciona en elementos en línea, display: none en elementos de bloque',
+      ),
+    ],
+    'b',
+    text(
+      'visibility: hidden oculta el elemento pero mantiene su espacio en el layout. display: none lo oculta y lo elimina completamente del flujo del documento.',
+    ),
+  ),
+  question(
+    'css-calc-001',
+    'css',
+    'intermediate',
+    'calc',
+    '¿Cómo se utiliza la función calc() en CSS y en qué situaciones es útil?',
+    [
+      text('Para calcular valores de color en formato RGB'),
+      text('Para realizar cálculos matemáticos con diferentes unidades'),
+      text('Para calcular la especificidad de los selectores'),
+      text('Para calcular el tiempo de las animaciones CSS'),
+    ],
+    'b',
+    [
+      {
+        type: 'text',
+        text: 'calc() permite realizar cálculos matemáticos como parte de un valor CSS y combinar unidades diferentes. Por ejemplo:',
+      },
+      { type: 'code', language: 'css', code: 'width: calc(100% - 80px);' },
+    ],
+  ),
+  question(
+    'css-media-queries-001',
+    'css',
+    'basic',
+    'media-queries',
+    '¿Qué son las media queries en CSS?',
+    [
+      text('Consultas para obtener información del servidor'),
+      text('Reglas CSS condicionadas por características del dispositivo o del entorno'),
+      text('Métodos para consultar bases de datos desde CSS'),
+      text('Funciones para animar elementos en CSS'),
+    ],
+    'b',
+    [
+      {
+        type: 'text',
+        text: 'Las media queries permiten aplicar estilos según características del dispositivo o del entorno, como el ancho del viewport. Por ejemplo:',
+      },
+      { type: 'code', language: 'css', code: '@media (width <= 600px) {\n  /* estilos */\n}' },
+    ],
+  ),
+  question(
+    'css-color-mix-001',
+    'css',
+    'intermediate',
+    'color-mix',
+    '¿Qué hace color-mix(in srgb, red 80%, blue) en CSS?',
+    [
+      text('Mezcla rojo al 80 % y azul al 20 % en sRGB'),
+      text('Mezcla rojo y azul al 50 % aunque se indique 80 %'),
+      text('Aplica al rojo una opacidad del 80 % sobre el azul'),
+      text('Elige rojo hasta el 80 % y después cambia a azul'),
+    ],
+    'a',
+    text(
+      'color-mix() interpola colores en el espacio indicado. Si un color aporta el 80 % y el otro omite su porcentaje, el porcentaje restante es el 20 %; no describe una transición ni superpone colores por opacidad.',
+    ),
+  ),
+  question(
+    'css-numbers-001',
+    'css',
+    'basic',
+    'numbers',
+    '¿Qué afirmación sobre los números decimales en CSS es correcta?',
+    [
+      text('Usan una coma decimal: 0,5'),
+      text('Usan un punto decimal: 0.5 o .5'),
+      text('Solo admiten números enteros: 0 o 1'),
+      text('Requieren la función calc(): calc(0.5)'),
+    ],
+    'b',
+    text(
+      'Los números decimales en CSS usan un punto. El cero anterior al punto es opcional, por lo que 0.5 y .5 son válidos; no necesitan calc() ni se limitan a enteros.',
+    ),
+  ),
+  question(
+    'css-opacity-001',
+    'css',
+    'basic',
+    'opacity',
+    '¿Qué declaración establece una opacidad del 50 % mediante un número?',
+    [
+      code('css', 'opacity: 0.5'),
+      code('css', 'opacity: 50'),
+      code('css', 'opacity: 5'),
+      code('css', 'opacity: 0.05'),
+    ],
+    'a',
+    text(
+      'opacity acepta números y porcentajes. El número 0.5 equivale a 50 %; 0.05 equivale a 5 %, y los números mayores que 1 se limitan al extremo opaco.',
+    ),
+  ),
+  question(
+    'css-selector-lists-001',
+    'css',
+    'intermediate',
+    'selector-lists',
+    '¿Qué sintaxis crea una lista de selectores sin usar una pseudoclase funcional?',
+    [
+      code('css', 'selector1, selector2, selector3'),
+      code('css', 'selector1 selector2 selector3'),
+      code('css', 'selector1 > selector2 > selector3'),
+      code('css', 'selector1 + selector2 + selector3'),
+    ],
+    'a',
+    text(
+      'Una coma separa los miembros de una lista de selectores y la regla coincide con cualquiera de ellos. El espacio, > y + son combinadores que expresan relaciones entre elementos; :is() y :where() también aceptan listas, pero son pseudoclases funcionales con reglas de especificidad propias.',
+    ),
+  ),
   // basic
   question(
     'css-class-selectors-101',

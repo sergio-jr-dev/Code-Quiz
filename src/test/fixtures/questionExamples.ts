@@ -1,4 +1,4 @@
-import type { BankQuestion } from '../types/questionBank';
+import type { BankQuestion } from '../../types/questionBank';
 
 export const questionExamples = [
   {
@@ -118,5 +118,20 @@ export const questionExamples = [
         text: 'toSorted() devuelve una copia ordenada; a diferencia de sort(), no muta el array original.',
       },
     ],
+  },
+  {
+    id: 'html-links-001',
+    subject: 'html',
+    level: 'basic',
+    topic: 'links',
+    prompt: [{ type: 'text', text: '¿Qué elemento crea un enlace?' }],
+    options: [
+      { id: 'a', content: [{ type: 'code', language: 'html', code: '<a>' }] },
+      { id: 'b', content: [{ type: 'code', language: 'html', code: '<link>' }] },
+      { id: 'c', content: [{ type: 'code', language: 'html', code: '<nav>' }] },
+      { id: 'd', content: [{ type: 'code', language: 'html', code: '<button>' }] },
+    ],
+    correctAnswer: 'a',
+    explanation: [{ type: 'text', text: 'El elemento a representa un hipervínculo.' }],
   },
 ] as const satisfies readonly BankQuestion[];

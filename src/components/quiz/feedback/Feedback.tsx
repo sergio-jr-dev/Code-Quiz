@@ -24,7 +24,11 @@ export function Feedback() {
   const isCorrect = selectedOptionId === question.correctAnswer;
 
   return (
-    <p className={`quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`} role="status">
+    <p
+      className={`quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`}
+      role="status"
+      aria-atomic="true"
+    >
       {isCorrect ? (
         <IconCircleCheckFilled aria-hidden="true" />
       ) : (

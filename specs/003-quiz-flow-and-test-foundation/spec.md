@@ -53,8 +53,8 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - [ ] AC-3: El flujo completo puede terminarse y reiniciarse con teclado sin conservar estado anterior. [REQ-4, REQ-6, REQ-8]
 - [x] AC-4: Resultados ofrece menú, repetición, cambio de categoría y repetición de fallos según proceda. [REQ-5]
 - [ ] AC-5: Datos persistidos válidos se restauran y datos inválidos se ignoran sin romper la aplicación. [REQ-7]
-- [ ] AC-6: Feedback, progreso y resultado están disponibles para tecnologías de asistencia y no dependen solo del color. [REQ-8]
-- [ ] AC-7: Con movimiento reducido no se ejecuta confeti, vibración, scroll suave ni escalado decorativo. [REQ-9]
+- [x] AC-6: Feedback, progreso y resultado están disponibles para tecnologías de asistencia y no dependen solo del color. [REQ-8]
+- [x] AC-7: Con movimiento reducido no se ejecuta confeti, vibración, scroll suave ni escalado decorativo. [REQ-9]
 - [ ] AC-8: `pnpm test` ejecuta Vitest y Testing Library en local y CI. [REQ-10, REQ-11]
 - [ ] AC-9: Las pruebas automatizadas cubren todos los comportamientos enumerados en REQ-12 sin depender de implementación interna. [REQ-12, REQ-13]
 - [ ] AC-10: `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados. [REQ-10–REQ-14]
@@ -63,9 +63,9 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 - [ ] AC-13: Una partida mixta siempre contiene las tres materias, ninguna supera a otra por más de una pregunta y la materia con cuatro preguntas no queda fijada entre partidas. [REQ-16]
 - [ ] AC-14: Las respuestas muestran marcadores A–D en orden visual, siguen siendo un grupo de radios operable con teclado y se corrigen por ID aunque se reordenen. [REQ-17]
 - [ ] AC-15: El código completo de HTML, CSS y JavaScript se distingue mediante resaltado de sintaxis; los fragmentos aislados no reciben coloreado parcial y los términos inline declarados se mantienen completos. Todo permanece escapado, legible y sin desbordar las respuestas. [REQ-18]
-- [ ] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
+- [x] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
 - [x] AC-17: «Salir de la partida» abre una confirmación modal; cancelar conserva la ronda y confirmar vuelve al menú sin borrar configuración, mazos ni mejores marcas. [REQ-20]
-- [ ] AC-18: `questionCatalog` conserva las 180 preguntas válidas y las seis combinaciones materia–nivel jugables después de integrar las preguntas originales en `html.ts` y `css.ts`; no queda ningún uso de producción o prueba de `questions.ts`, y las pruebas unitarias que necesiten datos controlados usan fixtures explícitas independientes del orden editorial del catálogo. [REQ-21]
+- [x] AC-18: `questionCatalog` conserva las 180 preguntas válidas y las nueve combinaciones materia–nivel jugables después de integrar las preguntas originales en `html.ts` y `css.ts`; no queda ningún uso de producción o prueba de `questions.ts`, y las pruebas unitarias que necesiten datos controlados usan fixtures explícitas independientes del orden editorial del catálogo. [REQ-21]
 
 ## Out Of Scope
 

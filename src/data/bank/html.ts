@@ -1,9 +1,170 @@
 import type { BankQuestion } from '../../types/questionBank';
 import { question, text, code } from '../questionFactory';
-import { questions } from '../questions';
 
 export const htmlQuestions = [
-  ...questions.filter((question) => question.subject === 'html'),
+  question(
+    'html-images-001',
+    'html',
+    'basic',
+    'images',
+    '¿Cuál es el propósito del atributo alt en una etiqueta img?',
+    [
+      text('Establecer el tamaño'),
+      text('Definir el texto alternativo'),
+      text('Cambiar el formato'),
+      text('Establecer la alineación'),
+    ],
+    'b',
+    text(
+      'El atributo alt proporciona una alternativa textual para la imagen. Puede comunicar su propósito a quienes usan lectores de pantalla y sustituirla cuando no se muestra; no controla su tamaño, formato ni alineación.',
+    ),
+  ),
+  question(
+    'html-links-001',
+    'html',
+    'basic',
+    'links',
+    '¿Qué etiqueta HTML se usa para crear un enlace?',
+    [code('html', '<a>'), code('html', '<link>'), code('html', '<href>'), code('html', '<src>')],
+    'a',
+    text('En HTML se usa el elemento a para crear un enlace.'),
+  ),
+  question(
+    'html-fundamentals-001',
+    'html',
+    'basic',
+    'fundamentals',
+    '¿Qué significa HTML?',
+    [
+      text('Hyper Text Markup Language'),
+      text('High Tech Modern Language'),
+      text('Hyper Transfer Markup Language'),
+      text('Home Tool Markup Language'),
+    ],
+    'a',
+    text(
+      'HTML significa Hyper Text Markup Language. Es el lenguaje estándar para crear páginas web.',
+    ),
+  ),
+  question(
+    'html-document-metadata-001',
+    'html',
+    'basic',
+    'document-metadata',
+    '¿Cuál es el propósito del elemento <head> en HTML?',
+    [
+      text('Contener el contenido principal de la página'),
+      text('Definir un encabezado visible'),
+      text('Contener metadatos y enlaces a recursos externos'),
+      text('Crear una sección de navegación'),
+    ],
+    'c',
+    text(
+      'El elemento head contiene metadatos del documento, como el título y enlaces a hojas de estilo. El contenido principal pertenece a body, y un encabezado visible se representa dentro de ese contenido.',
+    ),
+  ),
+  question(
+    'html-lists-001',
+    'html',
+    'basic',
+    'lists',
+    '¿Qué etiqueta HTML se usa para crear una lista no ordenada?',
+    [
+      code('html', '<ol>'),
+      code('html', '<list>'),
+      code('html', '<ul>'),
+      code('html', '<unordered>'),
+    ],
+    'c',
+    text(
+      'El elemento ul (unordered list) crea una lista no ordenada y sus elementos se representan con li. ol crea una lista ordenada; list y unordered no son elementos HTML.',
+    ),
+  ),
+  question(
+    'html-stylesheets-001',
+    'html',
+    'basic',
+    'stylesheets',
+    '¿Cuál es la forma correcta de vincular un archivo CSS externo en HTML?',
+    [
+      code('html', '<style src="styles.css">'),
+      code('html', '<link rel="stylesheet" href="styles.css">'),
+      code('html', '<css>styles.css</css>'),
+      code('html', '<script type="text/css" src="styles.css">'),
+    ],
+    'b',
+    text(
+      'En HTML se usa el elemento link con rel="stylesheet" y href apuntando al archivo CSS para vincular una hoja de estilos externa.',
+    ),
+  ),
+  question(
+    'html-viewport-001',
+    'html',
+    'basic',
+    'viewport',
+    '¿Qué controla la declaración <meta name="viewport">?',
+    [
+      text('Definir el idioma de la página'),
+      text('Establecer el título de la página'),
+      text('Controlar la visualización y escala en dispositivos móviles'),
+      text('Especificar la codificación de caracteres'),
+    ],
+    'c',
+    text(
+      'El valor viewport del atributo name en meta se usa para controlar cómo se muestra una página en dispositivos móviles, incluidos el ancho y la escala inicial.',
+    ),
+  ),
+  question(
+    'html-canvas-001',
+    'html',
+    'basic',
+    'canvas',
+    '¿Para qué se utiliza el elemento <canvas> de HTML?',
+    [
+      text('Para dibujar gráficos y animaciones mediante scripts'),
+      text('Para crear formularios interactivos'),
+      text('Para insertar videos en la página web'),
+      text('Para definir áreas de navegación'),
+    ],
+    'a',
+    text(
+      'El elemento canvas es un contenedor para gráficos dibujados mediante JavaScript. Permite crear gráficos, animaciones, juegos y otras composiciones visuales en el navegador.',
+    ),
+  ),
+  question(
+    'html-disclosure-001',
+    'html',
+    'basic',
+    'disclosure',
+    '¿Qué elemento HTML representa un widget desplegable nativo?',
+    [
+      code('html', '<details>'),
+      code('html', '<summary>'),
+      code('html', '<dialog>'),
+      code('html', '<accordion>'),
+    ],
+    'a',
+    text(
+      'details representa un widget desplegable que muestra u oculta información adicional. Su primer summary aporta la etiqueta visible; dialog tiene otro propósito y accordion no es un elemento HTML.',
+    ),
+  ),
+  question(
+    'html-links-002',
+    'html',
+    'basic',
+    'links',
+    '¿Qué marcado indica que el enlace debe usarse para descargar el PDF?',
+    [
+      code('html', '<a href="document.pdf">Abrir</a>'),
+      code('html', '<a href="document.pdf" download>Descargar</a>'),
+      code('html', '<a href="document.pdf" target="_blank">Abrir</a>'),
+      code('html', '<a download="document.pdf">Descargar</a>'),
+    ],
+    'b',
+    text(
+      'El atributo download indica la intención de descargar el recurso enlazado por href. Sin download, el enlace navega al PDF; target="_blank" cambia el contexto de navegación, y sin href no se crea ese hipervínculo.',
+    ),
+  ),
   // basic
   question(
     'html-paragraphs-101',

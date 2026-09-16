@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { questions } from '../data/questions';
+import { questionExamples as questions } from '../test/fixtures/questionExamples';
 import type { QuizProgressState as QuizState } from '../types/quizStore';
 import {
   abandonRound,

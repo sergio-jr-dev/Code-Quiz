@@ -2,8 +2,8 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
-import { questions } from '../../../data/questions';
 import { useQuizStore } from '../../../stores/quizStore';
+import { questionExamples as questions } from '../../../test/fixtures/questionExamples';
 import { Game } from '../game/Game';
 
 const setPlayingState = () => {

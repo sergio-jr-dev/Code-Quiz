@@ -26,7 +26,7 @@ Mantén la experiencia breve, clara y didáctica. La puntuación es secundaria r
 - pnpm, con `pnpm-lock.yaml` como lockfile autoritativo.
 - CSS organizado por componente, además de los estilos y tokens globales de `src/main.css`.
 - Estado compartido en `src/context/QuizContextProvider.tsx`.
-- Banco actual en `src/data/questions.ts`.
+- Banco de producción compuesto desde `src/data/bank/html.ts`, `css.ts` y `javascript.ts` mediante `src/data/questionCatalog.ts`.
 - Contenido de preguntas, opciones y explicaciones modelado como bloques tipados de texto o código y renderizado como nodos React escapados.
 - Build estático desde la raíz, desplegado en https://codequiz-game.vercel.app/.
 

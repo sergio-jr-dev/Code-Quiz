@@ -38,8 +38,13 @@ export const Score = () => {
           ? 'La base está ahí. La revisión te mostrará dónde ganar precisión.'
           : 'Revisa las respuestas con calma: entender el porqué es el verdadero avance.';
 
+  const resultAnnouncement = `Resultado: ${score} de ${totalQuestions} aciertos. Precisión: ${percentage.toFixed()}%.`;
+
   return (
     <article className="score">
+      <p className="visually-hidden" role="status" aria-atomic="true">
+        {resultAnnouncement}
+      </p>
       <div className="score-heading">
         <img
           className="score-trophy"

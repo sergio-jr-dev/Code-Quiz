@@ -2,12 +2,44 @@ import { describe, expect, it } from 'vitest';
 
 import { validateQuestionBank } from '../lib/validateQuestionBank';
 import { LEVELS, SUBJECTS } from '../types/questionBank';
+import { cssQuestions } from './bank/css';
+import { htmlQuestions } from './bank/html';
 import { questionCatalog } from './questionCatalog';
-import { questions } from './questions';
+
+const originalHtmlQuestionIds = [
+  'html-images-001',
+  'html-links-001',
+  'html-fundamentals-001',
+  'html-document-metadata-001',
+  'html-lists-001',
+  'html-stylesheets-001',
+  'html-viewport-001',
+  'html-canvas-001',
+  'html-disclosure-001',
+  'html-links-002',
+];
+
+const originalCssQuestionIds = [
+  'css-fundamentals-001',
+  'css-comments-001',
+  'css-color-001',
+  'css-selectors-001',
+  'css-box-model-001',
+  'css-flexbox-001',
+  'css-custom-properties-001',
+  'css-attribute-selectors-001',
+  'css-visibility-001',
+  'css-calc-001',
+  'css-media-queries-001',
+  'css-color-mix-001',
+  'css-numbers-001',
+  'css-opacity-001',
+  'css-selector-lists-001',
+];
 
 describe('complete question catalog', () => {
   it('contains at least 180 valid questions with no unexplained editorial warnings', () => {
-    expect(questionCatalog.length).toBeGreaterThanOrEqual(180);
+    expect(questionCatalog).toHaveLength(180);
     expect(validateQuestionBank(questionCatalog)).toEqual({ valid: true, issues: [] });
   });
 
@@ -23,12 +55,16 @@ describe('complete question catalog', () => {
     }
   }
 
-  it('retains every migrated question exactly once without changing the active round', () => {
-    expect(questions).toHaveLength(25);
-    for (const question of questions) {
-      expect(questionCatalog.filter((candidate) => candidate.id === question.id)).toEqual([
-        question,
-      ]);
+  it('keeps the original questions first in their subject modules and in relative order', () => {
+    expect(htmlQuestions.slice(0, originalHtmlQuestionIds.length).map(({ id }) => id)).toEqual(
+      originalHtmlQuestionIds,
+    );
+    expect(cssQuestions.slice(0, originalCssQuestionIds.length).map(({ id }) => id)).toEqual(
+      originalCssQuestionIds,
+    );
+
+    for (const id of [...originalHtmlQuestionIds, ...originalCssQuestionIds]) {
+      expect(questionCatalog.filter((question) => question.id === id)).toHaveLength(1);
     }
   });
 

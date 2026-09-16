@@ -1,6 +1,7 @@
 import { IconArrowNarrowRightDashed } from '@tabler/icons-react';
 import confetti from 'canvas-confetti';
 
+import { prefersReducedMotion } from '../../../lib/motionPreference';
 import { useQuizStore } from '../../../stores/quizStore';
 import { Button } from '../../button/Button';
 import { ExitQuiz } from '../exitQuiz/ExitQuiz';
@@ -26,7 +27,7 @@ export const Buttons = () => {
 
     goToNextQuestion();
 
-    if (isLastQuestion) {
+    if (isLastQuestion && !prefersReducedMotion()) {
       void confetti({
         particleCount: 150,
         spread: 360,
