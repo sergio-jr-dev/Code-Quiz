@@ -7,12 +7,49 @@ import { describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { questionCatalog } from './data/questionCatalog';
 import { useQuizStore } from './stores/quizStore';
-import type { QuestionContent } from './types/questionBank';
+import { questionExamples } from './test/fixtures/questionExamples';
+import type { BankQuestion, QuestionContent } from './types/questionBank';
 
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }));
 
 function contentText(content: QuestionContent): string {
   return content.map((block) => (block.type === 'text' ? block.text : block.code)).join(' ');
+}
+
+function buildCodeIntegrationRound(): BankQuestion[] {
+  const [html, css, javascript] = questionExamples;
+
+  if (!html || !css || !javascript) {
+    throw new Error('Missing integration question fixtures');
+  }
+
+  return [
+    {
+      ...html,
+      prompt: [
+        ...html.prompt,
+        {
+          type: 'code',
+          language: 'html',
+          code: '<main>\n  <h1>Code Quiz</h1>\n</main>',
+        },
+      ],
+      options: [html.options[3]!, html.options[2]!, html.options[1]!, html.options[0]!],
+    },
+    {
+      ...css,
+      options: [css.options[3]!, css.options[1]!, css.options[0]!, css.options[2]!],
+    },
+    {
+      ...javascript,
+      options: [
+        javascript.options[1]!,
+        javascript.options[2]!,
+        javascript.options[0]!,
+        javascript.options[3]!,
+      ],
+    },
+  ];
 }
 
 describe('configured quiz flow', () => {
@@ -121,5 +158,85 @@ describe('configured quiz flow', () => {
     expect(confetti).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
+  });
+
+  it('keeps reordered option IDs, code content and progress aligned through user interactions', async () => {
+    const user = userEvent.setup();
+    const round = buildCodeIntegrationRound();
+
+    useQuizStore.setState({
+      configuration: { subject: 'mixed', level: 'basic' },
+      round,
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+      roundSource: 'configured',
+      decks: {},
+      mixedExtraSubjects: {},
+      bestResults: {},
+    });
+
+    const { container } = render(<App />);
+
+    expect(screen.getByRole('progressbar', { name: 'Pregunta 1 de 3' })).toHaveAttribute(
+      'value',
+      '1',
+    );
+    expect(container.querySelector('pre > code.language-html')).toHaveTextContent(
+      '<main>\n  <h1>Code Quiz</h1>\n</main>',
+      { normalizeWhitespace: false },
+    );
+
+    await user.click(screen.getByRole('radio', { name: '<footer>' }));
+
+    expect(useQuizStore.getState().answers[0]).toEqual({
+      questionId: round[0]!.id,
+      selectedOptionId: 'd',
+    });
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Tu respuesta A no es correcta. La opción D es la respuesta.',
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Siguiente' }));
+
+    expect(screen.getByRole('progressbar', { name: 'Pregunta 2 de 3' })).toHaveAttribute(
+      'value',
+      '2',
+    );
+    await user.click(screen.getByRole('radio', { name: 'color: var(--accent);' }));
+    expect(useQuizStore.getState().answers[1]).toEqual({
+      questionId: round[1]!.id,
+      selectedOptionId: 'b',
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('¡Correcto! La opción B es la respuesta.');
+    expect(container.querySelector('pre > code.language-css')).toHaveTextContent(
+      ':root { --accent: rebeccapurple; }\np { color: var(--accent); }',
+      { normalizeWhitespace: false },
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Siguiente' }));
+
+    expect(screen.getByRole('progressbar', { name: 'Pregunta 3 de 3' })).toHaveAttribute(
+      'value',
+      '3',
+    );
+    expect(container.querySelector('pre > code.language-javascript')).toHaveTextContent(
+      'const numbers = [3, 1, 2];\nconst result = numbers.toSorted();',
+      { normalizeWhitespace: false },
+    );
+    await user.click(screen.getByRole('radio', { name: 'Un array nuevo con [1, 2, 3]' }));
+    expect(useQuizStore.getState().answers[2]).toEqual({
+      questionId: round[2]!.id,
+      selectedOptionId: 'a',
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('¡Correcto! La opción C es la respuesta.');
+
+    await user.click(screen.getByRole('button', { name: 'Finalizar' }));
+
+    expect(screen.getByText('2 / 3')).toBeVisible();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Resultado: 2 de 3 aciertos. Precisión: 67%.',
+    );
+    expect(screen.queryByRole('progressbar', { name: /Pregunta/ })).not.toBeInTheDocument();
   });
 });
