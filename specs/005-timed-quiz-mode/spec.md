@@ -1,6 +1,6 @@
 # Timed quiz mode
 
-**Status:** Draft
+**Status:** Ready
 
 ## Goal
 
@@ -31,6 +31,7 @@ El modo normal seguirá ofreciendo las mismas preguntas y resultados sin límite
 - REQ-15: La cuenta atrás no producirá anuncios de lector de pantalla cada segundo. Se anunciará de forma puntual la entrada en los últimos diez segundos y el agotamiento del tiempo, sin interrumpir la lectura de la pregunta.
 - REQ-16: Con movimiento reducido, el indicador conservará su valor y cambios de estado sin animaciones decorativas, pulsos, escalados o transiciones continuas.
 - REQ-17: Las transiciones del temporizador, el cálculo del tiempo restante y la expiración serán deterministas y comprobables con un reloj inyectable, sin depender de detalles internos de React.
+- REQ-18: Si se recarga la aplicación durante una partida cronometrada, la ronda en curso se descartará y se volverá al menú con materia, nivel y modalidad conservados. La recarga no registrará un resultado ni devolverá al mazo las preguntas ya consumidas.
 
 ## Design Requirements
 
@@ -60,6 +61,7 @@ El modo normal seguirá ofreciendo las mismas preguntas y resultados sin límite
 - [ ] AC-14: Las pruebas con reloj falso cubren inicio, avance, respuesta, expiración, pausa por visibilidad, reinicio y ausencia de temporizador en modo normal. [REQ-4, REQ-6–REQ-11, REQ-17]
 - [ ] AC-15: No hay pérdida de contenido o controles a 320 CSS px, con texto ampliado, claro/oscuro o `forced-colors`. [Design Requirements]
 - [ ] AC-16: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados.
+- [ ] AC-17: Recargar durante una partida cronometrada vuelve al menú sin resultado parcial, conserva la configuración y modalidad elegidas y mantiene el avance previo del mazo. [REQ-18]
 
 ## Out Of Scope
 
@@ -80,11 +82,11 @@ El modo normal seguirá ofreciendo las mismas preguntas y resultados sin límite
 - Pausar y reanudar mediante la Page Visibility API, limpiando listeners y tareas programadas al responder, expirar, cambiar de pregunta, cambiar de vista o desmontar el componente.
 - Tratar el modo normal con el mismo contenido y sin penalización como la alternativa sin límite temporal requerida por [WCAG 2.2, criterio 2.2.1](https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html); la elección debe estar disponible antes de encontrar el límite.
 - Ampliar la versión y validación de los datos persistidos de la spec 003. Nunca confiar en tiempos, estados o IDs recuperados sin validarlos frente a la configuración y ronda vigentes.
+- Al rehidratar una vista `playing` en modo cronómetro, aplicar la misma semántica de abandono seguro que al salir de una ronda: limpiar ronda, índice, respuestas y estado temporal; conservar configuración, modalidad, mazos, rotación mixta y récords. No persistir una marca temporal para intentar reconstruir la cuenta atrás.
 - Añadir temporizadores falsos y simulación de visibilidad al setup o a las pruebas solo cuando esta spec los necesite.
 - Mantener cada componente React en su propio archivo y extraer la coordinación temporal a un custom hook cuando su ciclo de vida adquiera entidad propia.
 
 ## Risks Or Open Questions
 
-- Debe decidirse antes de marcar la spec como `Ready` si una partida cronometrada en curso se restaura tras recargar con el último tiempo guardado o se descarta de forma segura y vuelve al menú.
-- Los valores 60/45/30 segundos son una base inicial y deben validarse con preguntas de distinta longitud y con bloques de código antes de considerarlos definitivos.
+- Los valores iniciales 60/45/30 se confirmaron contra ejemplos cortos, medianos y largos de las 180 preguntas vigentes. Deben reevaluarse con evidencia de uso real si el modo resulta frustrante, sin introducir ajuste por longitud dentro de esta spec.
 - La sincronización entre reloj, `visibilitychange`, respuesta y expiración puede producir carreras; las transiciones deben ser idempotentes y cubrir eventos simultáneos.
