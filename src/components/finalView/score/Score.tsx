@@ -16,7 +16,8 @@ export const Score = () => {
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 
   const percentage = (score / totalQuestions) * 100;

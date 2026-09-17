@@ -1,6 +1,6 @@
 # Tasks
 
-**Current task:** T10
+**Current task:** T11
 **Blockers:** None
 
 - [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
@@ -20,5 +20,6 @@
 - [x] T8: Añadir gestión de foco, anuncios y movimiento reducido, incluyendo la semántica accesible del progreso y los estados no cromáticos.
   - [x] T8.1: Unificar el banco de producción antes de T9: trasladar las 25 preguntas originales a los módulos HTML y CSS conservando IDs y orden relativo, retirar `questions.ts`, sustituir su uso en pruebas por fixtures explícitas y verificar las invariantes del catálogo completo.
 - [x] T9: Completar pruebas de integración con interacciones reales de usuario, reordenación de opciones, contenido con código y progreso.
-- [ ] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.
+- [x] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.
+  - [x] T10.1: Refinar la composición móvil del resultado y las acciones de la pregunta después de la verificación visual.
 - [ ] T11: Ejecutar checks completos y registrar validación en `notes.md`.

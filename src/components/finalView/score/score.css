@@ -15,12 +15,23 @@
       gap: 1rem;
       text-align: start;
 
+      @media (width <= 30rem) {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+
       .score-trophy {
         flex: 0 0 auto;
         inline-size: 8rem;
         block-size: 8rem;
         object-fit: contain;
         rotate: -6deg;
+
+        @media (width <= 30rem) {
+          inline-size: 7rem;
+          block-size: 7rem;
+        }
       }
 
       h2 {
