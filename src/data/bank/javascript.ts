@@ -1,5 +1,5 @@
 import type { BankQuestion } from '../../types/questionBank';
-import { question, text, code } from '../questionFactory';
+import { code, highlight, inlineCode, question, text } from '../questionFactory';
 
 export const javascriptQuestions = [
   // basic
@@ -18,6 +18,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'let crea una variable con alcance de bloque que puede reasignarse. const impide reasignar el enlace y var tiene alcance de función o global, no de bloque.',
+      [inlineCode('let'), inlineCode('const'), inlineCode('var')],
     ),
   ),
   question(
@@ -25,7 +26,7 @@ export const javascriptQuestions = [
     'javascript',
     'basic',
     'constants',
-    '¿Qué impide const al declarar una variable?',
+    text('¿Qué impide const al declarar una variable?', [inlineCode('const')]),
     [
       text('Leer el valor de la variable'),
       text('Modificar cualquier objeto referenciado'),
@@ -35,6 +36,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'const protege el enlace de la variable, no vuelve inmutable al objeto que puede referenciar. Las propiedades de ese objeto pueden seguir cambiando.',
+      [inlineCode('const')],
     ),
   ),
   question(
@@ -52,6 +54,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Las comillas delimitan una cadena. 42 sin comillas es un número; true es un booleano y null representa un valor nulo.',
+      [inlineCode('42'), inlineCode('true'), inlineCode('null')],
     ),
   ),
   question(
@@ -69,6 +72,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'El tipo booleano tiene los valores true y false. Las cadenas con esos nombres siguen siendo cadenas, aunque algunos valores se conviertan a booleano en condiciones.',
+      [inlineCode('true'), inlineCode('false')],
     ),
   ),
   question(
@@ -89,6 +93,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'Con dos operandos numéricos, + realiza una suma. La concatenación se produce cuando la operación recibe una cadena tras la conversión correspondiente.',
+      [highlight('+')],
     ),
   ),
   question(
@@ -109,6 +114,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'Al intervenir una cadena, + concatena las representaciones textuales. No suma numéricamente el contenido de "2" de forma automática.',
+      [highlight('+'), inlineCode('"2"')],
     ),
   ),
   question(
@@ -126,6 +132,7 @@ export const javascriptQuestions = [
     'a',
     text(
       '=== realiza una comparación estricta. == aplica reglas de conversión entre determinados tipos y = es una asignación.',
+      [highlight('==='), highlight('=='), highlight('=')],
     ),
   ),
   question(
@@ -143,7 +150,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'if evalúa una condición y else permite una rama alternativa. Los bucles repiten trabajo y try/finally controla ejecución y limpieza ante salidas.',
-      ['if', 'else', 'try/finally'],
+      [inlineCode('if'), inlineCode('else'), inlineCode('try/finally')],
     ),
   ),
   question(
@@ -164,6 +171,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'Los arrays se indexan desde cero. El índice 1 corresponde al segundo elemento, que aquí es "CSS".',
+      [inlineCode('1'), inlineCode('"CSS"')],
     ),
   ),
   question(
@@ -184,6 +192,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'En este array denso, length vale tres. El último índice es dos, pero length no es el índice del último elemento.',
+      [highlight('length')],
     ),
   ),
   question(
@@ -201,6 +210,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'push añade elementos al final y devuelve la nueva longitud. pop elimina el último, shift elimina el primero y slice crea una copia de un tramo.',
+      [inlineCode('push'), inlineCode('pop'), inlineCode('shift'), inlineCode('slice')],
     ),
   ),
   question(
@@ -221,6 +231,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'La notación de punto accede a una propiedad por su nombre. Aquí nombre contiene la cadena "Ada", no el texto de la clave.',
+      [highlight('nombre'), inlineCode('"Ada"')],
     ),
   ),
   question(
@@ -228,7 +239,7 @@ export const javascriptQuestions = [
     'javascript',
     'basic',
     'return',
-    '¿Qué hace return dentro de una función ordinaria?',
+    text('¿Qué hace return dentro de una función ordinaria?', [inlineCode('return')]),
     [
       text('Repite la función desde el principio'),
       text('Termina la llamada y entrega un valor'),
@@ -238,6 +249,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'return finaliza esa llamada y puede entregar un valor al llamador. Sin expresión, el valor devuelto es undefined.',
+      [inlineCode('return'), inlineCode('undefined')],
     ),
   ),
   question(
@@ -260,14 +272,19 @@ export const javascriptQuestions = [
       code('javascript', '8'),
     ],
     'd',
-    text('El argumento 4 se asigna al parámetro n y se multiplica por dos. La función devuelve 8.'),
+    text(
+      'El argumento 4 se asigna al parámetro n y se multiplica por dos. La función devuelve 8.',
+      [highlight('n')],
+    ),
   ),
   question(
     'javascript-line-comments-101',
     'javascript',
     'basic',
     'line-comments',
-    '¿Qué sintaxis inicia un comentario de una línea en JavaScript?',
+    text('¿Qué sintaxis inicia un comentario de una línea en JavaScript?', [
+      highlight('JavaScript'),
+    ]),
     [
       code('javascript', '// Nota'),
       code('javascript', '<!-- Nota -->'),
@@ -277,6 +294,7 @@ export const javascriptQuestions = [
     'a',
     text(
       '// inicia un comentario hasta el final de la línea. Para comentarios de bloque JavaScript utiliza /* y */.',
+      [highlight('//'), highlight('JavaScript'), highlight('/*'), highlight('*/')],
     ),
   ),
   question(
@@ -297,6 +315,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'typeof devuelve "number" para los valores del tipo Number, tanto si representan enteros como si contienen parte decimal.',
+      [inlineCode('typeof'), inlineCode('"number"'), highlight('Number')],
     ),
   ),
   question(
@@ -304,7 +323,10 @@ export const javascriptQuestions = [
     'javascript',
     'basic',
     'undefined',
-    '¿Qué valor tiene una variable let declarada sin inicializador después de su declaración?',
+    text(
+      '¿Qué valor tiene una variable let declarada sin inicializador después de su declaración?',
+      [inlineCode('let')],
+    ),
     [
       code('javascript', 'null'),
       code('javascript', 'undefined'),
@@ -314,6 +336,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'Tras ejecutar let sin inicializador, la variable contiene undefined. Esto es distinto de acceder a ella antes de su declaración.',
+      [inlineCode('let'), inlineCode('undefined')],
     ),
   ),
   question(
@@ -334,6 +357,7 @@ export const javascriptQuestions = [
     'd',
     text(
       '% calcula el resto de la división. Siete contiene dos grupos completos de tres y deja un resto de uno.',
+      [highlight('%')],
     ),
   ),
   question(
@@ -354,6 +378,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'El operador ! convierte su operando a booleano y lo niega. La negación de true es false.',
+      [highlight('!'), inlineCode('true'), inlineCode('false')],
     ),
   ),
   question(
@@ -361,7 +386,7 @@ export const javascriptQuestions = [
     'javascript',
     'basic',
     'for-of',
-    '¿Qué recorre for...of al aplicarlo a un array ordinario?',
+    text('¿Qué recorre for...of al aplicarlo a un array ordinario?', [inlineCode('for...of')]),
     [
       text('Los nombres de todas sus propiedades'),
       text('Solo los índices pares del array'),
@@ -371,6 +396,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'for...of consume el iterador del array y obtiene sus valores. for...in tiene un contrato distinto: recorre claves enumerables de propiedades.',
+      [inlineCode('for...of'), inlineCode('for...in')],
     ),
   ),
   // intermediate
@@ -392,6 +418,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'map crea un nuevo array con el resultado de aplicar la función a cada elemento presente. Esta función multiplica cada número por dos.',
+      [inlineCode('map')],
     ),
   ),
   question(
@@ -412,6 +439,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'filter conserva los elementos cuya evaluación cumple la condición. No devuelve los booleanos de la condición ni transforma los valores seleccionados.',
+      [inlineCode('filter')],
     ),
   ),
   question(
@@ -419,7 +447,7 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'array-find',
-    '¿Qué devuelve find cuando ningún elemento cumple su condición?',
+    text('¿Qué devuelve find cuando ningún elemento cumple su condición?', [inlineCode('find')]),
     [
       code('javascript', 'undefined'),
       code('javascript', 'null'),
@@ -429,6 +457,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'find devuelve el primer valor que satisface la condición o undefined si no encuentra ninguno. findIndex devuelve un índice y usa -1 cuando no encuentra coincidencias.',
+      [inlineCode('find'), inlineCode('undefined'), inlineCode('findIndex'), inlineCode('-1')],
     ),
   ),
   question(
@@ -469,6 +498,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'La desestructuración de array asigna valores según su posición en el iterable. b recibe el segundo valor.',
+      [highlight('b')],
     ),
   ),
   question(
@@ -493,6 +523,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'Un parámetro predeterminado se usa si el argumento falta o es undefined. null es un valor explícito y no activa ese predeterminado.',
+      [inlineCode('undefined'), inlineCode('null')],
     ),
   ),
   question(
@@ -517,6 +548,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Un parámetro rest reúne los argumentos restantes en un array. El primer argumento ya queda asignado a primero.',
+      [highlight('rest'), highlight('primero')],
     ),
   ),
   question(
@@ -541,6 +573,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'El spread de objeto hace una copia superficial de propiedades. El objeto interno sigue siendo la misma referencia en las dos copias.',
+      [highlight('spread')],
     ),
   ),
   question(
@@ -561,6 +594,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'El encadenamiento opcional corta el acceso si la base es null o undefined y produce undefined. No convierte la ausencia en una cadena vacía.',
+      [inlineCode('null'), inlineCode('undefined')],
     ),
   ),
   question(
@@ -581,6 +615,7 @@ export const javascriptQuestions = [
     'd',
     text(
       '?? utiliza la alternativa solo cuando el operando izquierdo es null o undefined. Conserva cero, false y las cadenas vacías.',
+      [highlight('??'), inlineCode('null'), inlineCode('undefined'), inlineCode('false')],
     ),
   ),
   question(
@@ -588,7 +623,7 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'closures',
-    '¿Qué permite un cierre léxico en JavaScript?',
+    text('¿Qué permite un cierre léxico en JavaScript?', [highlight('JavaScript')]),
     [
       text('Acceder al entorno léxico donde se creó la función'),
       text('Copiar siempre por valor todos los objetos externos'),
@@ -615,13 +650,14 @@ export const javascriptQuestions = [
     ],
     [
       text('Imprime 3'),
-      text('Imprime undefined'),
-      text('Lanza ReferenceError'),
-      text('Imprime null'),
+      text('Imprime undefined', [inlineCode('undefined')]),
+      text('Lanza ReferenceError', [highlight('ReferenceError')]),
+      text('Imprime null', [inlineCode('null')]),
     ],
     'c',
     text(
       'let tiene alcance de bloque. La variable declarada dentro del if no está disponible fuera de ese bloque.',
+      [inlineCode('let'), inlineCode('if')],
     ),
   ),
   question(
@@ -629,17 +665,23 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'json-parse',
-    text('¿Qué hace JSON.parse con una cadena JSON válida?', ['JSON.parse']),
+    text('¿Qué hace JSON.parse con una cadena JSON válida?', [inlineCode('JSON.parse')]),
     [
-      text('Convierte un objeto en texto JSON'),
+      text('Convierte un objeto en texto JSON', [highlight('JSON')]),
       text('Construye el valor representado por el texto'),
-      text('Ejecuta el texto como una función JavaScript'),
+      text('Ejecuta el texto como una función JavaScript', [highlight('JavaScript')]),
       text('Añade métodos automáticamente a cada objeto'),
     ],
     'b',
     text(
       'JSON.parse interpreta la sintaxis JSON y construye su valor. JSON.stringify realiza la conversión en sentido contrario; parse no es eval.',
-      ['JSON.parse', 'JSON.stringify', 'parse', 'eval'],
+      [
+        inlineCode('JSON.parse'),
+        inlineCode('JSON.stringify'),
+        highlight('JSON'),
+        highlight('parse'),
+        highlight('eval'),
+      ],
     ),
   ),
   question(
@@ -660,6 +702,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'Set conserva valores únicos. La segunda aparición del número 1 no crea otra entrada, así que quedan dos valores.',
+      [inlineCode('Set')],
     ),
   ),
   question(
@@ -667,16 +710,19 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'map-keys',
-    '¿Qué ventaja distingue a Map de un objeto usado como diccionario de claves de cadena?',
+    text('¿Qué ventaja distingue a Map de un objeto usado como diccionario de claves de cadena?', [
+      inlineCode('Map'),
+    ]),
     [
       text('Puede usar objetos como claves sin convertirlos en cadenas'),
       text('Convierte todas sus claves en nombres CSS válidos'),
       text('Ordena automáticamente las claves de menor a mayor'),
-      text('Impide guardar valores undefined como entradas'),
+      text('Impide guardar valores undefined como entradas', [inlineCode('undefined')]),
     ],
     'a',
     text(
       'Map admite claves de cualquier tipo, incluidos objetos identificados por referencia. No ordena automáticamente las claves por su valor.',
+      [inlineCode('Map')],
     ),
   ),
   question(
@@ -684,7 +730,10 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'async-return',
-    '¿Qué devuelve una función async que ejecuta return 5?',
+    text('¿Qué devuelve una función async que ejecuta return 5?', [
+      inlineCode('async'),
+      inlineCode('return 5'),
+    ]),
     [
       text('El número 5 directamente'),
       text('Una función que devuelve 5'),
@@ -694,6 +743,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'Toda llamada a una función async devuelve una promesa. Un valor ordinario devuelto pasa a ser su resultado de cumplimiento.',
+      [inlineCode('async')],
     ),
   ),
   question(
@@ -701,9 +751,9 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'promise-catch',
-    '¿Qué papel cumple catch en una cadena de promesas?',
+    text('¿Qué papel cumple catch en una cadena de promesas?', [inlineCode('catch')]),
     [
-      text('Ejecuta el callback solo si todo se cumple'),
+      text('Ejecuta el callback solo si todo se cumple', [highlight('callback')]),
       text('Permite manejar un rechazo de la cadena'),
       text('Detiene automáticamente solicitudes de red'),
       text('Convierte cualquier resultado en un array'),
@@ -711,6 +761,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'catch registra un manejador de rechazo. Si este devuelve un valor normal, la promesa resultante puede cumplirse con ese valor y continuar la cadena.',
+      [inlineCode('catch')],
     ),
   ),
   question(
@@ -722,19 +773,25 @@ export const javascriptQuestions = [
       {
         type: 'text',
         text: '¿Cuándo se ejecuta finally en un try ordinario que puede lanzar una excepción?',
-        inlineCode: ['finally', 'try'],
+        annotations: [inlineCode('finally'), inlineCode('try')],
       },
     ],
     [
-      text('Solo cuando el try termina sin errores', ['try']),
-      text('Solo cuando existe una cláusula catch', ['catch']),
-      text('Solo si se llama a finally manualmente', ['finally']),
-      text('Al salir del try, también si hay una excepción', ['try']),
+      text('Solo cuando el try termina sin errores', [inlineCode('try')]),
+      text('Solo cuando existe una cláusula catch', [inlineCode('catch')]),
+      text('Solo si se llama a finally manualmente', [inlineCode('finally')]),
+      text('Al salir del try, también si hay una excepción', [inlineCode('try')]),
     ],
     'd',
     text(
       'finally se ejecuta al abandonar try o catch, incluso ante una excepción o un return. Resulta útil para limpieza; un nuevo return o throw dentro de finally puede reemplazar la salida previa.',
-      ['finally', 'try', 'catch', 'return', 'throw'],
+      [
+        inlineCode('finally'),
+        inlineCode('try'),
+        inlineCode('catch'),
+        inlineCode('return'),
+        inlineCode('throw'),
+      ],
     ),
   ),
   question(
@@ -742,17 +799,26 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'array-slice',
-    text('¿Qué diferencia slice de splice en un array?', ['slice', 'splice']),
+    text('¿Qué diferencia slice de splice en un array?', [
+      inlineCode('slice'),
+      inlineCode('splice'),
+    ]),
     [
-      text('slice copia un tramo; splice modifica el array', ['slice', 'splice']),
-      text('slice modifica el array; splice copia un tramo', ['slice', 'splice']),
+      text('slice copia un tramo; splice modifica el array', [
+        inlineCode('slice'),
+        inlineCode('splice'),
+      ]),
+      text('slice modifica el array; splice copia un tramo', [
+        inlineCode('slice'),
+        inlineCode('splice'),
+      ]),
       text('Ambos ordenan el array numéricamente'),
       text('Ambos convierten el array en una cadena'),
     ],
     'a',
     text(
       'slice devuelve una copia superficial de un tramo sin eliminarlo. splice puede insertar o eliminar elementos en el array original.',
-      ['slice', 'splice'],
+      [inlineCode('slice'), inlineCode('splice')],
     ),
   ),
   question(
@@ -760,7 +826,11 @@ export const javascriptQuestions = [
     'javascript',
     'intermediate',
     'module-export',
-    '¿Qué import corresponde a export const total = 3 en ./datos.js?',
+    text('¿Qué import corresponde a export const total = 3 en ./datos.js?', [
+      inlineCode('import'),
+      inlineCode('export const total = 3'),
+      highlight('./datos.js'),
+    ]),
     [
       code('javascript', 'import total from "./datos.js";'),
       code('javascript', 'import "total" from "./datos.js";'),
@@ -770,6 +840,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'Una exportación con nombre se importa con ese nombre entre llaves. La importación sin llaves corresponde a una exportación default.',
+      [inlineCode('default')],
     ),
   ),
   // advanced
@@ -790,6 +861,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'El callback de then se ejecuta en un trabajo posterior, después de que termine el código síncrono actual. Por ello C aparece antes que B.',
+      [highlight('callback'), inlineCode('then')],
     ),
   ),
   question(
@@ -809,6 +881,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'La función ejecuta A de forma síncrona hasta await. Su continuación se programa después, de modo que el código llamador registra C antes de B.',
+      [inlineCode('await')],
     ),
   ),
   question(
@@ -820,7 +893,7 @@ export const javascriptQuestions = [
       {
         type: 'text',
         text: 'Si dos promesas se cumplen en orden inverso al array de Promise.all, ¿en qué orden aparecen sus valores en el resultado?',
-        inlineCode: ['Promise.all'],
+        annotations: [inlineCode('Promise.all')],
       },
     ],
     [
@@ -832,7 +905,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Promise.all conserva la correspondencia con las posiciones de entrada, independientemente del momento en que se cumpla cada promesa.',
-      ['Promise.all'],
+      [inlineCode('Promise.all')],
     ),
   ),
   question(
@@ -844,19 +917,19 @@ export const javascriptQuestions = [
       {
         type: 'text',
         text: 'Una promesa de Promise.all rechaza mientras otras siguen pendientes. ¿Qué sucede?',
-        inlineCode: ['Promise.all'],
+        annotations: [inlineCode('Promise.all')],
       },
     ],
     [
       text('Espera a que todas rechacen para rechazar'),
       text('Cancela automáticamente las otras operaciones'),
       text('La promesa agregada rechaza sin cancelar las otras'),
-      text('Convierte el rechazo en un resultado undefined', ['undefined']),
+      text('Convierte el rechazo en un resultado undefined', [inlineCode('undefined')]),
     ],
     'c',
     text(
       'Promise.all rechaza cuando recibe un rechazo, pero no cancela el trabajo subyacente de las demás promesas. La cancelación requiere un mecanismo independiente.',
-      ['Promise.all'],
+      [inlineCode('Promise.all')],
     ),
   ),
   question(
@@ -876,6 +949,7 @@ export const javascriptQuestions = [
     'b',
     text(
       'El ejecutor pasado al constructor Promise se llama de forma síncrona. Los callbacks registrados con then tienen un comportamiento posterior diferente.',
+      [inlineCode('Promise'), highlight('callbacks'), inlineCode('then')],
     ),
   ),
   question(
@@ -896,6 +970,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'Un cuerpo de función con llaves necesita return para devolver el producto. Sin return, el callback devuelve undefined y la promesa resultante se cumple con ese valor.',
+      [inlineCode('return'), highlight('callback'), inlineCode('undefined')],
     ),
   ),
   question(
@@ -916,7 +991,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Un finally que termina normalmente preserva el resultado original. Su valor de retorno ordinario no sustituye al de cumplimiento; un throw o rechazo sí puede cambiar la salida.',
-      ['finally', 'throw'],
+      [inlineCode('finally'), inlineCode('throw')],
     ),
   ),
   question(
@@ -924,16 +999,17 @@ export const javascriptQuestions = [
     'javascript',
     'advanced',
     'lexical-this',
-    '¿Qué determina this dentro de una función flecha?',
+    text('¿Qué determina this dentro de una función flecha?', [inlineCode('this')]),
     [
-      text('El objeto usado después con call'),
+      text('El objeto usado después con call', [inlineCode('call')]),
       text('El primer argumento de la flecha'),
-      text('El this del entorno léxico de creación'),
+      text('El this del entorno léxico de creación', [inlineCode('this')]),
       text('El último objeto que almacene la flecha'),
     ],
     'c',
     text(
       'Las flechas no crean su propio enlace this. call, apply y bind no pueden sustituir el this capturado desde su entorno.',
+      [inlineCode('this'), inlineCode('call'), inlineCode('apply'), inlineCode('bind')],
     ),
   ),
   question(
@@ -951,13 +1027,14 @@ export const javascriptQuestions = [
     ],
     [
       text('Devuelve 1'),
-      text('Lanza TypeError'),
-      text('Devuelve null'),
+      text('Lanza TypeError', [highlight('TypeError')]),
+      text('Devuelve null', [inlineCode('null')]),
       text('Devuelve el objeto'),
     ],
     'b',
     text(
       'La llamada separada no tiene un receptor y this es undefined en modo estricto. Intentar acceder a this.x lanza TypeError.',
+      [inlineCode('this'), inlineCode('undefined'), inlineCode('this.x'), highlight('TypeError')],
     ),
   ),
   question(
@@ -970,14 +1047,15 @@ export const javascriptQuestions = [
       { type: 'code', language: 'javascript', code: '{ console.log(typeof dato); let dato = 1; }' },
     ],
     [
-      text('Imprime "undefined"'),
-      text('Imprime "number"'),
-      text('Imprime "object"'),
-      text('Lanza ReferenceError'),
+      text('Imprime "undefined"', [inlineCode('"undefined"')]),
+      text('Imprime "number"', [inlineCode('"number"')]),
+      text('Imprime "object"', [inlineCode('"object"')]),
+      text('Lanza ReferenceError', [highlight('ReferenceError')]),
     ],
     'd',
     text(
       'La variable léxica existe pero aún no está inicializada. Incluso typeof lanza ReferenceError al acceder a un enlace en su zona muerta temporal.',
+      [inlineCode('typeof'), highlight('ReferenceError')],
     ),
   ),
   question(
@@ -1002,6 +1080,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'El let del bucle crea enlaces por iteración. Cada cierre conserva el i correspondiente, a diferencia del enlace compartido que produciría var.',
+      [inlineCode('let'), highlight('i'), inlineCode('var')],
     ),
   ),
   question(
@@ -1022,6 +1101,13 @@ export const javascriptQuestions = [
     'c',
     text(
       'Object.is usa SameValue y considera iguales dos NaN. La igualdad estricta === devuelve false al comparar NaN consigo mismo.',
+      [
+        inlineCode('Object.is'),
+        highlight('SameValue'),
+        inlineCode('NaN'),
+        highlight('==='),
+        inlineCode('false'),
+      ],
     ),
   ),
   question(
@@ -1030,7 +1116,11 @@ export const javascriptQuestions = [
     'advanced',
     'same-value-zero',
     [
-      { type: 'text', text: '¿Cuántas entradas contiene este Set?' },
+      {
+        type: 'text',
+        text: '¿Cuántas entradas contiene este Set?',
+        annotations: [inlineCode('Set')],
+      },
       { type: 'code', language: 'javascript', code: 'new Set([NaN, NaN, 0, -0]).size' },
     ],
     [
@@ -1042,6 +1132,13 @@ export const javascriptQuestions = [
     'b',
     text(
       'Set compara mediante SameValueZero: considera iguales los NaN y también 0 y -0. Quedan una entrada NaN y una entrada cero.',
+      [
+        inlineCode('Set'),
+        highlight('SameValueZero'),
+        inlineCode('NaN'),
+        inlineCode('0'),
+        inlineCode('-0'),
+      ],
     ),
   ),
   question(
@@ -1050,7 +1147,11 @@ export const javascriptQuestions = [
     'advanced',
     'property-order',
     [
-      { type: 'text', text: '¿Qué array devuelve Object.keys?' },
+      {
+        type: 'text',
+        text: '¿Qué array devuelve Object.keys?',
+        annotations: [inlineCode('Object.keys')],
+      },
       {
         type: 'code',
         language: 'javascript',
@@ -1084,12 +1185,13 @@ export const javascriptQuestions = [
     [
       text('El objeto interno cambia su n a 2'),
       text('El objeto interno permanece con n igual a 1'),
-      text('Siempre se lanza TypeError por freeze'),
+      text('Siempre se lanza TypeError por freeze', [highlight('TypeError'), highlight('freeze')]),
       text('Se crea una copia automática de interno'),
     ],
     'a',
     text(
       'Object.freeze es superficial: congela las propiedades del objeto recibido. El objeto anidado no queda congelado automáticamente y su n puede modificarse.',
+      [inlineCode('Object.freeze'), highlight('n')],
     ),
   ),
   question(
@@ -1114,6 +1216,7 @@ export const javascriptQuestions = [
     'c',
     text(
       'x se hereda del prototipo, pero no es una propiedad propia de objeto. Object.hasOwn distingue esas propiedades de las heredadas.',
+      [highlight('x'), inlineCode('Object.hasOwn')],
     ),
   ),
   question(
@@ -1124,14 +1227,14 @@ export const javascriptQuestions = [
     '¿Cuándo empieza a ejecutarse el cuerpo de una función generadora al usarla normalmente?',
     [
       text('Al evaluar su declaración'),
-      text('Al llamar por primera vez a next()', ['next()']),
+      text('Al llamar por primera vez a next()', [inlineCode('next()')]),
       text('Al obtener el objeto generador mediante la llamada'),
-      text('Al consultar su propiedad Symbol.iterator'),
+      text('Al consultar su propiedad Symbol.iterator', [inlineCode('Symbol.iterator')]),
     ],
     'b',
     text(
       'Llamar a una función generadora crea un objeto generador suspendido. El cuerpo comienza al reanudarlo con next().',
-      ['next()'],
+      [inlineCode('next()')],
     ),
   ),
   question(
@@ -1140,7 +1243,11 @@ export const javascriptQuestions = [
     'advanced',
     'iterator-completion',
     [
-      { type: 'text', text: '¿Qué resultado devuelve la segunda llamada a next()?' },
+      {
+        type: 'text',
+        text: '¿Qué resultado devuelve la segunda llamada a next()?',
+        annotations: [inlineCode('next()')],
+      },
       {
         type: 'code',
         language: 'javascript',
@@ -1156,6 +1263,7 @@ export const javascriptQuestions = [
     'd',
     text(
       'La primera llamada entrega el yield. La segunda alcanza return, que termina el generador y entrega su valor con done: true.',
+      [inlineCode('yield'), inlineCode('return'), inlineCode('done: true')],
     ),
   ),
   question(
@@ -1167,7 +1275,7 @@ export const javascriptQuestions = [
       {
         type: 'text',
         text: '¿Qué resultado produce este sort sin comparador?',
-        inlineCode: ['sort'],
+        annotations: [inlineCode('sort')],
       },
       { type: 'code', language: 'javascript', code: '[2, 10, 1].sort();' },
     ],
@@ -1180,7 +1288,7 @@ export const javascriptQuestions = [
     'a',
     text(
       'Sin comparador, sort ordena según representaciones de cadena. Para ordenar estos números de menor a mayor puede usarse (a, b) => a - b; sort modifica el array.',
-      ['sort', '(a, b) => a - b'],
+      [inlineCode('sort'), inlineCode('(a, b) => a - b')],
     ),
   ),
   question(
@@ -1192,10 +1300,16 @@ export const javascriptQuestions = [
       { type: 'text', text: '¿Qué ocurre al evaluar esta suma?' },
       { type: 'code', language: 'javascript', code: '1n + 1' },
     ],
-    [text('Devuelve 2n'), text('Devuelve 2'), text('Lanza TypeError'), text('Devuelve NaN')],
+    [
+      text('Devuelve 2n', [inlineCode('2n')]),
+      text('Devuelve 2', [inlineCode('2')]),
+      text('Lanza TypeError', [highlight('TypeError')]),
+      text('Devuelve NaN', [inlineCode('NaN')]),
+    ],
     'c',
     text(
       'La suma no mezcla directamente BigInt y Number. Hay que convertir explícitamente a un tipo común teniendo en cuenta los límites de precisión.',
+      [highlight('BigInt'), highlight('Number')],
     ),
   ),
 ] as const satisfies readonly BankQuestion[];

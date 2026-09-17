@@ -7,10 +7,18 @@ export type Level = (typeof LEVELS)[number];
 export const CODE_LANGUAGES = ['html', 'css', 'javascript'] as const;
 export type CodeLanguage = (typeof CODE_LANGUAGES)[number];
 
+export type InlineAnnotationKind = 'code' | 'highlight';
+
+export interface InlineAnnotation {
+  readonly kind: InlineAnnotationKind;
+  readonly value: string;
+  readonly language?: CodeLanguage;
+}
+
 export interface TextContentBlock {
   readonly type: 'text';
   readonly text: string;
-  readonly inlineCode?: readonly string[];
+  readonly annotations?: readonly InlineAnnotation[];
 }
 
 export interface CodeContentBlock {

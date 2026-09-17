@@ -22,7 +22,7 @@ export function QuestionContent({
   return (
     <div className="content-blocks question-content">
       <h2 className="question-title" id={headingId} ref={ref} tabIndex={tabIndex}>
-        <TechnicalText text={heading.text} language={language} explicitTerms={heading.inlineCode} />
+        <TechnicalText text={heading.text} language={language} annotations={heading.annotations} />
       </h2>
       {details.length > 0 && (
         <div className="question-details">

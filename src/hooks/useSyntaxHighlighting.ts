@@ -16,7 +16,7 @@ export function useSyntaxHighlighting(rootRef: RefObject<ParentNode | null>, ref
       .catch(() => undefined)
       .then(async () => {
         const { highlightAll } = await import('microlighter');
-        await highlightAll({ root, selector: '.code-block > code' });
+        await highlightAll({ root, selector: '.syntax-code' });
       })
       .catch(() => undefined);
   }, [refreshKey, rootRef]);

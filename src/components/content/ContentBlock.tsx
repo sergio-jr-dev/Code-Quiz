@@ -16,7 +16,10 @@ export function ContentBlock({
   if (block.type === 'code') {
     if (!isCompleteCodeBlock(block)) {
       return (
-        <code className={`code-snippet language-${block.language}`} data-language={block.language}>
+        <code
+          className={`code-snippet syntax-code language-${block.language}`}
+          data-language={block.language}
+        >
           {block.code}
         </code>
       );
@@ -24,7 +27,7 @@ export function ContentBlock({
 
     return (
       <pre className={`content-code code-block ${wrapCode ? 'wrappable' : ''}`}>
-        <code className={`language-${block.language}`} data-language={block.language}>
+        <code className={`syntax-code language-${block.language}`} data-language={block.language}>
           {block.code}
         </code>
       </pre>
@@ -37,7 +40,7 @@ export function ContentBlock({
         <TechnicalText
           text={block.text}
           language={inlineLanguage}
-          explicitTerms={block.inlineCode}
+          annotations={block.annotations}
         />
       ) : (
         block.text

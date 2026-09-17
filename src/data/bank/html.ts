@@ -1,5 +1,5 @@
 import type { BankQuestion } from '../../types/questionBank';
-import { question, text, code } from '../questionFactory';
+import { code, highlight, inlineCode, question, text } from '../questionFactory';
 
 export const htmlQuestions = [
   question(
@@ -7,7 +7,10 @@ export const htmlQuestions = [
     'html',
     'basic',
     'images',
-    '¿Cuál es el propósito del atributo alt en una etiqueta img?',
+    text('¿Cuál es el propósito del atributo alt en una etiqueta <img>?', [
+      highlight('alt'),
+      inlineCode('<img>'),
+    ]),
     [
       text('Establecer el tamaño'),
       text('Definir el texto alternativo'),
@@ -17,6 +20,7 @@ export const htmlQuestions = [
     'b',
     text(
       'El atributo alt proporciona una alternativa textual para la imagen. Puede comunicar su propósito a quienes usan lectores de pantalla y sustituirla cuando no se muestra; no controla su tamaño, formato ni alineación.',
+      [highlight('alt')],
     ),
   ),
   question(
@@ -27,7 +31,10 @@ export const htmlQuestions = [
     '¿Qué etiqueta HTML se usa para crear un enlace?',
     [code('html', '<a>'), code('html', '<link>'), code('html', '<href>'), code('html', '<src>')],
     'a',
-    text('En HTML se usa el elemento a para crear un enlace.'),
+    text('En HTML se usa el elemento <a> para crear un enlace.', [
+      highlight('HTML'),
+      inlineCode('<a>'),
+    ]),
   ),
   question(
     'html-fundamentals-001',
@@ -44,6 +51,7 @@ export const htmlQuestions = [
     'a',
     text(
       'HTML significa Hyper Text Markup Language. Es el lenguaje estándar para crear páginas web.',
+      [highlight('HTML'), highlight('Hyper Text Markup Language')],
     ),
   ),
   question(
@@ -51,7 +59,7 @@ export const htmlQuestions = [
     'html',
     'basic',
     'document-metadata',
-    '¿Cuál es el propósito del elemento <head> en HTML?',
+    text('¿Cuál es el propósito del elemento <head> en HTML?', [inlineCode('<head>')]),
     [
       text('Contener el contenido principal de la página'),
       text('Definir un encabezado visible'),
@@ -60,7 +68,8 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'El elemento head contiene metadatos del documento, como el título y enlaces a hojas de estilo. El contenido principal pertenece a body, y un encabezado visible se representa dentro de ese contenido.',
+      'El elemento <head> contiene metadatos del documento, como el título y enlaces a hojas de estilo. El contenido principal pertenece a <body>, y un encabezado visible se representa dentro de ese contenido.',
+      [inlineCode('<head>'), inlineCode('<body>')],
     ),
   ),
   question(
@@ -77,7 +86,8 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'El elemento ul (unordered list) crea una lista no ordenada y sus elementos se representan con li. ol crea una lista ordenada; list y unordered no son elementos HTML.',
+      'El elemento <ul> (unordered list) crea una lista no ordenada y sus elementos se representan con <li>. <ol> crea una lista ordenada; list y unordered no son elementos HTML.',
+      [inlineCode('<ul>'), inlineCode('<li>'), inlineCode('<ol>')],
     ),
   ),
   question(
@@ -94,7 +104,14 @@ export const htmlQuestions = [
     ],
     'b',
     text(
-      'En HTML se usa el elemento link con rel="stylesheet" y href apuntando al archivo CSS para vincular una hoja de estilos externa.',
+      'En HTML se usa el elemento <link> con rel="stylesheet" y href apuntando al archivo CSS para vincular una hoja de estilos externa.',
+      [
+        highlight('HTML'),
+        inlineCode('<link>'),
+        inlineCode('rel="stylesheet"'),
+        highlight('href'),
+        highlight('CSS'),
+      ],
     ),
   ),
   question(
@@ -102,7 +119,9 @@ export const htmlQuestions = [
     'html',
     'basic',
     'viewport',
-    '¿Qué controla la declaración <meta name="viewport">?',
+    text('¿Qué controla la declaración <meta name="viewport">?', [
+      inlineCode('<meta name="viewport">'),
+    ]),
     [
       text('Definir el idioma de la página'),
       text('Establecer el título de la página'),
@@ -112,6 +131,7 @@ export const htmlQuestions = [
     'c',
     text(
       'El valor viewport del atributo name en meta se usa para controlar cómo se muestra una página en dispositivos móviles, incluidos el ancho y la escala inicial.',
+      [highlight('viewport'), highlight('name'), highlight('meta')],
     ),
   ),
   question(
@@ -119,7 +139,7 @@ export const htmlQuestions = [
     'html',
     'basic',
     'canvas',
-    '¿Para qué se utiliza el elemento <canvas> de HTML?',
+    text('¿Para qué se utiliza el elemento <canvas> de HTML?', [inlineCode('<canvas>')]),
     [
       text('Para dibujar gráficos y animaciones mediante scripts'),
       text('Para crear formularios interactivos'),
@@ -128,7 +148,8 @@ export const htmlQuestions = [
     ],
     'a',
     text(
-      'El elemento canvas es un contenedor para gráficos dibujados mediante JavaScript. Permite crear gráficos, animaciones, juegos y otras composiciones visuales en el navegador.',
+      'El elemento <canvas> es un contenedor para gráficos dibujados mediante JavaScript. Permite crear gráficos, animaciones, juegos y otras composiciones visuales en el navegador.',
+      [inlineCode('<canvas>'), highlight('JavaScript')],
     ),
   ),
   question(
@@ -145,7 +166,13 @@ export const htmlQuestions = [
     ],
     'a',
     text(
-      'details representa un widget desplegable que muestra u oculta información adicional. Su primer summary aporta la etiqueta visible; dialog tiene otro propósito y accordion no es un elemento HTML.',
+      '<details> representa un widget desplegable que muestra u oculta información adicional. Su primer <summary> aporta la etiqueta visible; <dialog> tiene otro propósito y <accordion> no es un elemento HTML.',
+      [
+        inlineCode('<details>'),
+        inlineCode('<summary>'),
+        inlineCode('<dialog>'),
+        inlineCode('<accordion>'),
+      ],
     ),
   ),
   question(
@@ -163,6 +190,7 @@ export const htmlQuestions = [
     'b',
     text(
       'El atributo download indica la intención de descargar el recurso enlazado por href. Sin download, el enlace navega al PDF; target="_blank" cambia el contexto de navegación, y sin href no se crea ese hipervínculo.',
+      [highlight('download'), highlight('href'), inlineCode('target="_blank"')],
     ),
   ),
   // basic
@@ -175,7 +203,8 @@ export const htmlQuestions = [
     [code('html', '<p>'), code('html', '<span>'), code('html', '<div>'), code('html', '<section>')],
     'a',
     text(
-      'p representa un párrafo. div y span son contenedores genéricos; section agrupa una sección temática.',
+      '<p> representa un párrafo. <div> y <span> son contenedores genéricos; <section> agrupa una sección temática.',
+      [inlineCode('<p>'), inlineCode('<div>'), inlineCode('<span>'), inlineCode('<section>')],
     ),
   ),
   question(
@@ -187,7 +216,8 @@ export const htmlQuestions = [
     [code('html', '<h6>'), code('html', '<header>'), code('html', '<h1>'), code('html', '<head>')],
     'c',
     text(
-      'h1 es el encabezado de mayor nivel. header agrupa contenido introductorio y head contiene metadatos; ninguno equivale a un nivel de encabezado.',
+      '<h1> es el encabezado de mayor nivel. <header> agrupa contenido introductorio y <head> contiene metadatos; ninguno equivale a un nivel de encabezado.',
+      [inlineCode('<h1>'), inlineCode('<header>'), inlineCode('<head>')],
     ),
   ),
   question(
@@ -204,7 +234,8 @@ export const htmlQuestions = [
     ],
     'b',
     text(
-      'button aporta semántica de botón y activación mediante teclado. Un contenedor genérico no adquiere ese comportamiento por recibir un evento de clic.',
+      '<button> aporta semántica de botón y activación mediante teclado. Un contenedor genérico no adquiere ese comportamiento por recibir un evento de clic.',
+      [inlineCode('<button>')],
     ),
   ),
   question(
@@ -221,7 +252,13 @@ export const htmlQuestions = [
     ],
     'd',
     text(
-      'textarea permite editar texto de varias líneas. input de tipo text es de una línea, select permite elegir opciones y output representa un resultado.',
+      '<textarea> permite editar texto de varias líneas. <input type="text"> es de una línea, <select> permite elegir opciones y <output> representa un resultado.',
+      [
+        inlineCode('<textarea>'),
+        inlineCode('<input type="text">'),
+        inlineCode('<select>'),
+        inlineCode('<output>'),
+      ],
     ),
   ),
   question(
@@ -229,7 +266,7 @@ export const htmlQuestions = [
     'html',
     'basic',
     'language',
-    '¿Qué atributo declara el idioma principal en <html>?',
+    text('¿Qué atributo declara el idioma principal en <html>?', [inlineCode('<html>')]),
     [
       code('html', 'charset="es"'),
       code('html', 'lang="es"'),
@@ -239,6 +276,7 @@ export const htmlQuestions = [
     'b',
     text(
       'lang declara el idioma del contenido y ayuda a herramientas como lectores de pantalla a pronunciarlo. charset identifica una codificación, no un idioma.',
+      [highlight('lang'), highlight('charset')],
     ),
   ),
   question(
@@ -255,7 +293,8 @@ export const htmlQuestions = [
     ],
     'a',
     text(
-      'strong expresa importancia, seriedad o urgencia. mark destaca relevancia contextual y small representa comentarios secundarios; la apariencia puede modificarse con CSS.',
+      '<strong> expresa importancia, seriedad o urgencia. <mark> destaca relevancia contextual y <small> representa comentarios secundarios; la apariencia puede modificarse con CSS.',
+      [inlineCode('<strong>'), inlineCode('<mark>'), inlineCode('<small>'), highlight('CSS')],
     ),
   ),
   question(
@@ -273,6 +312,7 @@ export const htmlQuestions = [
     'c',
     text(
       'Una casilla checkbox representa una opción activada o desactivada. Los radios se usan para elegir dentro de un grupo mutuamente excluyente.',
+      [highlight('checkbox'), highlight('radio')],
     ),
   ),
   question(
@@ -280,11 +320,15 @@ export const htmlQuestions = [
     'html',
     'basic',
     'images',
-    '¿Qué atributo de img indica la URL de la imagen cuando no se usa srcset?',
+    text('¿Qué atributo de <img> indica la URL de la imagen cuando no se usa srcset?', [
+      inlineCode('<img>'),
+      highlight('srcset'),
+    ]),
     [code('html', 'href'), code('html', 'alt'), code('html', 'title'), code('html', 'src')],
     'd',
     text(
       'src proporciona la URL del recurso de imagen. alt ofrece la alternativa textual; href se utiliza en otros elementos, como los enlaces.',
+      [highlight('src'), highlight('alt'), highlight('href')],
     ),
   ),
   question(
@@ -296,7 +340,8 @@ export const htmlQuestions = [
     [code('html', '<td>'), code('html', '<tr>'), code('html', '<th>'), code('html', '<table>')],
     'b',
     text(
-      'tr agrupa las celdas de una fila. td representa una celda de datos y th una celda de encabezado.',
+      '<tr> agrupa las celdas de una fila. <td> representa una celda de datos y <th> una celda de encabezado.',
+      [inlineCode('<tr>'), inlineCode('<td>'), inlineCode('<th>')],
     ),
   ),
   question(
@@ -314,6 +359,7 @@ export const htmlQuestions = [
     'a',
     text(
       'Los comentarios HTML se delimitan con <!-- y -->. No aparecen como texto de la página, pero siguen siendo visibles al inspeccionar el código fuente.',
+      [inlineCode('<!-- y -->')],
     ),
   ),
   // intermediate
@@ -322,7 +368,10 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'labels',
-    '¿Cómo se asocia explícitamente un label con un input cuyo id es correo?',
+    text('¿Cómo se asocia explícitamente un <label> con un <input> cuyo id es correo?', [
+      inlineCode('<label>'),
+      inlineCode('<input>'),
+    ]),
     [
       code('html', '<label name="correo">Correo</label>'),
       code('html', '<label href="correo">Correo</label>'),
@@ -331,7 +380,14 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'El atributo for de label referencia el id del control. El atributo name del input sirve para identificar sus datos al enviar el formulario, no para esta asociación.',
+      'El atributo for de <label> referencia el id del control. El atributo name del input sirve para identificar sus datos al enviar el formulario, no para esta asociación.',
+      [
+        highlight('for'),
+        inlineCode('<label>'),
+        highlight('id'),
+        highlight('name'),
+        highlight('input'),
+      ],
     ),
   ),
   question(
@@ -344,6 +400,7 @@ export const htmlQuestions = [
     'a',
     text(
       'Los radios con el mismo name y propietario de formulario forman un grupo. Sus valores pueden ser distintos y sus IDs deben seguir siendo únicos.',
+      [highlight('radios'), highlight('name')],
     ),
   ),
   question(
@@ -351,7 +408,9 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'button-types',
-    '¿Qué type evita que un button ordinario envíe su formulario al activarlo?',
+    text('¿Qué type evita que un <button> ordinario envíe su formulario al activarlo?', [
+      inlineCode('<button>'),
+    ]),
     [
       code('html', 'type="submit"'),
       code('html', 'type="reset"'),
@@ -361,6 +420,7 @@ export const htmlQuestions = [
     'd',
     text(
       'type="button" no tiene una acción de envío predeterminada. reset restablece el formulario y submit solicita enviarlo.',
+      [inlineCode('type="button"'), highlight('reset'), highlight('submit')],
     ),
   ),
   question(
@@ -368,11 +428,14 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'form-names',
-    '¿Qué atributo proporciona la clave de un input de texto en los datos enviados?',
+    text('¿Qué atributo proporciona la clave de un <input> de texto en los datos enviados?', [
+      inlineCode('<input>'),
+    ]),
     [code('html', 'id'), code('html', 'name'), code('html', 'class'), code('html', 'title')],
     'b',
     text(
       'name determina el nombre de la entrada enviada con el valor del control. Un id permite referenciar el elemento, pero no sustituye a name en el envío.',
+      [highlight('name'), highlight('id')],
     ),
   ),
   question(
@@ -380,7 +443,9 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'form-required',
-    '¿Qué atributo exige completar un input de texto durante la validación nativa?',
+    text('¿Qué atributo exige completar un <input> de texto durante la validación nativa?', [
+      inlineCode('<input>'),
+    ]),
     [
       code('html', 'required'),
       code('html', 'readonly'),
@@ -390,6 +455,7 @@ export const htmlQuestions = [
     'a',
     text(
       'required hace que un valor vacío incumpla la validación del control. La validación del navegador mejora el formulario, pero el servidor debe verificar los datos recibidos.',
+      [highlight('required')],
     ),
   ),
   question(
@@ -406,7 +472,13 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'fieldset agrupa controles y su primer legend proporciona el título del grupo. label nombra controles individuales y caption titula tablas.',
+      '<fieldset> agrupa controles y su primer <legend> proporciona el título del grupo. <label> nombra controles individuales y <caption> titula tablas.',
+      [
+        inlineCode('<fieldset>'),
+        inlineCode('<legend>'),
+        inlineCode('<label>'),
+        inlineCode('<caption>'),
+      ],
     ),
   ),
   question(
@@ -414,7 +486,7 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'table-headers',
-    '¿Qué atributo en un th sencillo indica que encabeza su columna?',
+    text('¿Qué atributo en un <th> sencillo indica que encabeza su columna?', [inlineCode('<th>')]),
     [
       code('html', 'scope="row"'),
       code('html', 'scope="col"'),
@@ -424,6 +496,7 @@ export const htmlQuestions = [
     'b',
     text(
       'scope="col" relaciona el encabezado con las celdas de su columna. colspan y rowspan controlan extensión de celdas, no su función como encabezados.',
+      [inlineCode('scope="col"'), highlight('colspan'), highlight('rowspan')],
     ),
   ),
   question(
@@ -441,6 +514,7 @@ export const htmlQuestions = [
     'd',
     text(
       'Un alt vacío indica que esa imagen no aporta contenido que deba anunciarse. Omitir alt no expresa lo mismo y puede provocar que se anuncie el nombre del archivo.',
+      [highlight('alt')],
     ),
   ),
   question(
@@ -448,11 +522,16 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'responsive-images',
-    '¿Qué atributo de img enumera candidatos de imagen con descriptores w o x?',
+    text('¿Qué atributo de <img> enumera candidatos de imagen con descriptores w o x?', [
+      inlineCode('<img>'),
+      highlight('w'),
+      highlight('x'),
+    ]),
     [code('html', 'srcset'), code('html', 'sizes'), code('html', 'media'), code('html', 'loading')],
     'a',
     text(
       'srcset enumera los candidatos. sizes informa del tamaño de presentación para candidatos con descriptor de anchura; no contiene las URLs de las imágenes.',
+      [highlight('srcset'), highlight('sizes')],
     ),
   ),
   question(
@@ -460,7 +539,11 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'picture',
-    '¿Qué aporta picture con elementos source frente a un único src?',
+    text('¿Qué aporta <picture> con elementos <source> frente a un único src?', [
+      inlineCode('<picture>'),
+      inlineCode('<source>'),
+      highlight('src'),
+    ]),
     [
       text('Elegir el texto alternativo según el idioma'),
       text('Dibujar gráficos vectoriales mediante HTML'),
@@ -469,7 +552,8 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'picture permite ofrecer fuentes alternativas según media o type. El img sigue siendo el elemento que muestra la imagen y aporta su texto alternativo.',
+      '<picture> permite ofrecer fuentes alternativas según media o type. El <img> sigue siendo el elemento que muestra la imagen y aporta su texto alternativo.',
+      [inlineCode('<picture>'), highlight('media'), highlight('type'), inlineCode('<img>')],
     ),
   ),
   question(
@@ -477,16 +561,22 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'script-defer',
-    'En un script clásico externo, ¿qué hace defer?',
+    text('En un <script> clásico externo, ¿qué hace defer?', [
+      inlineCode('<script>'),
+      highlight('defer'),
+    ]),
     [
       text('Lo ejecuta antes de leer el resto del HTML'),
-      text('Lo ejecuta tras analizar HTML y antes de DOMContentLoaded'),
+      text('Lo ejecuta tras analizar HTML y antes de DOMContentLoaded', [
+        highlight('DOMContentLoaded'),
+      ]),
       text('Lo ejecuta solo tras el evento load de las imágenes'),
       text('Lo ejecuta únicamente al recibir un clic'),
     ],
     'b',
     text(
       'defer permite descargar el script mientras se analiza HTML y ejecutarlo cuando termina ese análisis. Los scripts clásicos diferidos mantienen su orden de documento.',
+      [highlight('defer')],
     ),
   ),
   question(
@@ -494,16 +584,19 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'script-async',
-    'Dos scripts clásicos externos con async dependen uno del otro. ¿Qué riesgo existe?',
+    text('Dos scripts clásicos externos con async dependen uno del otro. ¿Qué riesgo existe?', [
+      highlight('async'),
+    ]),
     [
       text('Siempre se ejecutan en orden inverso'),
-      text('Siempre se ejecutan después de load'),
+      text('Siempre se ejecutan después de load', [highlight('load')]),
       text('Se convierten automáticamente en módulos'),
       text('Pueden ejecutarse fuera del orden del documento'),
     ],
     'd',
     text(
       'async ejecuta cada script cuando está disponible; no garantiza el orden entre ellos. Una dependencia de ejecución requiere una estrategia que sí establezca ese orden.',
+      [highlight('async')],
     ),
   ),
   question(
@@ -521,6 +614,11 @@ export const htmlQuestions = [
     'a',
     text(
       'Los atributos data-* almacenan datos propios de la página. JavaScript puede leer data-product-id mediante dataset.productId; no deben reemplazar atributos semánticos existentes.',
+      [
+        inlineCode('data-*'),
+        inlineCode('data-product-id', 'javascript'),
+        inlineCode('dataset.productId', 'javascript'),
+      ],
     ),
   ),
   question(
@@ -528,7 +626,7 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'main',
-    '¿Qué contenido corresponde a main en una página ordinaria?',
+    text('¿Qué contenido corresponde a <main> en una página ordinaria?', [inlineCode('<main>')]),
     [
       text('Los enlaces repetidos del pie global'),
       text('Los metadatos usados por el navegador'),
@@ -537,7 +635,8 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'main identifica el contenido dominante del body, relacionado con el propósito principal de la página. No es el contenedor de metadatos ni de navegación global repetida.',
+      '<main> identifica el contenido dominante del <body>, relacionado con el propósito principal de la página. No es el contenedor de metadatos ni de navegación global repetida.',
+      [inlineCode('<main>'), inlineCode('<body>')],
     ),
   ),
   question(
@@ -545,7 +644,7 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'article',
-    '¿Cuándo resulta apropiado usar article?',
+    text('¿Cuándo resulta apropiado usar <article>?', [inlineCode('<article>')]),
     [
       text('Para cualquier bloque con un borde visible'),
       text('Para una composición autónoma y reutilizable'),
@@ -554,7 +653,8 @@ export const htmlQuestions = [
     ],
     'b',
     text(
-      'article representa una composición que puede tener sentido de forma independiente, como una noticia o publicación. Una caja visual por sí sola no justifica esa semántica.',
+      '<article> representa una composición que puede tener sentido de forma independiente, como una noticia o publicación. Una caja visual por sí sola no justifica esa semántica.',
+      [inlineCode('<article>')],
     ),
   ),
   question(
@@ -562,7 +662,7 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'datetime',
-    '¿Qué atributo de time ofrece una fecha legible por máquinas?',
+    text('¿Qué atributo de <time> ofrece una fecha legible por máquinas?', [inlineCode('<time>')]),
     [
       code('html', 'value="2026-09-07"'),
       code('html', 'date="2026-09-07"'),
@@ -572,6 +672,7 @@ export const htmlQuestions = [
     'd',
     text(
       'datetime proporciona una representación normalizada de la fecha o tiempo. El texto visible puede usar una formulación adecuada para las personas.',
+      [highlight('datetime')],
     ),
   ),
   question(
@@ -579,7 +680,7 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'encoding',
-    '¿Qué declaración HTML establece la codificación UTF-8?',
+    text('¿Qué declaración HTML establece la codificación UTF-8?', [highlight('UTF-8')]),
     [
       code('html', '<meta charset="utf-8">'),
       code('html', '<meta lang="utf-8">'),
@@ -588,7 +689,8 @@ export const htmlQuestions = [
     ],
     'a',
     text(
-      'meta charset declara la codificación del documento. Debe situarse al principio del head y quedar completamente dentro de los primeros 1024 bytes.',
+      'meta charset declara la codificación del documento. Debe situarse al principio del <head> y quedar completamente dentro de los primeros 1024 bytes.',
+      [highlight('meta charset'), inlineCode('<head>')],
     ),
   ),
   question(
@@ -596,7 +698,9 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'fragment-links',
-    '¿Qué destino abre <a href="#resumen"> dentro del documento actual?',
+    text('¿Qué destino abre <a href="#resumen"> dentro del documento actual?', [
+      inlineCode('<a href="#resumen">'),
+    ]),
     [
       text('Un elemento cuyo name de clase sea resumen'),
       text('Un archivo llamado resumen en la misma carpeta'),
@@ -606,6 +710,7 @@ export const htmlQuestions = [
     'c',
     text(
       'Un fragmento como #resumen puede dirigir al elemento con id="resumen". Los IDs deben ser únicos para que la referencia sea inequívoca.',
+      [highlight('#resumen'), inlineCode('id="resumen"')],
     ),
   ),
   question(
@@ -622,7 +727,8 @@ export const htmlQuestions = [
     ],
     'b',
     text(
-      'track incorpora pistas de texto temporizadas, como subtítulos en WebVTT. source ofrece recursos multimedia alternativos y caption titula una tabla.',
+      '<track> incorpora pistas de texto temporizadas, como subtítulos en WebVTT. <source> ofrece recursos multimedia alternativos y <caption> titula una tabla.',
+      [inlineCode('<track>'), inlineCode('<source>'), inlineCode('<caption>')],
     ),
   ),
   question(
@@ -630,7 +736,9 @@ export const htmlQuestions = [
     'html',
     'intermediate',
     'select-groups',
-    '¿Qué elemento agrupa opciones relacionadas dentro de un select?',
+    text('¿Qué elemento agrupa opciones relacionadas dentro de un <select>?', [
+      inlineCode('<select>'),
+    ]),
     [
       code('html', '<fieldset>'),
       code('html', '<datalist>'),
@@ -639,7 +747,15 @@ export const htmlQuestions = [
     ],
     'd',
     text(
-      'optgroup agrupa elementos option y usa label para nombrar el grupo. datalist proporciona sugerencias para un input, no grupos dentro de select.',
+      '<optgroup> agrupa elementos <option> y usa label para nombrar el grupo. <datalist> proporciona sugerencias para un <input>, no grupos dentro de <select>.',
+      [
+        inlineCode('<optgroup>'),
+        inlineCode('<option>'),
+        highlight('label'),
+        inlineCode('<datalist>'),
+        inlineCode('<input>'),
+        inlineCode('<select>'),
+      ],
     ),
   ),
   // advanced
@@ -661,6 +777,7 @@ export const htmlQuestions = [
     'c',
     text(
       'checked es booleano: su presencia establece el estado marcado inicial. Para no declararlo marcado hay que omitir el atributo; la cadena false no lo desactiva.',
+      [highlight('checked')],
     ),
   ),
   question(
@@ -668,16 +785,22 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'disabled-submission',
-    'Un input con name y value está disabled. ¿Qué ocurre en el envío nativo?',
+    text('Un <input> con name y value está disabled. ¿Qué ocurre en el envío nativo?', [
+      inlineCode('<input>'),
+      highlight('name'),
+      highlight('value'),
+      highlight('disabled'),
+    ]),
     [
       text('Su entrada se omite de los datos enviados'),
-      text('Su valor se sustituye por la cadena disabled'),
+      text('Su valor se sustituye por la cadena disabled', [highlight('disabled')]),
       text('Su entrada se envía con un valor vacío'),
       text('Su valor se envía como cualquier otro'),
     ],
     'a',
     text(
       'Los controles deshabilitados se omiten al construir los datos del formulario. readonly tiene un contrato distinto para los controles que lo admiten.',
+      [highlight('readonly')],
     ),
   ),
   question(
@@ -685,16 +808,22 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'readonly-submission',
-    'Un input de texto con name y value está readonly y habilitado. ¿Qué sucede?',
+    text('Un <input> de texto con name y value está readonly y habilitado. ¿Qué sucede?', [
+      inlineCode('<input>'),
+      highlight('name'),
+      highlight('value'),
+      highlight('readonly'),
+    ]),
     [
       text('Su valor se borra antes de enviar'),
-      text('Su entrada se excluye como con disabled'),
-      text('Su contenido se convierte en placeholder'),
+      text('Su entrada se excluye como con disabled', [highlight('disabled')]),
+      text('Su contenido se convierte en placeholder', [highlight('placeholder')]),
       text('Su valor se incluye en el envío'),
     ],
     'd',
     text(
-      'readonly impide la edición por el usuario, pero no excluye por sí mismo un input de texto de los datos enviados. disabled sí lo excluye.',
+      'readonly impide la edición por el usuario, pero no excluye por sí mismo un <input> de texto de los datos enviados. disabled sí lo excluye.',
+      [highlight('readonly'), inlineCode('<input>'), highlight('disabled')],
     ),
   ),
   question(
@@ -702,7 +831,11 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'form-owner',
-    '¿Cómo asocias un input externo al form con id="pedido"?',
+    text('¿Cómo asocias un <input> externo al <form> con id="pedido"?', [
+      inlineCode('<input>'),
+      inlineCode('<form>'),
+      inlineCode('id="pedido"'),
+    ]),
     [
       code('html', 'name="pedido"'),
       code('html', 'form="pedido"'),
@@ -711,7 +844,14 @@ export const htmlQuestions = [
     ],
     'b',
     text(
-      'El atributo form del input referencia el id de su formulario propietario aunque no sea descendiente suyo. for pertenece a otros contratos, como el de label.',
+      'El atributo form del <input> referencia el id de su formulario propietario aunque no sea descendiente suyo. for pertenece a otros contratos, como el de <label>.',
+      [
+        highlight('form'),
+        inlineCode('<input>'),
+        highlight('id'),
+        highlight('for'),
+        inlineCode('<label>'),
+      ],
     ),
   ),
   question(
@@ -719,16 +859,20 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'fieldset-disabled',
-    'En un fieldset disabled, ¿qué controles descendientes quedan exceptuados por esa regla?',
+    text(
+      'En un <fieldset> disabled, ¿qué controles descendientes quedan exceptuados por esa regla?',
+      [inlineCode('<fieldset>'), highlight('disabled')],
+    ),
     [
-      text('Los de su primer elemento legend hijo'),
+      text('Los de su primer elemento <legend> hijo', [inlineCode('<legend>')]),
       text('Los de cualquier párrafo descendiente'),
-      text('Los que tengan un atributo name'),
-      text('Los que aparezcan después del legend'),
+      text('Los que tengan un atributo name', [highlight('name')]),
+      text('Los que aparezcan después del <legend>', [inlineCode('<legend>')]),
     ],
     'a',
     text(
-      'La deshabilitación del fieldset exceptúa los controles dentro de su primer legend hijo. Esos controles todavía podrían estar deshabilitados por otra causa.',
+      'La deshabilitación del <fieldset> exceptúa los controles dentro de su primer <legend> hijo. Esos controles todavía podrían estar deshabilitados por otra causa.',
+      [inlineCode('<fieldset>'), inlineCode('<legend>')],
     ),
   ),
   question(
@@ -736,7 +880,10 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'form-enctype',
-    '¿Qué enctype corresponde a un formulario POST que envía archivos?',
+    text('¿Qué enctype corresponde a un formulario POST que envía archivos?', [
+      highlight('enctype'),
+      highlight('POST'),
+    ]),
     [
       code('html', 'text/plain'),
       code('html', 'application/json'),
@@ -746,6 +893,7 @@ export const htmlQuestions = [
     'c',
     text(
       'multipart/form-data permite enviar entradas con archivos en partes separadas. El navegador construye el cuerpo y el delimitador del envío nativo.',
+      [highlight('multipart/form-data')],
     ),
   ),
   question(
@@ -753,7 +901,10 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'submitter',
-    'Un formulario tiene dos botones submit con distintos name/value. ¿Cuál aporta su entrada al envío al pulsar uno?',
+    text(
+      'Un formulario tiene dos botones submit con distintos name/value. ¿Cuál aporta su entrada al envío al pulsar uno?',
+      [highlight('submit'), highlight('name/value')],
+    ),
     [
       text('Siempre aportan su entrada los dos'),
       text('Solo la aporta el botón que inicia el envío'),
@@ -763,6 +914,7 @@ export const htmlQuestions = [
     'b',
     text(
       'El botón usado como submitter puede incluir su name y value. Los otros botones de envío no se incluyen por el mero hecho de pertenecer al formulario.',
+      [highlight('name'), highlight('value')],
     ),
   ),
   question(
@@ -770,7 +922,9 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'formnovalidate',
-    '¿Qué atributo en un botón submit omite la validación interactiva para ese envío?',
+    text('¿Qué atributo en un botón submit omite la validación interactiva para ese envío?', [
+      highlight('submit'),
+    ]),
     [
       code('html', 'novalidate="form"'),
       code('html', 'validate="false"'),
@@ -780,6 +934,7 @@ export const htmlQuestions = [
     'd',
     text(
       'formnovalidate en el submitter permite omitir la validación interactiva de ese envío. novalidate se coloca en el formulario para aplicarlo de forma general.',
+      [highlight('formnovalidate'), highlight('novalidate')],
     ),
   ),
   question(
@@ -787,7 +942,9 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'formaction',
-    '¿Qué atributo de un botón submit reemplaza el destino action para ese envío?',
+    text('¿Qué atributo de un botón submit reemplaza el destino action para ese envío?', [
+      highlight('submit'),
+    ]),
     [
       code('html', 'formaction'),
       code('html', 'formtarget'),
@@ -797,6 +954,7 @@ export const htmlQuestions = [
     'a',
     text(
       'formaction sobrescribe la URL de destino para el envío iniciado por ese botón. Los otros atributos cambian el contexto, método o codificación.',
+      [highlight('formaction')],
     ),
   ),
   question(
@@ -804,16 +962,20 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'unchecked-checkbox',
-    '¿Qué envía un checkbox habilitado con name="boletin" que está desmarcado?',
+    text('¿Qué envía un <checkbox> habilitado con name="boletin" que está desmarcado?', [
+      inlineCode('<checkbox>'),
+      inlineCode('name="boletin"', 'html'),
+    ]),
     [
-      text('Una entrada boletin con valor false'),
-      text('Una entrada boletin con valor off'),
-      text('Ninguna entrada para ese checkbox'),
+      text('Una entrada boletin con valor false', [highlight('false')]),
+      text('Una entrada boletin con valor off', [highlight('off')]),
+      text('Ninguna entrada para ese <checkbox>', [inlineCode('<checkbox>')]),
       text('Una entrada boletin con valor cero'),
     ],
     'c',
     text(
-      'Un checkbox desmarcado no aporta una entrada. Si está marcado, se envía su value o el valor predeterminado on cuando no se especifica value.',
+      'Un <checkbox> desmarcado no aporta una entrada. Si está marcado, se envía su value o el valor predeterminado on cuando no se especifica value.',
+      [inlineCode('<checkbox>'), highlight('value')],
     ),
   ),
   question(
@@ -821,16 +983,22 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'template',
-    '¿Dónde están los nodos declarados dentro de un template ordinario?',
+    text('¿Dónde están los nodos declarados dentro de un <template> ordinario?', [
+      inlineCode('<template>'),
+    ]),
     [
-      text('En su propiedad children como nodos visibles'),
-      text('En el DocumentFragment de su propiedad content'),
-      text('En un iframe creado de forma automática'),
-      text('En un archivo descargado mediante su src'),
+      text('En su propiedad children como nodos visibles', [highlight('children')]),
+      text('En el DocumentFragment de su propiedad content', [
+        highlight('DocumentFragment'),
+        highlight('content'),
+      ]),
+      text('En un <iframe> creado de forma automática', [inlineCode('<iframe>')]),
+      text('En un archivo descargado mediante su src', [highlight('src')]),
     ],
     'b',
     text(
-      'El contenido de template se conserva en un DocumentFragment accesible por content. Para presentarlo se puede clonar e insertar en el documento.',
+      'El contenido de <template> se conserva en un DocumentFragment accesible por content. Para presentarlo se puede clonar e insertar en el documento.',
+      [inlineCode('<template>'), highlight('DocumentFragment'), highlight('content')],
     ),
   ),
   question(
@@ -838,16 +1006,26 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'parser-paragraph',
-    'En un documento text/html, ¿qué hace el parser al encontrar div dentro de un p abierto?',
+    text(
+      'En un documento text/html, ¿qué hace el parser al encontrar <div> dentro de un <p abierto?',
+      [highlight('text/html'), inlineCode('<div>'), inlineCode('<p')],
+    ),
     [
-      text('Mantiene div como hijo del mismo párrafo'),
-      text('Convierte div en un span automáticamente'),
-      text('Descarta el div junto con todo su contenido'),
-      text('Cierra implícitamente el p antes del div'),
+      text('Mantiene <div> como hijo del mismo párrafo', [inlineCode('<div>')]),
+      text('Convierte <div> en un <span> automáticamente', [
+        inlineCode('<div>'),
+        inlineCode('<span>'),
+      ]),
+      text('Descarta el <div> junto con todo su contenido', [inlineCode('<div>')]),
+      text('Cierra implícitamente el <p> antes del <div>', [
+        inlineCode('<p>'),
+        inlineCode('<div>'),
+      ]),
     ],
     'd',
     text(
-      'El parser HTML cierra un p abierto ante un inicio de div. Por eso el DOM puede diferir de la anidación aparente de un marcado no conforme.',
+      'El parser HTML cierra un <p abierto ante un inicio de <div>. Por eso el DOM puede diferir de la anidación aparente de un marcado no conforme.',
+      [inlineCode('<p'), inlineCode('<div>'), highlight('DOM')],
     ),
   ),
   question(
@@ -855,7 +1033,10 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'parser-table',
-    'Al analizar <table><tr><td>A</td></tr></table> como text/html, ¿qué elemento inserta el parser?',
+    text(
+      'Al analizar <table><tr><td>A</td></tr></table> como text/html, ¿qué elemento inserta el parser?',
+      [inlineCode('<table><tr><td>A</td></tr></table>'), highlight('text/html')],
+    ),
     [
       code('html', '<tbody>'),
       code('html', '<thead>'),
@@ -864,7 +1045,8 @@ export const htmlQuestions = [
     ],
     'a',
     text(
-      'El parser inserta un tbody para las filas cuando corresponde. Esto explica por qué table > tr puede no coincidir con el DOM producido por ese HTML.',
+      'El parser inserta un <tbody> para las filas cuando corresponde. Esto explica por qué table > tr puede no coincidir con el DOM producido por ese HTML.',
+      [inlineCode('<tbody>'), inlineCode('table > tr', 'css'), highlight('DOM')],
     ),
   ),
   question(
@@ -872,7 +1054,9 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'content-model',
-    '¿Cuál de estas anidaciones incumple el modelo de contenido de button?',
+    text('¿Cuál de estas anidaciones incumple el modelo de contenido de <button>?', [
+      inlineCode('<button>'),
+    ]),
     [
       code('html', '<button><span>Abrir</span></button>'),
       code('html', '<button><strong>Abrir</strong></button>'),
@@ -881,7 +1065,8 @@ export const htmlQuestions = [
     ],
     'c',
     text(
-      'button no admite descendientes de contenido interactivo como un enlace con href. No deben anidarse acciones independientes dentro de un mismo botón.',
+      '<button> no admite descendientes de contenido interactivo como un enlace con href. No deben anidarse acciones independientes dentro de un mismo botón.',
+      [inlineCode('<button>'), highlight('href')],
     ),
   ),
   question(
@@ -889,7 +1074,11 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'responsive-sizes',
-    'En srcset con descriptores w, ¿qué describe sizes?',
+    text('En srcset con descriptores w, ¿qué describe sizes?', [
+      highlight('srcset'),
+      highlight('w'),
+      highlight('sizes'),
+    ]),
     [
       text('El peso comprimido de cada archivo'),
       text('El ancho de presentación previsto de la imagen'),
@@ -899,6 +1088,7 @@ export const htmlQuestions = [
     'b',
     text(
       'sizes informa al navegador del ancho previsto del espacio de imagen. Junto con los candidatos w y otros factores permite seleccionar un recurso; no fija por sí mismo el ancho CSS.',
+      [highlight('sizes'), highlight('w')],
     ),
   ),
   question(
@@ -906,16 +1096,20 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'picture-order',
-    'En picture, varios source tienen media y type utilizables. ¿Qué conjunto se considera primero?',
+    text(
+      'En <picture>, varios <source> tienen media y type utilizables. ¿Qué conjunto se considera primero?',
+      [inlineCode('<picture>'), inlineCode('<source>'), highlight('media'), highlight('type')],
+    ),
     [
-      text('El del último source del documento'),
-      text('El del source con más candidatos'),
-      text('El del source con menor archivo'),
-      text('El del primer source que cumple las condiciones'),
+      text('El del último <source> del documento', [inlineCode('<source>')]),
+      text('El del <source> con más candidatos', [inlineCode('<source>')]),
+      text('El del <source> con menor archivo', [inlineCode('<source>')]),
+      text('El del primer <source> que cumple las condiciones', [inlineCode('<source>')]),
     ],
     'd',
     text(
-      'El orden de source importa: se usa el primer conjunto que satisface las condiciones aplicables. Dentro del conjunto, el navegador elige un candidato apropiado.',
+      'El orden de <source> importa: se usa el primer conjunto que satisface las condiciones aplicables. Dentro del conjunto, el navegador elige un candidato apropiado.',
+      [inlineCode('<source>')],
     ),
   ),
   question(
@@ -923,7 +1117,10 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'script-modules',
-    '¿Qué comportamiento tiene un script type="module" sin async respecto al análisis HTML?',
+    text(
+      '¿Qué comportamiento tiene un <script type="module"> sin async respecto al análisis HTML?',
+      [inlineCode('<script type="module">'), highlight('async')],
+    ),
     [
       text('Su ejecución se difiere hasta acabar el análisis'),
       text('Su ejecución siempre bloquea el parser al encontrarlo'),
@@ -933,6 +1130,7 @@ export const htmlQuestions = [
     'a',
     text(
       'Los scripts de módulo sin async se procesan con ejecución diferida. No necesitan defer para ese comportamiento y resuelven sus dependencias como módulos.',
+      [highlight('scripts'), highlight('async'), highlight('módulos')],
     ),
   ),
   question(
@@ -940,7 +1138,10 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'iframe-sandbox',
-    '¿Qué efecto tiene sandbox sin tokens en un iframe?',
+    text('¿Qué efecto tiene sandbox sin tokens en un <iframe>?', [
+      highlight('sandbox'),
+      inlineCode('<iframe>'),
+    ]),
     [
       text('Permite scripts pero impide formularios'),
       text('Permite formularios pero impide ventanas'),
@@ -950,6 +1151,7 @@ export const htmlQuestions = [
     'c',
     text(
       'Un atributo sandbox vacío activa todas sus restricciones. Los tokens allow-* levantan restricciones concretas y deben elegirse según las capacidades necesarias.',
+      [highlight('sandbox'), highlight('allow-*')],
     ),
   ),
   question(
@@ -957,16 +1159,23 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'dialog-modal',
-    '¿Qué diferencia showModal() de show() al abrir un dialog?',
+    text('¿Qué diferencia showModal() de show() al abrir un <dialog>?', [
+      inlineCode('showModal()'),
+      inlineCode('show()'),
+      inlineCode('<dialog>'),
+    ]),
     [
-      text('showModal() convierte el contenido en un formulario'),
-      text('showModal() abre un modal y vuelve inerte el resto del documento'),
-      text('showModal() abre siempre una ventana nueva del navegador'),
-      text('showModal() elimina el diálogo cuando pierde el foco'),
+      text('showModal() convierte el contenido en un formulario', [inlineCode('showModal()')]),
+      text('showModal() abre un modal y vuelve inerte el resto del documento', [
+        inlineCode('showModal()'),
+      ]),
+      text('showModal() abre siempre una ventana nueva del navegador', [inlineCode('showModal()')]),
+      text('showModal() elimina el diálogo cuando pierde el foco', [inlineCode('showModal()')]),
     ],
     'b',
     text(
       'showModal() incorpora el diálogo a la capa superior y bloquea la interacción con el resto de su documento mediante modalidad. show() lo abre sin ese comportamiento modal.',
+      [inlineCode('showModal()'), inlineCode('show()')],
     ),
   ),
   question(
@@ -974,7 +1183,7 @@ export const htmlQuestions = [
     'html',
     'advanced',
     'inert',
-    '¿Qué efecto tiene inert en una sección de controles HTML?',
+    text('¿Qué efecto tiene inert en una sección de controles HTML?', [highlight('inert')]),
     [
       text('Solo reduce visualmente su opacidad'),
       text('Solo impide que se envíen formularios'),
@@ -984,6 +1193,7 @@ export const htmlQuestions = [
     'd',
     text(
       'inert vuelve inerte el subárbol: sus controles no reciben interacción normal ni foco y se excluyen de la exposición accesible. No añade por sí mismo una apariencia visual.',
+      [highlight('inert')],
     ),
   ),
 ] as const satisfies readonly BankQuestion[];

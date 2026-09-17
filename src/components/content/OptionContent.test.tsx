@@ -27,13 +27,14 @@ describe('OptionContent', () => {
           {
             type: 'text',
             text: 'Se ejecuta al llamar a next()',
-            inlineCode: ['next()'],
+            annotations: [{ kind: 'code', value: 'next()' }],
           },
         ]}
       />,
     );
 
     expect(screen.getByText('next()')).toHaveClass('inline-code', 'language-javascript');
+    expect(screen.getByText('next()')).toHaveClass('syntax-code');
   });
 
   it.each(['html', 'css', 'javascript'] as const)(
@@ -56,6 +57,7 @@ describe('OptionContent', () => {
       const code = container.querySelector('code');
 
       expect(code).toHaveClass(`language-${subject}`);
+      expect(code).toHaveClass('syntax-code');
       expect(code).toHaveAttribute('data-language', subject);
       expect(code?.textContent).toBe(codeBlock.code);
       expect(

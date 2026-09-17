@@ -96,7 +96,7 @@ describe('validateQuestionBank', () => {
     expect(result.issues.filter((issue) => issue.code === 'invalid-content')).toHaveLength(2);
   });
 
-  it('rejects invalid or missing explicit inline code terms', () => {
+  it('rejects invalid or missing inline annotations', () => {
     const base = cloneQuestion(questionExamples[0]);
     const invalid = {
       ...base,
@@ -104,7 +104,7 @@ describe('validateQuestionBank', () => {
         {
           type: 'text',
           text: 'Promise.all conserva el orden.',
-          inlineCode: ['Promise.race'],
+          annotations: [{ kind: 'code', value: 'Promise.race' }],
         },
       ],
     };

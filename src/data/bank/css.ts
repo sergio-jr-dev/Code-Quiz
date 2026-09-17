@@ -1,5 +1,5 @@
 import type { BankQuestion } from '../../types/questionBank';
-import { question, text, code } from '../questionFactory';
+import { code, highlight, inlineCode, question, text } from '../questionFactory';
 
 export const cssQuestions = [
   question(
@@ -17,6 +17,7 @@ export const cssQuestions = [
     'b',
     text(
       'CSS (Cascading Style Sheets) se utiliza principalmente para controlar el diseño, formato y presentación visual de los documentos HTML.',
+      [highlight('CSS (Cascading Style Sheets)')],
     ),
   ),
   question(
@@ -34,6 +35,7 @@ export const cssQuestions = [
     'c',
     text(
       'En CSS los comentarios se delimitan con /* y */ y pueden ocupar una o varias líneas. Las formas //, <!-- --> y # no son sintaxis de comentario CSS.',
+      [highlight('/*'), inlineCode('*/'), highlight('//'), inlineCode('<!-- -->'), highlight('#')],
     ),
   ),
   question(
@@ -67,6 +69,7 @@ export const cssQuestions = [
     'c',
     text(
       'El selector universal * selecciona todos los elementos de un documento HTML. Hay que usarlo con precaución, ya que puede afectar a muchos elementos del documento.',
+      [highlight('selector universal *')],
     ),
   ),
   question(
@@ -74,20 +77,29 @@ export const cssQuestions = [
     'css',
     'basic',
     'box-model',
-    '¿Cuál es la diferencia principal entre margin y padding en CSS?',
+    text('¿Cuál es la diferencia principal entre margin y padding en CSS?', [
+      highlight('margin'),
+      highlight('padding'),
+    ]),
     [
       text('No hay diferencia, son sinónimos'),
       text(
         'Margin es el espacio desde el borde del elemento hacia fuera, padding es el espacio desde el borde del elemento hacia dentro',
+        [highlight('Margin'), highlight('padding')],
       ),
-      text('Margin es para texto, padding es para imágenes'),
+      text('Margin es para texto, padding es para imágenes', [
+        highlight('Margin'),
+        highlight('padding'),
+      ]),
       text(
         'Padding es el espacio desde el borde del elemento hacia fuera, margin es el espacio desde el borde del elemento hacia dentro',
+        [highlight('Padding'), highlight('margin')],
       ),
     ],
     'b',
     text(
       'Margin crea espacio fuera del borde del elemento. Padding crea espacio dentro de ese borde, entre el borde y el contenido; por eso intercambiar ambos conceptos invierte su función.',
+      [highlight('Margin'), highlight('Padding')],
     ),
   ),
   question(
@@ -95,7 +107,7 @@ export const cssQuestions = [
     'css',
     'basic',
     'flexbox',
-    '¿Qué declaración CSS convierte un elemento en un contenedor flex?',
+    text('¿Qué declaración CSS convierte un elemento en un contenedor flex?', [highlight('flex')]),
     [
       code('css', 'flexible'),
       code('css', 'display: flex'),
@@ -105,6 +117,7 @@ export const cssQuestions = [
     'b',
     text(
       'display: flex convierte el elemento en un contenedor flex y dispone sus hijos como elementos flex. Las otras opciones no son declaraciones CSS válidas para activar este modelo de layout.',
+      [inlineCode('display: flex'), highlight('flex')],
     ),
   ),
   question(
@@ -114,18 +127,35 @@ export const cssQuestions = [
     'custom-properties',
     '¿Cómo funcionan las variables CSS (custom properties) y cuál es su sintaxis?',
     [
-      text('Se definen con $variable y se usan con @variable'),
-      text('Se definen con @variable y se usan con $variable'),
-      text('Se definen con --variable y se usan con var(--variable)'),
-      text('Se definen con var(variable) y se usan con --variable'),
+      text('Se definen con $variable y se usan con @variable', [
+        highlight('$variable'),
+        highlight('@variable'),
+      ]),
+      text('Se definen con @variable y se usan con $variable', [
+        highlight('@variable'),
+        highlight('$variable'),
+      ]),
+      text('Se definen con --variable y se usan con var(--variable)', [
+        highlight('--variable'),
+        highlight('var(--variable)'),
+      ]),
+      text('Se definen con var(variable) y se usan con --variable', [
+        highlight('var(variable)'),
+        highlight('--variable'),
+      ]),
     ],
     'c',
     [
       {
         type: 'text',
         text: 'Las custom properties se definen con dos guiones y se leen mediante la función var(). Por ejemplo:',
+        annotations: [highlight('var()')],
       },
-      { type: 'code', language: 'css', code: '--main-color: #06c;\ncolor: var(--main-color);' },
+      {
+        type: 'code',
+        language: 'css',
+        code: 'main {--main-color: #06c;\ncolor: var(--main-color);}',
+      },
     ],
   ),
   question(
@@ -154,22 +184,29 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'visibility',
-    '¿Cuál es la diferencia entre visibility: hidden y display: none en CSS?',
+    text('¿Cuál es la diferencia entre visibility: hidden y display: none en CSS?', [
+      inlineCode('visibility: hidden'),
+      inlineCode('display: none'),
+    ]),
     [
       text('No hay diferencia, ambos ocultan el elemento'),
       text(
         '"visibility: hidden" oculta el elemento pero mantiene su espacio, "display: none" lo elimina del flujo del documento',
+        [inlineCode('visibility: hidden'), inlineCode('display: none')],
       ),
       text(
         '"display: none" oculta el elemento pero mantiene su espacio, "visibility: hidden" lo elimina del flujo del documento',
+        [inlineCode('display: none'), inlineCode('visibility: hidden')],
       ),
       text(
         'visibility: hidden solo funciona en elementos en línea, display: none en elementos de bloque',
+        [inlineCode('visibility: hidden'), inlineCode('display: none')],
       ),
     ],
     'b',
     text(
       'visibility: hidden oculta el elemento pero mantiene su espacio en el layout. display: none lo oculta y lo elimina completamente del flujo del documento.',
+      [inlineCode('visibility: hidden'), inlineCode('display: none')],
     ),
   ),
   question(
@@ -177,7 +214,9 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'calc',
-    '¿Cómo se utiliza la función calc() en CSS y en qué situaciones es útil?',
+    text('¿Cómo se utiliza la función calc() en CSS y en qué situaciones es útil?', [
+      inlineCode('calc()', 'css'),
+    ]),
     [
       text('Para calcular valores de color en formato RGB'),
       text('Para realizar cálculos matemáticos con diferentes unidades'),
@@ -189,6 +228,7 @@ export const cssQuestions = [
       {
         type: 'text',
         text: 'calc() permite realizar cálculos matemáticos como parte de un valor CSS y combinar unidades diferentes. Por ejemplo:',
+        annotations: [inlineCode('calc()', 'css')],
       },
       { type: 'code', language: 'css', code: 'width: calc(100% - 80px);' },
     ],
@@ -198,7 +238,7 @@ export const cssQuestions = [
     'css',
     'basic',
     'media-queries',
-    '¿Qué son las media queries en CSS?',
+    text('¿Qué son las media queries en CSS?', [highlight('media queries')]),
     [
       text('Consultas para obtener información del servidor'),
       text('Reglas CSS condicionadas por características del dispositivo o del entorno'),
@@ -210,6 +250,7 @@ export const cssQuestions = [
       {
         type: 'text',
         text: 'Las media queries permiten aplicar estilos según características del dispositivo o del entorno, como el ancho del viewport. Por ejemplo:',
+        annotations: [highlight('media queries'), highlight('viewport')],
       },
       { type: 'code', language: 'css', code: '@media (width <= 600px) {\n  /* estilos */\n}' },
     ],
@@ -219,7 +260,9 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'color-mix',
-    '¿Qué hace color-mix(in srgb, red 80%, blue) en CSS?',
+    text('¿Qué hace color-mix(in srgb, red 80%, blue) en CSS?', [
+      inlineCode('color-mix(in srgb, red 80%, blue)', 'css'),
+    ]),
     [
       text('Mezcla rojo al 80 % y azul al 20 % en sRGB'),
       text('Mezcla rojo y azul al 50 % aunque se indique 80 %'),
@@ -229,6 +272,7 @@ export const cssQuestions = [
     'a',
     text(
       'color-mix() interpola colores en el espacio indicado. Si un color aporta el 80 % y el otro omite su porcentaje, el porcentaje restante es el 20 %; no describe una transición ni superpone colores por opacidad.',
+      [inlineCode('color-mix()', 'css')],
     ),
   ),
   question(
@@ -241,11 +285,12 @@ export const cssQuestions = [
       text('Usan una coma decimal: 0,5'),
       text('Usan un punto decimal: 0.5 o .5'),
       text('Solo admiten números enteros: 0 o 1'),
-      text('Requieren la función calc(): calc(0.5)'),
+      text('Requieren la función calc(): calc(0.5)', [highlight('calc()')]),
     ],
     'b',
     text(
       'Los números decimales en CSS usan un punto. El cero anterior al punto es opcional, por lo que 0.5 y .5 son válidos; no necesitan calc() ni se limitan a enteros.',
+      [highlight('calc()')],
     ),
   ),
   question(
@@ -263,6 +308,7 @@ export const cssQuestions = [
     'a',
     text(
       'opacity acepta números y porcentajes. El número 0.5 equivale a 50 %; 0.05 equivale a 5 %, y los números mayores que 1 se limitan al extremo opaco.',
+      [highlight('opacity')],
     ),
   ),
   question(
@@ -280,6 +326,13 @@ export const cssQuestions = [
     'a',
     text(
       'Una coma separa los miembros de una lista de selectores y la regla coincide con cualquiera de ellos. El espacio, > y + son combinadores que expresan relaciones entre elementos; :is() y :where() también aceptan listas, pero son pseudoclases funcionales con reglas de especificidad propias.',
+      [
+        highlight('espacio'),
+        highlight('>'),
+        highlight('+'),
+        highlight(':is()'),
+        highlight(':where()'),
+      ],
     ),
   ),
   // basic
@@ -300,7 +353,7 @@ export const cssQuestions = [
     'css',
     'basic',
     'id-selectors',
-    '¿Qué selector coincide con el elemento cuyo id es portada?',
+    text('¿Qué selector coincide con el elemento cuyo id es portada?', [highlight('id')]),
     [
       code('css', '.portada'),
       code('css', 'portada'),
@@ -310,6 +363,7 @@ export const cssQuestions = [
     'c',
     text(
       'El prefijo # selecciona por ID. El atributo id debe ser único dentro del documento, mientras que una clase puede repetirse.',
+      [highlight('#'), highlight('id')],
     ),
   ),
   question(
@@ -327,6 +381,7 @@ export const cssQuestions = [
     'b',
     text(
       'font-size establece el tamaño de la fuente. line-height determina la altura de línea y font-weight controla el peso tipográfico.',
+      [highlight('font-size'), highlight('line-height'), highlight('font-weight')],
     ),
   ),
   question(
@@ -344,6 +399,7 @@ export const cssQuestions = [
     'd',
     text(
       'background-color pinta el color de fondo. border-color y outline-color afectan al borde y al contorno, respectivamente.',
+      [highlight('background-color'), highlight('border-color'), highlight('outline-color')],
     ),
   ),
   question(
@@ -361,6 +417,7 @@ export const cssQuestions = [
     'a',
     text(
       'La abreviatura border combina grosor, estilo y color. none y hidden no producen ese borde visible; un grosor de cero tampoco.',
+      [highlight('border'), highlight('none'), highlight('hidden')],
     ),
   ),
   question(
@@ -378,6 +435,7 @@ export const cssQuestions = [
     'c',
     text(
       'font-weight selecciona el peso de la fuente. La cursiva, alineación y transformación de mayúsculas tienen propiedades independientes.',
+      [highlight('font-weight')],
     ),
   ),
   question(
@@ -385,7 +443,9 @@ export const cssQuestions = [
     'css',
     'basic',
     'text-align',
-    '¿Qué hace text-align: center en un contenedor de texto?',
+    text('¿Qué hace text-align: center en un contenedor de texto?', [
+      highlight('text-align: center'),
+    ]),
     [
       text('Centra el contenedor entre sus hermanos'),
       text('Centra su contenido en línea en cada línea'),
@@ -395,6 +455,7 @@ export const cssQuestions = [
     'b',
     text(
       'text-align alinea el contenido en línea dentro de sus cajas de línea. No centra por sí mismo la caja del contenedor ni alinea verticalmente sus hijos.',
+      [highlight('text-align')],
     ),
   ),
   question(
@@ -402,7 +463,10 @@ export const cssQuestions = [
     'css',
     'basic',
     'descendant-selectors',
-    '¿Qué selector selecciona los p descendientes de un article?',
+    text('¿Qué selector selecciona los <p> descendientes de un <article>?', [
+      highlight('<p>'),
+      highlight('<article>'),
+    ]),
     [
       code('css', 'article + p'),
       code('css', 'article ~ p'),
@@ -412,6 +476,7 @@ export const cssQuestions = [
     'd',
     text(
       'El espacio es el combinador de descendencia y admite varios niveles. + y ~ relacionan hermanos; la coma forma una lista de selectores.',
+      [highlight('espacio'), highlight('+'), highlight('~'), highlight('coma')],
     ),
   ),
   question(
@@ -429,6 +494,7 @@ export const cssQuestions = [
     'a',
     text(
       ':hover representa la interacción de señalar un elemento con un dispositivo apuntador. No debe ser el único modo de descubrir o usar una acción.',
+      [highlight(':hover')],
     ),
   ),
   question(
@@ -446,6 +512,13 @@ export const cssQuestions = [
     'c',
     text(
       'none elimina el marcador generado por list-style-type. disc, decimal y square seleccionan distintas formas o numeraciones de marcador.',
+      [
+        highlight('none'),
+        highlight('list-style-type'),
+        highlight('disc'),
+        highlight('decimal'),
+        highlight('square'),
+      ],
     ),
   ),
   question(
@@ -463,6 +536,7 @@ export const cssQuestions = [
     'b',
     text(
       'border-radius define radios de esquina. No cambia el grosor del borde ni la separación o colapso de bordes de tablas.',
+      [highlight('border-radius')],
     ),
   ),
   // intermediate
@@ -471,11 +545,20 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'box-sizing',
-    'Con width: 200px, padding: 20px, border: 5px solid y box-sizing: border-box, ¿cuánto mide la caja de borde horizontal?',
+    text(
+      'Con width: 200px, padding: 20px, border: 5px solid y box-sizing: border-box, ¿cuánto mide la caja de borde horizontal?',
+      [
+        highlight('width: 200px'),
+        highlight('padding: 20px'),
+        highlight('border: 5px solid'),
+        highlight('box-sizing: border-box'),
+      ],
+    ),
     [text('200 px'), text('240 px'), text('250 px'), text('150 px')],
     'a',
     text(
       'border-box incluye padding y borde dentro del width declarado. El contenido dispone de 150 px y la caja de borde sigue midiendo 200 px.',
+      [highlight('border-box'), highlight('padding'), highlight('border'), highlight('width')],
     ),
   ),
   question(
@@ -488,6 +571,7 @@ export const cssQuestions = [
     'c',
     text(
       'El combinador > exige una relación directa entre padre e hijo. El espacio admite descendientes a cualquier profundidad.',
+      [highlight('combinador >')],
     ),
   ),
   question(
@@ -495,11 +579,15 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'adjacent-siblings',
-    '¿Qué selector coincide con el p que sigue inmediatamente a h2 como hermano?',
+    text('¿Qué selector coincide con el <p> que sigue inmediatamente a <h2> como hermano?', [
+      inlineCode('<p>'),
+      inlineCode('<h2>'),
+    ]),
     [code('css', 'h2 > p'), code('css', 'h2 + p'), code('css', 'h2 p'), code('css', 'h2 ~ p')],
     'b',
     text(
-      '+ exige que el segundo elemento sea el siguiente hermano elemento. ~ permite otros hermanos elemento entre ambos y puede seleccionar varios p posteriores.',
+      '+ exige que el segundo elemento sea el siguiente hermano elemento. ~ permite otros hermanos elemento entre ambos y puede seleccionar varios <p> posteriores.',
+      [highlight('+'), highlight('~'), inlineCode('<p>')],
     ),
   ),
   question(
@@ -507,7 +595,10 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'nth-child',
-    '¿Qué posiciones selecciona li:nth-child(2n) entre hermanos que son todos li?',
+    text('¿Qué posiciones selecciona li:nth-child(2n) entre hermanos que son todos <li>?', [
+      highlight('li:nth-child(2n)'),
+      inlineCode('<li>'),
+    ]),
     [
       text('Primera, tercera y quinta'),
       text('Solo la segunda posición'),
@@ -517,6 +608,7 @@ export const cssQuestions = [
     'd',
     text(
       '2n genera índices pares con numeración desde uno. No significa seleccionar los dos primeros elementos ni solo el segundo.',
+      [highlight('2n')],
     ),
   ),
   question(
@@ -524,7 +616,10 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'relative-position',
-    '¿Cómo afecta position: relative con top: 10px a un bloque normal?',
+    text('¿Cómo afecta position: relative con top: 10px a un bloque normal?', [
+      highlight('position: relative'),
+      highlight('top: 10px'),
+    ]),
     [
       text('Lo desplaza y conserva su espacio original'),
       text('Lo saca del flujo y elimina su espacio'),
@@ -541,7 +636,9 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'absolute-position',
-    '¿Qué hace position: absolute respecto al flujo normal?',
+    text('¿Qué hace position: absolute respecto al flujo normal?', [
+      highlight('position: absolute'),
+    ]),
     [
       text('Reserva siempre una fila completa'),
       text('Convierte la caja en un elemento en línea'),
@@ -558,7 +655,10 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'flex-axes',
-    'En un contenedor flex, ¿qué eje usa justify-content?',
+    text('En un contenedor flex, ¿qué eje usa justify-content?', [
+      highlight('flex'),
+      highlight('justify-content'),
+    ]),
     [
       text('El eje transversal de sus elementos'),
       text('El eje principal del contenedor'),
@@ -568,6 +668,7 @@ export const cssQuestions = [
     'b',
     text(
       'justify-content distribuye espacio a lo largo del eje principal. flex-direction puede cambiar la orientación de ese eje, por lo que no siempre es horizontal.',
+      [highlight('justify-content'), highlight('flex-direction')],
     ),
   ),
   question(
@@ -575,7 +676,9 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'flex-wrap',
-    '¿Qué declaración permite que los elementos flex formen varias líneas?',
+    text('¿Qué declaración permite que los elementos flex formen varias líneas?', [
+      highlight('flex'),
+    ]),
     [
       code('css', 'flex-direction: row;'),
       code('css', 'align-items: stretch;'),
@@ -585,6 +688,7 @@ export const cssQuestions = [
     'd',
     text(
       'flex-wrap: wrap permite crear líneas adicionales cuando los elementos no caben en una sola. flex-direction define el eje, no la posibilidad de envolver.',
+      [highlight('flex-wrap: wrap'), highlight('flex-direction')],
     ),
   ),
   question(
@@ -602,6 +706,7 @@ export const cssQuestions = [
     'a',
     text(
       'repeat(3, minmax(0, 1fr)) define tres pistas explícitas de columna con la misma fracción y mínimo cero. Las propiedades de filas no definen columnas.',
+      [highlight('repeat(3, minmax(0, 1fr))')],
     ),
   ),
   question(
@@ -609,7 +714,7 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'gap',
-    '¿Qué controla gap en un contenedor grid?',
+    text('¿Qué controla gap en un contenedor grid?', [highlight('gap'), highlight('grid')]),
     [
       text('El grosor de los bordes de cada celda'),
       text('El padding interno de todos sus hijos'),
@@ -619,6 +724,7 @@ export const cssQuestions = [
     'c',
     text(
       'gap establece separaciones entre pistas. No añade por sí mismo un espacio equivalente alrededor del perímetro del contenedor.',
+      [highlight('gap')],
     ),
   ),
   question(
@@ -626,7 +732,10 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'rem-units',
-    '¿A qué tamaño de fuente se refiere 1rem cuando se usa en el padding de una tarjeta?',
+    text('¿A qué tamaño de fuente se refiere 1rem cuando se usa en el padding de una tarjeta?', [
+      highlight('1rem'),
+      highlight('padding'),
+    ]),
     [
       text('Al del padre inmediato de la tarjeta'),
       text('Al del elemento raíz del documento'),
@@ -636,6 +745,7 @@ export const cssQuestions = [
     'b',
     text(
       'rem es relativo al tamaño de fuente del elemento raíz. em usado en padding se refiere al tamaño de fuente del propio elemento.',
+      [highlight('rem'), highlight('em')],
     ),
   ),
   question(
@@ -643,16 +753,20 @@ export const cssQuestions = [
     'css',
     'intermediate',
     'inheritance',
-    'Un hijo sin color especificado está dentro de un padre con color: purple. ¿Qué color de texto recibe por herencia?',
+    text(
+      'Un hijo sin color especificado está dentro de un padre con color: purple. ¿Qué color de texto recibe por herencia?',
+      [highlight('color'), inlineCode('color: purple')],
+    ),
     [
-      text('El color de fondo de su padre'),
+      text('El color de fondo de su padre', [highlight('color')]),
       text('El negro en cualquier documento'),
-      text('El color de borde de su padre'),
-      text('El valor de color de su padre'),
+      text('El color de borde de su padre', [highlight('color')]),
+      text('El valor de color de su padre', [highlight('color')]),
     ],
     'd',
     text(
       'color es una propiedad heredada. Si ninguna declaración aplicable establece otro valor en el hijo, este recibe el color calculado de su padre.',
+      [highlight('color')],
     ),
   ),
   question(
@@ -670,6 +784,7 @@ export const cssQuestions = [
     'a',
     text(
       'transition describe cómo evoluciona una propiedad entre valores cuando se produce un cambio. No ejecuta JavaScript ni implica repetición infinita.',
+      [highlight('transition')],
     ),
   ),
   question(
@@ -678,8 +793,8 @@ export const cssQuestions = [
     'intermediate',
     'object-fit',
     text('En un img con ancho y alto definidos, ¿qué hace object-fit: cover?', [
-      'img',
-      'object-fit: cover',
+      highlight('img'),
+      inlineCode('object-fit: cover'),
     ]),
     [
       text('Deforma la imagen hasta llenar la caja'),
@@ -690,7 +805,7 @@ export const cssQuestions = [
     'c',
     text(
       'cover conserva la proporción y cubre el área disponible, con recorte si las proporciones difieren. contain prioriza mostrar el recurso completo dentro del área.',
-      ['cover', 'contain'],
+      [highlight('cover'), highlight('contain')],
     ),
   ),
   // advanced
@@ -699,7 +814,10 @@ export const cssQuestions = [
     'css',
     'advanced',
     'cascade-layers',
-    'Con @layer base, theme, ¿qué declaración normal de autor gana si las dos capas fijan color sobre el mismo elemento?',
+    text(
+      'Con @layer base, theme, ¿qué declaración normal de autor gana si las dos capas fijan color sobre el mismo elemento?',
+      [highlight('@layer base, theme')],
+    ),
     [
       text('La de base, aunque theme vaya después'),
       text('La de theme, antes de comparar especificidad'),
@@ -716,7 +834,10 @@ export const cssQuestions = [
     'css',
     'advanced',
     'important-layers',
-    'Con @layer base, theme, ambas capas fijan color con !important sobre el mismo elemento. ¿Cuál tiene prioridad?',
+    text(
+      'Con @layer base, theme, ambas capas fijan color con !important sobre el mismo elemento. ¿Cuál tiene prioridad?',
+      [highlight('@layer base, theme'), highlight('!important')],
+    ),
     [
       text('La de theme por estar declarada después'),
       text('La de mayor longitud de selector'),
@@ -750,11 +871,12 @@ export const cssQuestions = [
     'css',
     'advanced',
     'where-specificity',
-    '¿Qué especificidad aporta :where(#app .card)?',
+    text('¿Qué especificidad aporta :where(#app .card)?', [highlight(':where(#app .card)')]),
     [text('1-1-0'), text('1-0-0'), text('0-0-0'), text('0-1-0')],
     'c',
     text(
       ':where() y todos sus argumentos aportan especificidad cero. Permite expresar condiciones precisas sin elevar el peso del selector.',
+      [highlight(':where()')],
     ),
   ),
   question(
@@ -762,11 +884,12 @@ export const cssQuestions = [
     'css',
     'advanced',
     'is-specificity',
-    '¿Qué especificidad tiene :is(#app, .card)?',
+    text('¿Qué especificidad tiene :is(#app, .card)?', [highlight(':is(#app, .card)')]),
     [text('0-1-0'), text('1-0-0'), text('1-1-0'), text('0-0-0')],
     'b',
     text(
       ':is() toma la especificidad del argumento más específico de su lista. El ID aporta 1-0-0 aunque la coincidencia concreta se produzca mediante .card.',
+      [highlight(':is'), highlight('id'), highlight('1-0-0'), highlight('.card')],
     ),
   ),
   question(
@@ -774,11 +897,12 @@ export const cssQuestions = [
     'css',
     'advanced',
     'not-specificity',
-    '¿Qué especificidad tiene button:not(.secondary)?',
+    text('¿Qué especificidad tiene button:not(.secondary)?', [highlight('button:not(.secondary)')]),
     [text('0-0-1'), text('0-2-1'), text('1-0-1'), text('0-1-1')],
     'd',
     text(
       'button aporta un selector de tipo y el argumento .secondary aporta una clase. :not() no añade un peso de pseudoclase adicional al de su argumento.',
+      [highlight('button'), highlight('.secondary'), highlight(':not()')],
     ),
   ),
   question(
@@ -786,16 +910,29 @@ export const cssQuestions = [
     'css',
     'advanced',
     'has-relations',
-    '¿Qué selecciona article:has(> img)?',
+    text('¿Qué selecciona article:has(> img)?', [highlight('article:has(> img)')]),
     [
-      text('Un article con al menos un img hijo directo'),
-      text('Un img con al menos un article hijo directo'),
-      text('Un article seguido inmediatamente de un img'),
-      text('Un img situado en cualquier article ancestro'),
+      text('Un <article> con al menos un <img> hijo directo', [
+        inlineCode('<article>'),
+        inlineCode('<img>'),
+      ]),
+      text('Un <img> con al menos un <article> hijo directo', [
+        inlineCode('<img>'),
+        inlineCode('<article>'),
+      ]),
+      text('Un <article> seguido inmediatamente de un <img>', [
+        inlineCode('<article>'),
+        inlineCode('<img>'),
+      ]),
+      text('Un <img> situado en cualquier <article> ancestro', [
+        inlineCode('<img>'),
+        inlineCode('<article>'),
+      ]),
     ],
     'a',
     text(
       ':has() evalúa sus selectores relativos desde el elemento candidato. > img exige un img hijo directo del article, no un descendiente a cualquier nivel.',
+      [highlight(':has()'), highlight('> img')],
     ),
   ),
   question(
@@ -803,7 +940,10 @@ export const cssQuestions = [
     'css',
     'advanced',
     'stacking-contexts',
-    'Un hijo con z-index: 999 está en un contexto situado detrás de otro contexto hermano. ¿Puede superar a ese hermano solo aumentando su z-index?',
+    text(
+      'Un hijo con z-index: 999 está en un contexto situado detrás de otro contexto hermano. ¿Puede superar a ese hermano solo aumentando su z-index?',
+      [highlight('z-index: 999')],
+    ),
     [
       text('Sí, cuando supere el número mil'),
       text('Sí, si también tiene un color opaco'),
@@ -813,6 +953,7 @@ export const cssQuestions = [
     'c',
     text(
       'Los contextos de apilamiento se componen como unidades. El z-index de un descendiente ordena su posición dentro de su contexto, no entre contextos externos.',
+      [highlight('z-index')],
     ),
   ),
   question(
@@ -820,7 +961,9 @@ export const cssQuestions = [
     'css',
     'advanced',
     'opacity-context',
-    '¿Qué efecto adicional tiene opacity: 0.5 en un contenedor ordinario?',
+    text('¿Qué efecto adicional tiene opacity: 0.5 en un contenedor ordinario?', [
+      highlight('opacity: 0.5'),
+    ]),
     [
       text('Saca a todos sus hijos del flujo normal'),
       text('Crea un contexto de apilamiento propio'),
@@ -849,7 +992,9 @@ export const cssQuestions = [
     'css',
     'advanced',
     'flow-root',
-    '¿Qué aporta display: flow-root a un contenedor con hijos flotantes?',
+    text('¿Qué aporta display: flow-root a un contenedor con hijos flotantes?', [
+      highlight('display: flow-root'),
+    ]),
     [
       text('Un contexto de formato de bloque que contiene los flotantes'),
       text('Una cuadrícula con una fila por cada flotante'),
@@ -859,6 +1004,7 @@ export const cssQuestions = [
     'a',
     text(
       'flow-root crea un contexto de formato de bloque. Este contiene los flotantes internos al calcular su altura, sin usar overflow solo para conseguir ese efecto.',
+      [highlight('flow-root'), highlight('overflow')],
     ),
   ),
   question(
@@ -876,6 +1022,7 @@ export const cssQuestions = [
     'c',
     text(
       'min-width: 0 elimina el mínimo automático que puede basarse en el contenido. Aún debe decidirse cómo mostrar o desplazar el contenido que ya no cabe.',
+      [highlight('min-width: 0')],
     ),
   ),
   question(
@@ -883,7 +1030,9 @@ export const cssQuestions = [
     'css',
     'advanced',
     'grid-fractions',
-    '¿Por qué minmax(0, 1fr) puede evitar un desbordamiento que aparece con una pista 1fr?',
+    text('¿Por qué minmax(0, 1fr) puede evitar un desbordamiento que aparece con una pista 1fr?', [
+      highlight('minmax(0, 1fr)'),
+    ]),
     [
       text('Porque prohíbe cualquier contenido de texto'),
       text('Porque sustituye por cero el mínimo automático'),
@@ -893,6 +1042,7 @@ export const cssQuestions = [
     'b',
     text(
       'Una pista 1fr fuera de minmax implica un mínimo automático. minmax(0, 1fr) permite que la pista se reduzca por debajo de ese mínimo de contenido.',
+      [highlight('1fr'), highlight('minmax'), highlight('minmax(0, 1fr)')],
     ),
   ),
   question(
@@ -900,16 +1050,20 @@ export const cssQuestions = [
     'css',
     'advanced',
     'custom-property-fallback',
-    '--tone está definida como 20px. ¿Qué pasa con color: var(--tone, red) si no hay otra declaración que cambie el resultado?',
+    text(
+      '--tone está definida como 20px. ¿Qué pasa con color: var(--tone, red) si no hay otra declaración que cambie el resultado?',
+      [highlight('--tone'), highlight('20px'), highlight('color: var(--tone, red)')],
+    ),
     [
-      text('Se usa red porque 20px no es un color'),
-      text('Se convierte 20px en un color automáticamente'),
-      text('Se mantiene literalmente var() como color'),
+      text('Se usa red porque 20px no es un color', [highlight('red'), highlight('20px')]),
+      text('Se convierte 20px en un color automáticamente', [highlight('20px')]),
+      text('Se mantiene literalmente var() como color', [highlight('var')]),
       text('El valor queda inválido en tiempo de cómputo'),
     ],
     'd',
     text(
       'El fallback de var() no valida el tipo esperado por color. Como --tone existe, se sustituye 20px; color queda inválido en tiempo de cómputo y, al ser heredable, toma el valor heredado.',
+      [highlight('var()'), highlight('--tone'), highlight('20px')],
     ),
   ),
   question(
@@ -917,16 +1071,17 @@ export const cssQuestions = [
     'css',
     'advanced',
     'unset',
-    '¿Qué hace unset en una propiedad heredada como color?',
+    text('¿Qué hace unset en una propiedad heredada como color?', [highlight('unset')]),
     [
-      text('Actúa como inherit'),
-      text('Actúa siempre como initial'),
+      text('Actúa como inherit', [highlight('inherit')]),
+      text('Actúa siempre como initial', [highlight('initial')]),
       text('Elimina el elemento del árbol'),
       text('Recupera siempre el estilo del navegador'),
     ],
     'a',
     text(
       'unset actúa como inherit en propiedades heredadas y como initial en las demás. No es una restauración general de los estilos del navegador.',
+      [highlight('unset'), highlight('initial')],
     ),
   ),
   question(
@@ -934,7 +1089,9 @@ export const cssQuestions = [
     'css',
     'advanced',
     'revert-layer',
-    '¿Qué busca color: revert-layer en una capa de autor normal?',
+    text('¿Qué busca color: revert-layer en una capa de autor normal?', [
+      highlight('color: revert-layer'),
+    ]),
     [
       text('Reiniciar todas las propiedades del elemento'),
       text('Copiar el color del último hijo'),
@@ -944,6 +1101,7 @@ export const cssQuestions = [
     'c',
     text(
       'revert-layer retrocede en la cascada para esa propiedad hasta fuera de la capa actual. No equivale a reiniciar todas las propiedades ni a borrar la hoja de estilos.',
+      [highlight('revert-layer')],
     ),
   ),
   question(
@@ -951,7 +1109,10 @@ export const cssQuestions = [
     'css',
     'advanced',
     'sticky-scroll',
-    'Con top: 0, ¿a qué se refiere normalmente el umbral de position: sticky?',
+    text('Con top: 0, ¿a qué se refiere normalmente el umbral de position: sticky?', [
+      highlight('top: 0'),
+      highlight('position: sticky'),
+    ]),
     [
       text('Al elemento anterior en orden del DOM'),
       text('Al scrollport del ancestro de scroll más cercano'),
@@ -961,6 +1122,7 @@ export const cssQuestions = [
     'b',
     text(
       'sticky ajusta su posición respecto al scrollport más cercano, sujeto también a los límites de su bloque contenedor. Un ancestro con overflow puede cambiar la referencia esperada.',
+      [highlight('sticky'), highlight('scrollport'), highlight('overflow')],
     ),
   ),
   question(
@@ -978,6 +1140,7 @@ export const cssQuestions = [
     'd',
     text(
       'container-type: inline-size establece un contenedor de consultas de tamaño en el eje inline. Darle solo un nombre no habilita esas consultas de tamaño.',
+      [highlight('container-type: inline-size')],
     ),
   ),
   question(
@@ -985,7 +1148,10 @@ export const cssQuestions = [
     'css',
     'advanced',
     'logical-properties',
-    'En writing-mode: vertical-rl, ¿a qué dimensión física corresponde inline-size?',
+    text('En writing-mode: vertical-rl, ¿a qué dimensión física corresponde inline-size?', [
+      highlight('writing-mode: vertical-rl'),
+      highlight('inline-size'),
+    ]),
     [
       text('A la altura'),
       text('A la anchura'),
@@ -995,6 +1161,7 @@ export const cssQuestions = [
     'a',
     text(
       'El eje inline sigue la dirección de las líneas de texto. En escritura vertical es vertical, por lo que inline-size corresponde a la altura física.',
+      [highlight('inline-size')],
     ),
   ),
   question(
@@ -1012,6 +1179,7 @@ export const cssQuestions = [
     'c',
     text(
       'prefers-reduced-motion: reduce expresa una preferencia de movimiento reducido. No se deduce del tema visual ni del tipo de puntero; permite adaptar animaciones decorativas.',
+      [highlight('prefers-reduced-motion: reduce')],
     ),
   ),
 ] as const satisfies readonly BankQuestion[];

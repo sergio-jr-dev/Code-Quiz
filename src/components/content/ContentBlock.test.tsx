@@ -18,9 +18,21 @@ describe('ContentBlock', () => {
     );
 
     const code = container.querySelector('pre > code');
+    expect(code).toHaveClass('syntax-code');
     expect(code).toHaveTextContent(dangerous, { normalizeWhitespace: false });
     expect(code?.textContent).toBe(dangerous);
     expect(container.querySelector('img')).not.toBeInTheDocument();
     expect(container.querySelector('script')).not.toBeInTheDocument();
+  });
+
+  it('marks an incomplete HTML element as syntax-highlightable code', () => {
+    const { container } = render(
+      <ContentBlock block={{ type: 'code', language: 'html', code: '<textarea>' }} />,
+    );
+
+    expect(container.querySelector('code.code-snippet')).toHaveClass(
+      'syntax-code',
+      'language-html',
+    );
   });
 });

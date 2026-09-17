@@ -1,6 +1,7 @@
 import type {
   BankQuestion,
   CodeLanguage,
+  InlineAnnotation,
   Level,
   QuestionContent,
   QuestionId,
@@ -9,13 +10,26 @@ import type {
 } from '../types/questionBank';
 
 const optionIds = ['a', 'b', 'c', 'd'] as const;
-export const text = (value: string, inlineCode: readonly string[] = []): QuestionPrompt => [
+
+export const inlineCode = (value: string, language?: CodeLanguage): InlineAnnotation => ({
+  kind: 'code',
+  value,
+  ...(language ? { language } : {}),
+});
+
+export const highlight = (value: string): InlineAnnotation => ({ kind: 'highlight', value });
+
+export const text = (
+  value: string,
+  annotations: readonly InlineAnnotation[] = [],
+): QuestionPrompt => [
   {
     type: 'text',
     text: value,
-    ...(inlineCode.length > 0 ? { inlineCode } : {}),
+    ...(annotations.length > 0 ? { annotations } : {}),
   },
 ];
+
 export const code = (language: CodeLanguage, value: string): QuestionContent => [
   { type: 'code', language, code: value },
 ];
@@ -35,7 +49,7 @@ export function question(
     subject,
     level,
     topic,
-    prompt: typeof prompt === 'string' ? [{ type: 'text', text: prompt }] : prompt,
+    prompt: typeof prompt === 'string' ? text(prompt) : prompt,
     options: options.map((content, index) => ({ id: optionIds[index]!, content })),
     correctAnswer,
     explanation,

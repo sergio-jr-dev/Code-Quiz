@@ -31,12 +31,13 @@ describe('QuestionContent', () => {
           {
             type: 'text',
             text: '¿Qué devuelve Promise.all?',
-            inlineCode: ['Promise.all'],
+            annotations: [{ kind: 'code', value: 'Promise.all' }],
           },
         ]}
       />,
     );
 
     expect(screen.getByText('Promise.all')).toHaveClass('inline-code', 'language-javascript');
+    expect(screen.getByText('Promise.all')).toHaveClass('syntax-code');
   });
 });

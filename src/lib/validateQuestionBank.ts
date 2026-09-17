@@ -55,11 +55,16 @@ function isContent(value: unknown): boolean {
     if (!isRecord(block)) return false;
     if (block.type === 'text') {
       if (!isNonEmptyString(block.text)) return false;
-      if (block.inlineCode === undefined) return true;
-      if (!Array.isArray(block.inlineCode) || block.inlineCode.length === 0) return false;
+      if (block.annotations === undefined) return true;
+      if (!Array.isArray(block.annotations) || block.annotations.length === 0) return false;
 
-      return block.inlineCode.every(
-        (term) => isNonEmptyString(term) && String(block.text).includes(term),
+      return block.annotations.every(
+        (annotation) =>
+          isRecord(annotation) &&
+          (annotation.kind === 'code' || annotation.kind === 'highlight') &&
+          isNonEmptyString(annotation.value) &&
+          String(block.text).includes(String(annotation.value)) &&
+          (annotation.language === undefined || LANGUAGE_SET.has(String(annotation.language))),
       );
     }
     return (

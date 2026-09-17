@@ -14,8 +14,10 @@ function SyntaxFixture({ refreshKey }: { refreshKey: string }) {
   return (
     <div ref={rootRef}>
       <pre className="content-code code-block">
-        <code className="language-javascript">const answer = 42;</code>
+        <code className="syntax-code language-javascript">const answer = 42;</code>
       </pre>
+      <code className="code-snippet syntax-code language-html">{'<textarea>'}</code>
+      <code className="inline-code language-html">download</code>
     </div>
   );
 }
@@ -39,7 +41,7 @@ describe('useSyntaxHighlighting', () => {
 
     await waitFor(() => {
       expect(highlightAll).toHaveBeenCalledWith(
-        expect.objectContaining({ selector: '.code-block > code' }),
+        expect.objectContaining({ selector: '.syntax-code' }),
       );
     });
 
