@@ -21,6 +21,11 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: vi.fn(),
+});
+
 if (!HTMLDialogElement.prototype.showModal) {
   HTMLDialogElement.prototype.showModal = function showModal() {
     this.setAttribute('open', '');

@@ -1,6 +1,6 @@
 # Tasks
 
-**Current task:** T11
+**Current task:** None
 **Blockers:** None
 
 - [x] T1: Auditar la base de Vitest y Testing Library creada en la spec 004 y añadir solo el setup o los scripts que exijan los nuevos comportamientos.
@@ -22,4 +22,4 @@
 - [x] T9: Completar pruebas de integración con interacciones reales de usuario, reordenación de opciones, contenido con código y progreso.
 - [x] T10: Verificar diseño, resaltado, temas, viewports, zoom, teclado y build raíz para Vercel.
   - [x] T10.1: Refinar la composición móvil del resultado y las acciones de la pregunta después de la verificación visual.
-- [ ] T11: Ejecutar checks completos y registrar validación en `notes.md`.
+- [x] T11: Ejecutar checks completos y registrar validación en `notes.md`.

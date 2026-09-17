@@ -1,6 +1,6 @@
 # Quiz flow and test foundation
 
-**Status:** In progress
+**Status:** Implemented
 
 ## Goal
 
@@ -48,21 +48,21 @@ La aplicación inicia directamente una partida, mantiene todo el estado en un co
 
 ## Acceptance Criteria
 
-- [ ] AC-1: El usuario configura materia y nivel y solo recibe diez preguntas compatibles sin duplicados. [REQ-1–REQ-3]
-- [ ] AC-2: Cada combinación jugable dispone de al menos veinte candidatas y genera una partida de diez. [REQ-2, REQ-3]
-- [ ] AC-3: El flujo completo puede terminarse y reiniciarse con teclado sin conservar estado anterior. [REQ-4, REQ-6, REQ-8]
+- [x] AC-1: El usuario configura materia y nivel y solo recibe diez preguntas compatibles sin duplicados. [REQ-1–REQ-3]
+- [x] AC-2: Cada combinación jugable dispone de al menos veinte candidatas y genera una partida de diez. [REQ-2, REQ-3]
+- [x] AC-3: El flujo completo puede terminarse y reiniciarse con teclado sin conservar estado anterior. [REQ-4, REQ-6, REQ-8]
 - [x] AC-4: Resultados ofrece menú, repetición, cambio de categoría y repetición de fallos según proceda. [REQ-5]
-- [ ] AC-5: Datos persistidos válidos se restauran y datos inválidos se ignoran sin romper la aplicación. [REQ-7]
+- [x] AC-5: Datos persistidos válidos se restauran y datos inválidos se ignoran sin romper la aplicación. [REQ-7]
 - [x] AC-6: Feedback, progreso y resultado están disponibles para tecnologías de asistencia y no dependen solo del color. [REQ-8]
 - [x] AC-7: Con movimiento reducido no se ejecuta confeti, vibración, scroll suave ni escalado decorativo. [REQ-9]
-- [ ] AC-8: `pnpm test` ejecuta Vitest y Testing Library en local y CI. [REQ-10, REQ-11]
+- [x] AC-8: `pnpm test` ejecuta Vitest y Testing Library en local y CI. [REQ-10, REQ-11]
 - [x] AC-9: Las pruebas automatizadas cubren todos los comportamientos enumerados en REQ-12 sin depender de implementación interna. [REQ-12, REQ-13]
-- [ ] AC-10: `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados. [REQ-10–REQ-14]
-- [ ] AC-11: La verificación visual no detecta pérdida de contenido en claro/oscuro, 320 px, zoom/texto ampliado o movimiento reducido. [Design Requirements]
-- [ ] AC-12: Dos partidas consecutivas de la misma combinación con un banco de veinte no comparten preguntas; el siguiente ciclo vuelve a barajar de forma determinista bajo una semilla de prueba. [REQ-15]
-- [ ] AC-13: Una partida mixta siempre contiene las tres materias, ninguna supera a otra por más de una pregunta y la materia con cuatro preguntas no queda fijada entre partidas. [REQ-16]
+- [x] AC-10: `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados. [REQ-10–REQ-14]
+- [x] AC-11: La verificación visual no detecta pérdida de contenido en claro/oscuro, 320 px, zoom/texto ampliado o movimiento reducido. [Design Requirements]
+- [x] AC-12: Dos partidas consecutivas de la misma combinación con un banco de veinte no comparten preguntas; el siguiente ciclo vuelve a barajar de forma determinista bajo una semilla de prueba. [REQ-15]
+- [x] AC-13: Una partida mixta siempre contiene las tres materias, ninguna supera a otra por más de una pregunta y la materia con cuatro preguntas no queda fijada entre partidas. [REQ-16]
 - [x] AC-14: Las respuestas muestran marcadores A–D en orden visual, siguen siendo un grupo de radios operable con teclado y se corrigen por ID aunque se reordenen. [REQ-17]
-- [ ] AC-15: El código completo de HTML, CSS y JavaScript se distingue mediante resaltado de sintaxis; los fragmentos aislados no reciben coloreado parcial y los términos inline declarados se mantienen completos. Todo permanece escapado, legible y sin desbordar las respuestas. [REQ-18]
+- [x] AC-15: El código completo de HTML, CSS y JavaScript se distingue mediante resaltado de sintaxis; los fragmentos aislados no reciben coloreado parcial y los términos inline declarados se mantienen completos. Todo permanece escapado, legible y sin desbordar las respuestas. [REQ-18]
 - [x] AC-16: La barra y el texto de progreso coinciden desde la primera hasta la décima pregunta y su estado es accesible para tecnologías de asistencia. [REQ-19]
 - [x] AC-17: «Salir de la partida» abre una confirmación modal; cancelar conserva la ronda y confirmar vuelve al menú sin borrar configuración, mazos ni mejores marcas. [REQ-20]
 - [x] AC-18: `questionCatalog` conserva las 180 preguntas válidas y las nueve combinaciones materia–nivel jugables después de integrar las preguntas originales en `html.ts` y `css.ts`; no queda ningún uso de producción o prueba de `questions.ts`, y las pruebas unitarias que necesiten datos controlados usan fixtures explícitas independientes del orden editorial del catálogo. [REQ-21]
