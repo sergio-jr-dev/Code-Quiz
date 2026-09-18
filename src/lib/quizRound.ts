@@ -179,6 +179,7 @@ export const startConfiguredQuiz = (
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',
+    timer: null,
   };
 };
 
@@ -205,5 +206,6 @@ export const restartConfiguredQuiz = (
     currentQuestionIndex: 0,
     answers: [],
     view: 'playing',
+    timer: null,
   };
 };

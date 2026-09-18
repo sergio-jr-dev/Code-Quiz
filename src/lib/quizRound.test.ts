@@ -20,6 +20,8 @@ function seededRandom(seed: number): () => number {
 }
 
 const menuState = (overrides: Partial<QuizState> = {}): QuizState => ({
+  mode: 'normal',
+  timer: null,
   configuration: { subject: 'html', level: 'basic' },
   round: [],
   currentQuestionIndex: 0,

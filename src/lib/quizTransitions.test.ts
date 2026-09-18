@@ -1,24 +1,146 @@
 import { describe, expect, it } from 'vitest';
 
 import { questionExamples as questions } from '../test/fixtures/questionExamples';
-import type { QuizProgressState as QuizState } from '../types/quizStore';
+import type {
+  QuizProgressState as QuizState,
+  QuizState as FullQuizState,
+} from '../types/quizStore';
 import {
   abandonRound,
   advanceQuiz,
   answerCurrentQuestion,
   calculateScore,
+  expireCurrentQuestion,
+  getRemainingTimeMs,
+  pauseQuestionTimer,
   restartQuiz,
+  resumeQuestionTimer,
   retryIncorrectAnswers,
   returnToMenu,
   showReview,
+  startQuestionTimer,
 } from './quizTransitions';
 
+const timedState = (questionIndex: number): FullQuizState => {
+  const question = questions[questionIndex]!;
+
+  return {
+    mode: 'timed',
+    timer: null,
+    configuration: { subject: question.subject, level: question.level },
+    round: [question],
+    currentQuestionIndex: 0,
+    answers: [],
+    view: 'playing',
+    roundSource: 'configured',
+    decks: {},
+    mixedExtraSubjects: {},
+    bestResults: {},
+  };
+};
+
 describe('quizTransitions', () => {
+  it.each([
+    [0, 60_000],
+    [1, 45_000],
+    [2, 30_000],
+  ])('starts the level timer for question fixture %i at %i ms', (questionIndex, durationMs) => {
+    const state = timedState(questionIndex);
+    const result = startQuestionTimer(state, 1_000);
+
+    expect(result).not.toBe(state);
+    expect(result.timer).toEqual({
+      questionId: state.round[0]!.id,
+      durationMs,
+      remainingMs: durationMs,
+      status: 'running',
+      referenceTimeMs: 1_000,
+    });
+    expect(startQuestionTimer(result, 2_000)).toBe(result);
+  });
+
+  it('does not create temporal state in normal mode', () => {
+    const state = { ...timedState(0), mode: 'normal' as const };
+
+    expect(startQuestionTimer(state, 1_000)).toBe(state);
+    expect(state.timer).toBeNull();
+  });
+
+  it('calculates remaining time from a reference and excludes a paused interval', () => {
+    const started = startQuestionTimer(timedState(0), 1_000);
+    const runningTimer = started.timer!;
+
+    expect(getRemainingTimeMs(runningTimer, 11_000)).toBe(50_000);
+
+    const paused = pauseQuestionTimer(started, 11_000);
+    expect(paused.timer).toMatchObject({
+      remainingMs: 50_000,
+      status: 'paused',
+      referenceTimeMs: null,
+    });
+    expect(getRemainingTimeMs(paused.timer!, 100_000)).toBe(50_000);
+
+    const resumed = resumeQuestionTimer(paused, 100_000);
+    expect(getRemainingTimeMs(resumed.timer!, 105_000)).toBe(45_000);
+  });
+
+  it('stops the timer immediately when a timed answer is recorded', () => {
+    const state = startQuestionTimer(timedState(1), 5_000);
+    const option = state.round[0]!.options[0]!;
+    const result = answerCurrentQuestion(state, option.id, 15_000);
+
+    expect(result.answers).toEqual([
+      { questionId: state.round[0]!.id, selectedOptionId: option.id },
+    ]);
+    expect(result.timer).toMatchObject({
+      remainingMs: 35_000,
+      status: 'answered',
+      referenceTimeMs: null,
+    });
+    expect(answerCurrentQuestion(result, option.id, 16_000)).toBe(result);
+  });
+
+  it('records one explicit timed-out result only when the deadline is reached', () => {
+    const started = startQuestionTimer(timedState(2), 10_000);
+
+    expect(expireCurrentQuestion(started, 39_999)).toBe(started);
+
+    const expired = expireCurrentQuestion(started, 40_000);
+    expect(expired.answers).toEqual([
+      {
+        questionId: started.round[0]!.id,
+        selectedOptionId: null,
+        timedOut: true,
+      },
+    ]);
+    expect(expired.timer).toMatchObject({
+      remainingMs: 0,
+      status: 'expired',
+      referenceTimeMs: null,
+    });
+    expect(calculateScore(expired)).toBe(0);
+    expect(expireCurrentQuestion(expired, 41_000)).toBe(expired);
+
+    const completed = advanceQuiz(expired);
+    expect(completed.view).toBe('score');
+    expect(completed.timer).toBeNull();
+  });
+
+  it('does not create an answer when a timed response arrives at or after the deadline', () => {
+    const started = startQuestionTimer(timedState(0), 1_000);
+    const option = started.round[0]!.options[0]!;
+
+    expect(answerCurrentQuestion(started, option.id, 61_000)).toBe(started);
+    expect(answerCurrentQuestion(started, option.id)).toBe(started);
+  });
+
   it('adds an answer for the current question without mutating the previous state', () => {
     const currentQuestion = questions[0]!;
     const selectedOption = currentQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [currentQuestion],
       currentQuestionIndex: 0,
       answers: [],
@@ -44,6 +166,8 @@ describe('quizTransitions', () => {
     const secondOption = currentQuestion.options[1]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [currentQuestion],
       currentQuestionIndex: 0,
       answers: [
@@ -67,6 +191,8 @@ describe('quizTransitions', () => {
     const selectedOption = currentQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [currentQuestion],
       currentQuestionIndex: 0,
       answers: [],
@@ -83,6 +209,8 @@ describe('quizTransitions', () => {
     const selectedOption = currentQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [],
       currentQuestionIndex: 0,
       answers: [],
@@ -98,6 +226,8 @@ describe('quizTransitions', () => {
     const currentQuestion = questions[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [currentQuestion],
       currentQuestionIndex: 0,
       answers: [],
@@ -115,6 +245,8 @@ describe('quizTransitions', () => {
     const selectedOption = firstQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [firstQuestion, secondQuestion],
       currentQuestionIndex: 0,
       answers: [
@@ -139,6 +271,8 @@ describe('quizTransitions', () => {
     const selectedOption = firstQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [firstQuestion],
       currentQuestionIndex: 0,
       answers: [
@@ -165,6 +299,8 @@ describe('quizTransitions', () => {
     const selectedOption = firstQuestion.options[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [firstQuestion, secondQuestion, thirdQuestion],
       currentQuestionIndex: 0,
       answers: [
@@ -183,6 +319,8 @@ describe('quizTransitions', () => {
 
   it('returns the same state if round is empty', () => {
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [],
       currentQuestionIndex: 0,
       answers: [],
@@ -198,6 +336,8 @@ describe('quizTransitions', () => {
     const currentQuestion = questions[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [currentQuestion],
       currentQuestionIndex: 0,
       answers: [],
@@ -223,6 +363,8 @@ describe('quizTransitions', () => {
     )!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [firstQuestion, secondQuestion, thirdQuestion],
       currentQuestionIndex: 0,
       answers: [
@@ -245,6 +387,8 @@ describe('quizTransitions', () => {
 
   it('returns a score of 0 if round and answers are empty', () => {
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [],
       currentQuestionIndex: 0,
       answers: [],
@@ -262,6 +406,8 @@ describe('quizTransitions', () => {
     const correctOption = question.options.find((option) => option.id === question.correctAnswer)!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [question],
       currentQuestionIndex: 0,
       answers: [
@@ -286,6 +432,8 @@ describe('quizTransitions', () => {
     const question = questions[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [question],
       currentQuestionIndex: 0,
       answers: [
@@ -310,6 +458,8 @@ describe('quizTransitions', () => {
     const question = questions[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [question],
       currentQuestionIndex: 0,
       answers: [
@@ -330,6 +480,8 @@ describe('quizTransitions', () => {
     const question = questions[0]!;
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: [question],
       currentQuestionIndex: 0,
       answers: [
@@ -351,6 +503,8 @@ describe('quizTransitions', () => {
     const nextRound = [questions[2]!, questions[3]!];
 
     const state: QuizState = {
+      mode: 'normal',
+      timer: null,
       round: previousRound,
       currentQuestionIndex: 1,
       answers: [
@@ -385,6 +539,8 @@ describe('quizTransitions', () => {
     )!;
     const decks = { 'html:basic:html': [questions[3]!.id] };
     const state = {
+      mode: 'normal' as const,
+      timer: null,
       configuration: { subject: 'html' as const, level: 'basic' as const },
       round: [firstQuestion, secondQuestion, thirdQuestion],
       currentQuestionIndex: 2,
@@ -412,6 +568,8 @@ describe('quizTransitions', () => {
   it('keeps every failed question in the order in which it was seen', () => {
     const round = [questions[0]!, questions[1]!, questions[2]!];
     const state = {
+      mode: 'normal' as const,
+      timer: null,
       configuration: { subject: 'html' as const, level: 'basic' as const },
       round,
       currentQuestionIndex: 2,
@@ -436,6 +594,8 @@ describe('quizTransitions', () => {
   it('does not retry when there are no incorrect answers or the view is invalid', () => {
     const question = questions[0]!;
     const state = {
+      mode: 'normal' as const,
+      timer: null,
       configuration: { subject: 'html' as const, level: 'basic' as const },
       round: [question],
       currentQuestionIndex: 0,
@@ -456,6 +616,8 @@ describe('quizTransitions', () => {
   it('returns to the menu and clears completed-round progress while preserving configuration', () => {
     const question = questions[0]!;
     const state = {
+      mode: 'normal' as const,
+      timer: null,
       configuration: { subject: 'css' as const, level: 'advanced' as const },
       round: [question],
       currentQuestionIndex: 0,
@@ -484,6 +646,8 @@ describe('quizTransitions', () => {
   it('abandons a playing round while preserving configuration, decks and records', () => {
     const question = questions[0]!;
     const state = {
+      mode: 'normal' as const,
+      timer: null,
       configuration: { subject: 'html' as const, level: 'basic' as const },
       round: [question],
       currentQuestionIndex: 0,

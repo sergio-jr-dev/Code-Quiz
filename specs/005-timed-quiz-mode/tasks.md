@@ -1,10 +1,10 @@
 # Tasks
 
-**Current task:** T2
+**Current task:** T3
 **Blockers:** None
 
 - [x] T1: Revisar el borrador, resolver la política de restauración tras recarga y confirmar o ajustar los tiempos 60/45/30 con ejemplos representativos del banco.
-- [ ] T2: Extender los contratos de dominio y las transiciones puras con modalidad, estado temporal y resultado por tiempo agotado.
+- [x] T2: Extender los contratos de dominio y las transiciones puras con modalidad, estado temporal y resultado por tiempo agotado.
 - [ ] T3: Incorporar la selección normal/cronómetro al menú y conservar la configuración al repetir una partida.
 - [ ] T4: Implementar la coordinación temporal con reloj inyectable, cálculo sin deriva, limpieza y pausa mediante Page Visibility.
 - [ ] T5: Implementar el indicador visual/textual, la detención al responder y el feedback sin avance automático al expirar.

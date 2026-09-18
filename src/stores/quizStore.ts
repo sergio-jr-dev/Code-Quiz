@@ -27,6 +27,8 @@ import {
 import type { QuizState, QuizStore } from '../types/quizStore';
 
 const defaultQuizState: QuizState = {
+  mode: 'normal',
+  timer: null,
   configuration: {
     subject: 'html',
     level: 'basic',

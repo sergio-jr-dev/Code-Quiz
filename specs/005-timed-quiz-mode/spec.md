@@ -1,6 +1,6 @@
 # Timed quiz mode
 
-**Status:** Ready
+**Status:** In progress
 
 ## Goal
 

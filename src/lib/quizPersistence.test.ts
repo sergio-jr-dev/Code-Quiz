@@ -15,6 +15,8 @@ const createState = (): QuizState => {
     .map((question) => ({ ...question, options: [...question.options].reverse() }));
 
   return {
+    mode: 'normal',
+    timer: null,
     configuration: { subject: 'html', level: 'basic' },
     round,
     roundSource: 'configured',

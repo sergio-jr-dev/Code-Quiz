@@ -10,6 +10,8 @@ const completedState = (score: number, overrides: Partial<QuizState> = {}): Quiz
     .slice(0, 10);
 
   return {
+    mode: 'normal',
+    timer: null,
     configuration: { subject: 'css', level: 'intermediate' },
     round,
     roundSource: 'configured',

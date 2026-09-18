@@ -243,6 +243,8 @@ const restorePersistedQuizState = (
   if (!progress || !decks || !bestResults) return null;
 
   return {
+    mode: 'normal',
+    timer: null,
     configuration,
     ...progress,
     decks,
@@ -259,7 +261,11 @@ export const partializeQuizState = (state: QuizState): PersistedQuizStateV1 => (
       optionIds: question.options.map((option) => option.id),
     })),
     currentQuestionIndex: state.currentQuestionIndex,
-    answers: state.answers.map((answer) => ({ ...answer })),
+    answers: state.answers.flatMap((answer) =>
+      answer.timedOut === true
+        ? []
+        : [{ questionId: answer.questionId, selectedOptionId: answer.selectedOptionId }],
+    ),
     view: state.view,
     roundSource: state.roundSource,
   },
