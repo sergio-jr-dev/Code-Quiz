@@ -21,4 +21,20 @@ describe('Feedback', () => {
       'Tu respuesta B no es correcta. La opción A es la respuesta.',
     );
   });
+
+  it('identifies an expired question without inventing a selected option', () => {
+    const question = questionExamples[0];
+    useQuizStore.setState({
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [{ questionId: question.id, selectedOptionId: null, timedOut: true }],
+      view: 'playing',
+    });
+
+    render(<Feedback />);
+
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Sin responder · Tiempo agotado. La opción A es la respuesta.',
+    );
+  });
 });

@@ -15,7 +15,7 @@ export interface QuizVisibilitySource {
   removeEventListener: (type: 'visibilitychange', listener: () => void) => void;
 }
 
-const systemClock: QuizTimerClock = {
+export const systemQuizTimerClock: QuizTimerClock = {
   now: Date.now,
   schedule: (callback, delayMs) => setTimeout(callback, delayMs),
   cancel: (task) => clearTimeout(task),
@@ -25,7 +25,7 @@ const getDocumentVisibility = (): QuizVisibilitySource | null =>
   typeof document === 'undefined' ? null : document;
 
 export const useQuizTimer = (
-  clock: QuizTimerClock = systemClock,
+  clock: QuizTimerClock = systemQuizTimerClock,
   visibilitySource: QuizVisibilitySource | null = getDocumentVisibility(),
 ) => {
   const mode = useQuizStore((state) => state.mode);

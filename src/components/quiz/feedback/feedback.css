@@ -18,6 +18,11 @@
         background-color: color-mix(in srgb, var(--incorrect-color) 45%, var(--primary-color));
       }
 
+      &.timed-out {
+        color: light-dark(#7b1731, #ffd3dc);
+        background-color: color-mix(in srgb, var(--incorrect-color) 45%, var(--primary-color));
+      }
+
       svg {
         flex: 0 0 auto;
         inline-size: 1.25rem;

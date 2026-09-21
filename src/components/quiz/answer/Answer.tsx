@@ -10,9 +10,8 @@ import './answer.css';
 export const Answer = ({ option, position }: { option: QuestionOption; position: number }) => {
   const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
 
-  const selectedOption = useQuizStore(
-    (state) =>
-      state.answers.find((answer) => answer.questionId === question?.id)?.selectedOptionId ?? null,
+  const answer = useQuizStore((state) =>
+    state.answers.find((candidate) => candidate.questionId === question?.id),
   );
 
   const selectOption = useQuizStore((state) => state.selectOption);
@@ -21,16 +20,25 @@ export const Answer = ({ option, position }: { option: QuestionOption; position:
     throw new Error('No question found for the current index');
   }
 
-  const correctAnswer = selectedOption !== null && option.id === question.correctAnswer;
-  const incorrectAnswer = selectedOption === option.id && option.id !== question.correctAnswer;
+  const hasAnswered = answer !== undefined;
+  const selectedOptionId = answer?.selectedOptionId ?? null;
+  const correctAnswer = hasAnswered && option.id === question.correctAnswer;
+  const incorrectAnswer = selectedOptionId === option.id && option.id !== question.correctAnswer;
   const marker = String.fromCharCode(65 + position);
 
   const handleSelectOption = () => {
-    if (selectedOption !== null) return;
+    if (hasAnswered) return;
 
     selectOption(option.id);
 
-    if (option.id === question.correctAnswer && !prefersReducedMotion()) {
+    const recordedAnswer = useQuizStore
+      .getState()
+      .answers.find((candidate) => candidate.questionId === question.id);
+    if (
+      recordedAnswer?.selectedOptionId === option.id &&
+      option.id === question.correctAnswer &&
+      !prefersReducedMotion()
+    ) {
       void confetti({
         startVelocity: 50,
         particleCount: 10,
@@ -46,16 +54,16 @@ export const Answer = ({ option, position }: { option: QuestionOption; position:
         answer 
         ${correctAnswer ? 'correct' : ''}
         ${incorrectAnswer ? 'incorrect' : ''}
-        ${selectedOption === null ? 'cursor' : ''}
+        ${hasAnswered ? '' : 'cursor'}
       `}
     >
       <input
         className="answer-input"
         type="radio"
         name="option"
-        checked={selectedOption === option.id}
+        checked={selectedOptionId === option.id}
         onChange={handleSelectOption}
-        disabled={selectedOption !== null && selectedOption !== option.id}
+        disabled={hasAnswered && selectedOptionId !== option.id}
       />
       <span className="answer-marker" aria-hidden="true">
         {marker}

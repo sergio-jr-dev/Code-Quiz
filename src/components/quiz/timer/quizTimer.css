@@ -1,0 +1,83 @@
+@layer components {
+  @scope (.quiz-timer) {
+    :scope {
+      --timer-state-color: var(--progress-color);
+
+      flex: 1 1 16rem;
+      max-inline-size: 22rem;
+      min-inline-size: 0;
+      display: grid;
+      gap: 0.5rem;
+
+      &[data-urgency='warning'] {
+        --timer-state-color: var(--timer-warning-color);
+
+        .quiz-timer-status {
+          color: var(--timer-state-color);
+        }
+      }
+
+      &[data-urgency='critical'] {
+        --timer-state-color: var(--timer-critical-color);
+
+        .quiz-timer-status {
+          color: var(--timer-state-color);
+        }
+      }
+
+      &[data-status='expired'] {
+        --timer-state-color: var(--timer-critical-color);
+      }
+    }
+
+    .quiz-timer-copy {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-inline-size: 0;
+      font-variant-numeric: tabular-nums;
+
+      svg {
+        flex: 0 0 1.25rem;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+      }
+
+      strong {
+        white-space: nowrap;
+      }
+
+      #quiz-timer-label {
+        white-space: nowrap;
+      }
+    }
+
+    .quiz-timer-status {
+      margin-inline-start: auto;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .timer-perimeter {
+      position: absolute;
+      z-index: 1;
+      inset: -0.25rem;
+      border-radius: 1rem;
+      padding: 0.25rem;
+      background: conic-gradient(
+        var(--timer-state-color) 0 var(--timer-progress),
+        var(--option-color) var(--timer-progress) 100%
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+      transition: --timer-progress 1s linear;
+    }
+  }
+}

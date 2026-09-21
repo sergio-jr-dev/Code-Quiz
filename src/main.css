@@ -3,6 +3,12 @@
 @import 'microlighter/themes/github.css' layer(components);
 
 @layer tokens {
+  @property --timer-progress {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 100%;
+  }
+
   :root {
     --primary-color: light-dark(#ffffff, #16074e);
     --secondary-color: light-dark(#462a8c, #462a8c);
@@ -18,6 +24,8 @@
     --text-on-accent-color: light-dark(#ffffff, #efeeee);
     --focus-ring-color: light-dark(#5a2ca0, #f2c94c);
     --progress-color: light-dark(#462a8c, #a78bfa);
+    --timer-warning-color: light-dark(#8a5a00, #f2c94c);
+    --timer-critical-color: light-dark(#b4233c, #ff5a70);
     --card-shadow: 2px 2px 3px var(--secondary-color);
     --font-family-sans: 'Trebuchet MS', 'Avenir Next', Avenir, sans-serif;
     --font-family-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;

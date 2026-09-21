@@ -7,6 +7,8 @@ import { FinalView } from '../../finalView/FinalView';
 import { Menu } from '../../menu/Menu';
 import { Quiz } from '../Quiz';
 
+import './game.css';
+
 export const Game = () => {
   const view = useQuizStore((state) => state.view);
   const currentQuestionIndex = useQuizStore((state) => state.currentQuestionIndex);

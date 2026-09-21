@@ -9,11 +9,9 @@ import { ExitQuiz } from '../exitQuiz/ExitQuiz';
 import './buttons.css';
 
 export const Buttons = () => {
-  const selectedOption = useQuizStore((state) => {
+  const hasAnswered = useQuizStore((state) => {
     const question = state.round[state.currentQuestionIndex];
-    return (
-      state.answers.find((answer) => answer.questionId === question?.id)?.selectedOptionId ?? null
-    );
+    return state.answers.some((answer) => answer.questionId === question?.id);
   });
 
   const isLastQuestion = useQuizStore(
@@ -23,7 +21,7 @@ export const Buttons = () => {
   const goToNextQuestion = useQuizStore((state) => state.goToNextQuestion);
 
   const handleNext = () => {
-    if (selectedOption === null) return;
+    if (!hasAnswered) return;
 
     goToNextQuestion();
 
@@ -40,8 +38,8 @@ export const Buttons = () => {
   return (
     <div className="buttons">
       <Button
-        className={`${selectedOption === null ? 'disabled' : ''}`}
-        disabled={selectedOption === null}
+        className={`${hasAnswered ? '' : 'disabled'}`}
+        disabled={!hasAnswered}
         onClick={handleNext}
       >
         <IconArrowNarrowRightDashed aria-hidden="true" stroke={2} />

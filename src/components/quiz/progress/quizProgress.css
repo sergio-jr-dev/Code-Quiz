@@ -5,6 +5,16 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 0.5rem 1rem;
+
+      &[data-layout='stacked'] {
+        align-items: stretch;
+
+        label {
+          order: -1;
+          inline-size: 100%;
+          margin-inline-start: 0;
+        }
+      }
     }
 
     progress {
@@ -25,11 +35,13 @@
     progress::-webkit-progress-value {
       border-radius: inherit;
       background-color: var(--progress-color);
+      transition: inline-size 300ms ease-out;
     }
 
     progress::-moz-progress-bar {
       border-radius: inherit;
       background-color: var(--progress-color);
+      transition: inline-size 300ms ease-out;
     }
 
     label {

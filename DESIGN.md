@@ -15,6 +15,8 @@ colors:
   text-on-accent: "#EFEEEE"
   focus-ring: "#F2C94C"
   progress: "#A78BFA"
+  timer-warning: "#F2C94C"
+  timer-critical: "#FF5A70"
   code-surface: "#0D0A18"
   code-border: "#4F3C7A"
   primary-light: "#FFFFFF"
@@ -29,6 +31,8 @@ colors:
   text-on-accent-light: "#FFFFFF"
   focus-ring-light: "#5A2CA0"
   progress-light: "#462A8C"
+  timer-warning-light: "#8A5A00"
+  timer-critical-light: "#B4233C"
   code-surface-light: "#F4F1FB"
   code-border-light: "#CFC4E8"
 typography:
@@ -160,6 +164,14 @@ components:
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.full}"
+  quiz-timer:
+    backgroundColor: "{colors.option-surface}"
+    accentColor: "{colors.progress}"
+    warningAccentColor: "{colors.timer-warning}"
+    criticalAccentColor: "{colors.timer-critical}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.full}"
   score-heading:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.text-primary}"
@@ -255,6 +267,14 @@ components:
     textColor: "{colors.text-primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.full}"
+  quiz-timer-light:
+    backgroundColor: "{colors.option-surface-light}"
+    accentColor: "{colors.progress-light}"
+    warningAccentColor: "{colors.timer-warning-light}"
+    criticalAccentColor: "{colors.timer-critical-light}"
+    textColor: "{colors.text-primary-light}"
+    typography: "{typography.body}"
+    rounded: "{rounded.full}"
   score-metric-light:
     backgroundColor: "{colors.primary-light}"
     accentColor: "{colors.progress-light}"
@@ -306,6 +326,8 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
   --text-on-accent-color: light-dark(#ffffff, #efeeee);
   --focus-ring-color: light-dark(#5a2ca0, #f2c94c);
   --progress-color: light-dark(#462a8c, #a78bfa);
+  --timer-warning-color: light-dark(#8a5a00, #f2c94c);
+  --timer-critical-color: light-dark(#b4233c, #ff5a70);
   --code-surface-color: light-dark(#f4f1fb, #0d0a18);
   --code-border-color: light-dark(#cfc4e8, #4f3c7a);
 }
@@ -323,6 +345,7 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
 - **Text on accent:** `#FFFFFF` / `#EFEEEE`. Texto sobre secondary; no usarlo sobre superficies claras.
 - **Focus ring:** `#5A2CA0` / `#F2C94C`. Indicador de foco, no color decorativo ni identificador de materia.
 - **Progress:** `#462A8C` / `#A78BFA`. Relleno del avance frente a option-surface; se acompaña siempre de «Pregunta N de 10».
+- **Timer warning:** `#8A5A00` / `#F2C94C`; **timer critical:** `#B4233C` / `#FF5A70`. Acentos del perímetro temporal, siempre acompañados del valor y el estado textual.
 
 El resaltado de sintaxis usa el tema GitHub adaptativo distribuido por MicroLighter. Sus variables `--syntax-*` y colores `light-dark()` pertenecen al contenido técnico, no amplían la paleta de marca ni diferencian materias. La superficie, el overflow y la tipografía del bloque continúan bajo el componente de Code Quiz.
 
@@ -420,7 +443,13 @@ En dispositivos que admiten hover, las tarjetas de materia, nivel y modalidad ca
 
 El progreso vive dentro de la parte superior de la tarjeta. Combina un `<progress>` nativo que crece en el espacio disponible a la izquierda y el texto visible «Pregunta 3 de 10» alineado al final. Ambos representan el mismo valor desde la primera hasta la décima pregunta.
 
-La pista usa option-surface y el valor usa progress, con radio completo y una altura compacta de `0.75rem`. La fila permite wrap: si el texto ampliado o el viewport no permiten mantener ambos elementos juntos, la barra conserva un ancho útil y la etiqueta pasa a otra línea. El texto es la referencia comprensible; longitud, color o animación nunca son la única señal. El progreso no es una región viva propia para evitar anuncios redundantes al mover el foco a cada pregunta.
+La pista usa option-surface y el valor usa progress, con radio completo y una altura compacta de `0.75rem`. La fila permite wrap: si el texto ampliado o el viewport no permiten mantener ambos elementos juntos, la barra conserva un ancho útil y la etiqueta pasa a otra línea. El valor avanza durante `300ms` con una salida suave al cambiar de pregunta. El texto es la referencia comprensible; longitud, color o animación nunca son la única señal. El progreso no es una región viva propia para evitar anuncios redundantes al mover el foco a cada pregunta.
+
+En modo Cronómetro, la franja superior alinea dos módulos centrados en el eje vertical: el progreso de pregunta a la izquierda ocupa dos filas y el texto temporal a la derecha una. Para darles la misma jerarquía, «Pregunta N de 10» aparece encima de su barra, como «Tiempo restante: N s» aparece junto al indicador visual que envuelve la tarjeta. Ambos módulos permiten wrap independiente y pasan a filas sucesivas cuando el ancho disponible no sostiene una lectura cómoda; el temporizador conserva un máximo de `22rem` y nunca reduce ni trunca el progreso de pregunta. La tarjeta elimina su sombra en esta modalidad porque el perímetro ya establece el límite visual.
+
+El tiempo restante se representa visualmente como un borde perimetral de `0.25rem` generado con `conic-gradient`. La porción disponible interpola linealmente durante un segundo entre actualizaciones, usa progress, pasa a timer-warning durante los últimos diez segundos y a timer-critical durante los últimos cinco. No pulsa ni altera la geometría. La pista agotada usa option-surface. Este borde es decorativo: un único `<progress>` nativo, oculto solo visualmente, conserva nombre, valor y máximo accesibles. Tanto esta interpolación como la del progreso de pregunta se eliminan con `prefers-reduced-motion: reduce`.
+
+El texto «Tiempo restante: N s» permanece siempre visible, usa cifras tabulares y se acompaña de «En curso», «Pausado», «Detenido», «Agotado» o «Últimos segundos». Los rótulos mantienen el significado sin depender del color y la cuenta no es una región viva por segundo. Tras responder conserva el último valor; al expirar muestra `0 s`, revela el feedback y espera la acción manual para avanzar.
 
 ### Answer option
 

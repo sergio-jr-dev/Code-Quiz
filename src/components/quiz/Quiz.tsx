@@ -8,21 +8,19 @@ import { Buttons } from './buttons/Buttons';
 import { Feedback } from './feedback/Feedback';
 import { Info } from './info/Info';
 import { QuizProgress } from './progress/QuizProgress';
+import { QuizTimer } from './timer/QuizTimer';
 
 import './quiz.css';
 
 export const Quiz = () => {
   useQuizTimer();
 
+  const mode = useQuizStore((state) => state.mode);
   const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
 
-  const selectedOption = useQuizStore((state) => {
+  const hasAnswered = useQuizStore((state) => {
     const currentQuestion = state.round[state.currentQuestionIndex];
-
-    return (
-      state.answers.find((answer) => answer.questionId === currentQuestion?.id)?.selectedOptionId ??
-      null
-    );
+    return state.answers.some((answer) => answer.questionId === currentQuestion?.id);
   });
 
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -36,8 +34,11 @@ export const Quiz = () => {
   }
 
   return (
-    <article className="quiz">
-      <QuizProgress />
+    <article className="quiz" data-mode={mode}>
+      <div className="quiz-status">
+        <QuizProgress />
+        <QuizTimer />
+      </div>
 
       <QuestionContent
         content={question.prompt}
@@ -49,9 +50,9 @@ export const Quiz = () => {
 
       <Answers />
 
-      {selectedOption !== null && <Feedback />}
+      {hasAnswered ? <Feedback /> : null}
 
-      {selectedOption !== null && <Info />}
+      {hasAnswered ? <Info /> : null}
 
       <Buttons />
     </article>
