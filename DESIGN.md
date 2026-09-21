@@ -100,6 +100,25 @@ components:
     typography: "{typography.option-label}"
     rounded: "{rounded.lg}"
     padding: "{spacing.md}"
+  mode-option:
+    backgroundColor: "{colors.option-surface}"
+    selectedBackgroundColor: "{colors.info}"
+    selectedBorderColor: "{colors.focus-ring}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.lg}"
+    padding: "{spacing.md}"
+  configuration-step:
+    currentBackgroundColor: "{colors.focus-ring}"
+    currentTextColor: "{colors.primary}"
+    completeBackgroundColor: "{colors.success}"
+    completeTextColor: "{colors.text-primary}"
+    upcomingBackgroundColor: "{colors.option-surface}"
+    upcomingTextColor: "{colors.text-primary}"
+    connectorColor: "{colors.option-surface}"
+    completeConnectorColor: "{colors.success}"
+    typography: "{typography.body}"
+    rounded: "{rounded.full}"
   answer-correct:
     backgroundColor: "{colors.success}"
     textColor: "{colors.text-primary}"
@@ -182,6 +201,25 @@ components:
     typography: "{typography.option-label}"
     rounded: "{rounded.lg}"
     padding: "{spacing.md}"
+  mode-option-light:
+    backgroundColor: "{colors.option-surface-light}"
+    selectedBackgroundColor: "{colors.info-light}"
+    selectedBorderColor: "{colors.focus-ring-light}"
+    textColor: "{colors.text-primary-light}"
+    typography: "{typography.body}"
+    rounded: "{rounded.lg}"
+    padding: "{spacing.md}"
+  configuration-step-light:
+    currentBackgroundColor: "{colors.focus-ring-light}"
+    currentTextColor: "{colors.primary-light}"
+    completeBackgroundColor: "{colors.success-light}"
+    completeTextColor: "{colors.text-primary-light}"
+    upcomingBackgroundColor: "{colors.option-surface-light}"
+    upcomingTextColor: "{colors.text-primary-light}"
+    connectorColor: "{colors.option-surface-light}"
+    completeConnectorColor: "{colors.success-light}"
+    typography: "{typography.body}"
+    rounded: "{rounded.full}"
   answer-correct-light:
     backgroundColor: "{colors.success-light}"
     textColor: "{colors.text-primary-light}"
@@ -362,15 +400,21 @@ El menú y la selección de partida reutilizan la misma superficie primary, radi
 
 ### Configuración de partida
 
-Materia y nivel se presentan como dos `fieldset` con `legend`, de forma que la relación entre opciones se conserva sin depender del layout. Cada elección sigue siendo un radio nativo: la tarjeta-label amplía el objetivo interactivo, mientras `:has(input:checked)` y `:has(input:focus-visible)` proyectan selección y foco sobre toda la superficie.
+La configuración se divide en dos pasos para mantener la tarjeta compacta: primero materia; después nivel y modalidad. Solo el contenido del paso activo permanece en el DOM. Avanzar o volver conserva las elecciones y mueve el foco al `h2` contextual, de modo que teclado y lector de pantalla reciben el nuevo contexto sin depender de una animación.
+
+El progreso se representa mediante una lista ordenada no interactiva: dos círculos numerados, «Materia» y «Partida», unidos por una línea. El paso actual usa focus-ring y `aria-current="step"`; el completado usa success; el pendiente usa option-surface. Los rótulos visibles y `aria-current` mantienen el significado sin color. La línea y los círculos cambian durante `250ms`, mientras el contenido entra con un desplazamiento vertical de `0.5rem`; todas esas transiciones se eliminan con `prefers-reduced-motion: reduce`.
+
+Cada grupo visible mantiene su propio `fieldset` con `legend`, de forma que la relación entre opciones se conserva sin depender del layout. Cada elección sigue siendo un radio nativo: la tarjeta-label amplía el objetivo interactivo, mientras `:has(input:checked)` y `:has(input:focus-visible)` proyectan selección y foco sobre toda la superficie.
+
+La modalidad ofrece «Normal» y «Cronómetro» como opciones equivalentes del mismo flujo. Normal aparece seleccionada inicialmente y explica que no tiene límite; Cronómetro muestra antes de empezar el límite correspondiente al nivel y aclara que no concede bonificaciones. Ambas comparten contenido, superficie, tipografía y estados visuales. En escritorio ocupan dos columnas y a partir de `34rem` o menos se apilan para preservar la lectura.
 
 Las materias usan el mismo fondo y sistema de color de interfaz. HTML, CSS, JavaScript y mixto se distinguen mediante nombre, icono y descripción, no mediante paletas completas de pantalla. Sus iconos sí conservan los colores reconocibles de cada tecnología como detalle de identidad. En escritorio, las materias pueden ocupar dos columnas y los niveles tres; ambos grupos pasan a una sola columna cuando el contenido necesita espacio.
 
-El cubo 3D queda reservado al logo de Code Quiz. Las materias usan versiones 3D independientes de sus símbolos reconocibles: HTML naranja, JavaScript amarillo y el nuevo logo CSS morado de esquina redondeada; mixto agrupa los tres sin introducir otro contenedor. Los niveles forman otra familia 3D común: brote para básico, escalones ascendentes para intermedio y trofeo para avanzado. Son imágenes decorativas con `alt` vacío porque el nombre visible de cada opción ya aporta su significado. La introducción no repite el tamaño de ronda; la única confirmación de las diez preguntas vive junto a la acción de inicio.
+El cubo 3D queda reservado al logo de Code Quiz. Las materias usan versiones 3D independientes de sus símbolos reconocibles: HTML naranja, JavaScript amarillo y el nuevo logo CSS morado de esquina redondeada; mixto agrupa los tres sin introducir otro contenedor. Los niveles forman otra familia 3D común: brote para básico, escalones ascendentes para intermedio y trofeo para avanzado. Las modalidades continúan esa familia mediante un libro abierto violeta con páginas claras para Normal y un cronómetro violeta con detalles dorados para Cronómetro. Todos estos assets son imágenes decorativas con `alt` vacío porque el nombre visible de cada opción ya aporta su significado. La introducción no repite el tamaño de ronda; la única confirmación de las diez preguntas vive junto a la acción de inicio.
 
 La selección usa option-surface en reposo e info con borde focus-ring cuando está activa. Las combinaciones con menos de veinte candidatas se deshabilitan de forma nativa y muestran «Próximamente». La franja final confirma que la partida contiene diez preguntas y mantiene una única acción «Comenzar partida».
 
-En dispositivos que admiten hover, las tarjetas de materia y nivel cambian solo el tono de su superficie. No se desplazan ni escalan, de modo que la configuración conserva una retícula estable al explorar opciones.
+En dispositivos que admiten hover, las tarjetas de materia, nivel y modalidad cambian solo el tono de su superficie. No se desplazan ni escalan, de modo que la configuración conserva una retícula estable al explorar opciones.
 
 ### Progress
 

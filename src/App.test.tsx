@@ -56,6 +56,8 @@ describe('configured quiz flow', () => {
   it('configures, completes and restarts a ten-question round using the keyboard', async () => {
     const user = userEvent.setup();
     useQuizStore.setState({
+      mode: 'normal',
+      timer: null,
       configuration: { subject: 'html', level: 'basic' },
       round: [],
       currentQuestionIndex: 0,
@@ -72,8 +74,51 @@ describe('configured quiz flow', () => {
       </StrictMode>,
     );
 
-    await user.click(screen.getByRole('radio', { name: /^CSS/ }));
+    const configurationProgress = screen.getByRole('list', {
+      name: 'Progreso de la configuración',
+    });
+    expect(configurationProgress).toBeVisible();
+    expect(within(configurationProgress).getByText('Materia').closest('li')).toHaveAttribute(
+      'aria-current',
+      'step',
+    );
+    expect(screen.queryByRole('radio', { name: /^Normal/ })).not.toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { name: '¿Qué quieres practicar hoy?' })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole('radio', { name: /^HTML/ })).toHaveFocus();
+    await user.keyboard('{ArrowRight}');
+    expect(screen.getByRole('radio', { name: /^CSS/ })).toBeChecked();
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'Continuar' })).toHaveFocus();
+    await user.keyboard('{Enter}');
+
+    expect(screen.getByRole('heading', { name: 'Completa tu partida' })).toHaveFocus();
+    expect(within(configurationProgress).getByText('Partida').closest('li')).toHaveAttribute(
+      'aria-current',
+      'step',
+    );
+    expect(
+      screen.getByText('Has elegido CSS. Ahora selecciona el nivel y la modalidad.'),
+    ).toBeVisible();
+    expect(screen.getByRole('radio', { name: /^Normal/ })).toBeChecked();
+    expect(screen.getByText('Sin límite de tiempo, con el mismo contenido.')).toBeVisible();
+    expect(screen.getByText('60 segundos por pregunta, sin bonificaciones.')).toBeVisible();
+    expect(
+      document.querySelector('.mode-icon img[src="/images/modes/normal.png"]'),
+    ).toHaveAttribute('alt', '');
+    expect(document.querySelector('.mode-icon img[src="/images/modes/timed.png"]')).toHaveAttribute(
+      'alt',
+      '',
+    );
+
     await user.click(screen.getByRole('radio', { name: /^Intermedio/ }));
+    expect(screen.getByText('45 segundos por pregunta, sin bonificaciones.')).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Cambiar materia' }));
+    expect(screen.getByRole('heading', { name: '¿Qué quieres practicar hoy?' })).toHaveFocus();
+    expect(screen.getByRole('radio', { name: /^CSS/ })).toBeChecked();
+    await user.click(screen.getByRole('button', { name: 'Continuar' }));
+    expect(screen.getByRole('radio', { name: /^Intermedio/ })).toBeChecked();
     await user.click(screen.getByRole('button', { name: 'Comenzar partida' }));
 
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeDisabled();

@@ -14,6 +14,8 @@ describe('quizStore', () => {
     const question = questions[0]!;
 
     useQuizStore.setState({
+      mode: 'normal',
+      timer: null,
       configuration: { subject: 'html', level: 'basic' },
       round: [question],
       currentQuestionIndex: 0,
@@ -135,6 +137,8 @@ describe('quizStore', () => {
 
   it('configures and starts a round through public store actions', () => {
     useQuizStore.setState({
+      mode: 'normal',
+      timer: null,
       configuration: { subject: 'html', level: 'basic' },
       round: [],
       currentQuestionIndex: 0,
@@ -148,10 +152,12 @@ describe('quizStore', () => {
 
     useQuizStore.getState().selectSubject('javascript');
     useQuizStore.getState().selectLevel('advanced');
+    useQuizStore.getState().selectMode('timed');
     useQuizStore.getState().startRound();
 
     const state = useQuizStore.getState();
     expect(state.configuration).toEqual({ subject: 'javascript', level: 'advanced' });
+    expect(state.mode).toBe('timed');
     expect(state.view).toBe('playing');
     expect(state.round).toHaveLength(10);
     expect(

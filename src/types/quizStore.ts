@@ -55,6 +55,7 @@ export interface QuizState extends QuizProgressState {
 }
 
 export interface QuizActions {
+  selectMode: (mode: QuizMode) => void;
   selectSubject: (subject: QuizSubject) => void;
   selectLevel: (level: Level) => void;
   startRound: () => void;

@@ -15,6 +15,8 @@ describe('PostQuizActions', () => {
 
   beforeEach(() => {
     useQuizStore.setState({
+      mode: 'timed',
+      timer: null,
       configuration: { subject: 'html', level: 'basic' },
       round: [correctQuestion, incorrectQuestion],
       currentQuestionIndex: 1,
@@ -47,7 +49,23 @@ describe('PostQuizActions', () => {
     await user.click(screen.getByRole('button', { name: 'Repetir fallos' }));
 
     expect(useQuizStore.getState()).toMatchObject({
+      mode: 'timed',
       round: [incorrectQuestion],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    });
+  });
+
+  it('preserves timed mode when repeating the configured round', async () => {
+    const user = userEvent.setup();
+    render(<PostQuizActions />);
+
+    await user.click(screen.getByRole('button', { name: 'Repetir configuración' }));
+
+    expect(useQuizStore.getState()).toMatchObject({
+      mode: 'timed',
+      timer: null,
       currentQuestionIndex: 0,
       answers: [],
       view: 'playing',
@@ -74,6 +92,7 @@ describe('PostQuizActions', () => {
     await user.click(screen.getByRole('button', { name: 'Volver al menú' }));
 
     expect(useQuizStore.getState()).toMatchObject({
+      mode: 'timed',
       configuration: { subject: 'html', level: 'basic' },
       round: [],
       currentQuestionIndex: 0,

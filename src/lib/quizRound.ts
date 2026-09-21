@@ -4,6 +4,7 @@ import type {
   MixedExtraSubjects,
   QuizConfiguration,
   QuizDecks,
+  QuizMode,
   QuizState,
   QuizSubject,
 } from '../types/quizStore';
@@ -144,6 +145,15 @@ export const selectQuizSubject = (state: QuizState, subject: QuizSubject): QuizS
   return {
     ...state,
     configuration: { ...state.configuration, subject },
+  };
+};
+
+export const selectQuizMode = (state: QuizState, mode: QuizMode): QuizState => {
+  if (state.view !== 'menu' || state.mode === mode) return state;
+
+  return {
+    ...state,
+    mode,
   };
 };
 

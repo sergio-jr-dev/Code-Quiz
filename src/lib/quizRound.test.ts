@@ -7,6 +7,7 @@ import {
   isConfigurationPlayable,
   restartConfiguredQuiz,
   selectQuizLevel,
+  selectQuizMode,
   selectQuizSubject,
   startConfiguredQuiz,
 } from './quizRound';
@@ -46,6 +47,16 @@ describe('quiz round configuration', () => {
     expect(selectQuizLevel(playing, 'basic')).toBe(playing);
   });
 
+  it('only changes mode while the menu is visible', () => {
+    const state = menuState();
+    const timed = selectQuizMode(state, 'timed');
+    const playing = { ...timed, view: 'playing' as const };
+
+    expect(timed.mode).toBe('timed');
+    expect(selectQuizMode(timed, 'timed')).toBe(timed);
+    expect(selectQuizMode(playing, 'normal')).toBe(playing);
+  });
+
   it('rejects a configuration with fewer than twenty candidates', () => {
     const otherQuestions = questionCatalog.filter(
       (question) => question.subject !== 'html' || question.level !== 'basic',
@@ -79,6 +90,16 @@ describe('quiz round configuration', () => {
         (question) => question.subject === 'html' && question.level === 'basic',
       ),
     ).toBe(true);
+  });
+
+  it('preserves the selected mode when repeating a configured round', () => {
+    const random = seededRandom(2026);
+    const first = startConfiguredQuiz(menuState({ mode: 'timed' }), questionCatalog, random);
+    const second = restartConfiguredQuiz({ ...first, view: 'score' }, questionCatalog, random);
+
+    expect(first.mode).toBe('timed');
+    expect(second.mode).toBe('timed');
+    expect(second.timer).toBeNull();
   });
 
   it('builds mixed rounds as 4/3/3 and rotates the extra subject', () => {

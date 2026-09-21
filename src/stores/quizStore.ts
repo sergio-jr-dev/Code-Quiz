@@ -13,6 +13,7 @@ import { recordBestResult } from '../lib/quizRecords';
 import {
   restartConfiguredQuiz,
   selectQuizLevel,
+  selectQuizMode,
   selectQuizSubject,
   startConfiguredQuiz,
 } from '../lib/quizRound';
@@ -46,6 +47,9 @@ const defaultQuizState: QuizState = {
 const quizStoreCreator: StateCreator<QuizStore> = (set) => ({
   ...defaultQuizState,
 
+  selectMode: (mode) => {
+    set((state) => selectQuizMode(state, mode));
+  },
   selectSubject: (subject) => {
     set((state) => selectQuizSubject(state, subject));
   },
