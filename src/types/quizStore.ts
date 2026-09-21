@@ -59,7 +59,11 @@ export interface QuizActions {
   selectSubject: (subject: QuizSubject) => void;
   selectLevel: (level: Level) => void;
   startRound: () => void;
-  selectOption: (optionId: OptionId) => void;
+  startTimer: (nowMs: number) => void;
+  pauseTimer: (nowMs: number) => void;
+  resumeTimer: (nowMs: number) => void;
+  expireQuestion: (nowMs: number) => void;
+  selectOption: (optionId: OptionId, nowMs?: number) => void;
   goToNextQuestion: () => void;
   showReview: () => void;
   restartRound: () => void;

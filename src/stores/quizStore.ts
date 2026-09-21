@@ -21,9 +21,13 @@ import {
   abandonRound as abandonRoundTransition,
   advanceQuiz,
   answerCurrentQuestion,
+  expireCurrentQuestion,
+  pauseQuestionTimer,
+  resumeQuestionTimer,
   retryIncorrectAnswers as retryIncorrectAnswersTransition,
   returnToMenu as returnToMenuTransition,
   showReview as showReviewTransition,
+  startQuestionTimer,
 } from '../lib/quizTransitions';
 import type { QuizState, QuizStore } from '../types/quizStore';
 
@@ -59,8 +63,20 @@ const quizStoreCreator: StateCreator<QuizStore> = (set) => ({
   startRound: () => {
     set((state) => startConfiguredQuiz(state, questionCatalog));
   },
-  selectOption: (optionId) => {
-    set((state) => answerCurrentQuestion(state, optionId));
+  startTimer: (nowMs) => {
+    set((state) => startQuestionTimer(state, nowMs));
+  },
+  pauseTimer: (nowMs) => {
+    set((state) => pauseQuestionTimer(state, nowMs));
+  },
+  resumeTimer: (nowMs) => {
+    set((state) => resumeQuestionTimer(state, nowMs));
+  },
+  expireQuestion: (nowMs) => {
+    set((state) => expireCurrentQuestion(state, nowMs));
+  },
+  selectOption: (optionId, nowMs = Date.now()) => {
+    set((state) => answerCurrentQuestion(state, optionId, nowMs));
   },
   goToNextQuestion: () => {
     set((state) => {

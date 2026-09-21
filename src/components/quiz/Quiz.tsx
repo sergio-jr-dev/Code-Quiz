@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { useQuizTimer } from '../../hooks/useQuizTimer';
 import { useQuizStore } from '../../stores/quizStore';
 import { QuestionContent } from '../content/QuestionContent';
 import { Answers } from './answers/Answers';
@@ -11,6 +12,8 @@ import { QuizProgress } from './progress/QuizProgress';
 import './quiz.css';
 
 export const Quiz = () => {
+  useQuizTimer();
+
   const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
 
   const selectedOption = useQuizStore((state) => {
