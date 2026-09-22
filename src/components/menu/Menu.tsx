@@ -82,10 +82,19 @@ export const Menu = () => {
   const selectLevel = useQuizStore((state) => state.selectLevel);
   const startRound = useQuizStore((state) => state.startRound);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const shouldFocusHeadingRef = useRef(false);
 
   useEffect(() => {
+    if (!shouldFocusHeadingRef.current) return;
+
+    shouldFocusHeadingRef.current = false;
     headingRef.current?.focus();
   }, [step]);
+
+  const moveToStep = (nextStep: MenuStep) => {
+    shouldFocusHeadingRef.current = true;
+    setStep(nextStep);
+  };
 
   const configuration = { subject, level };
   const canStart = isConfigurationPlayable(questionCatalog, configuration);
@@ -257,13 +266,13 @@ export const Menu = () => {
           </p>
           <div className="menu-buttons">
             {step === 1 ? (
-              <Button type="button" onClick={() => setStep(2)}>
+              <Button type="button" onClick={() => moveToStep(2)}>
                 Continuar
                 <IconArrowRight aria-hidden="true" stroke={2} />
               </Button>
             ) : (
               <>
-                <Button className="secondary-action" type="button" onClick={() => setStep(1)}>
+                <Button className="secondary-action" type="button" onClick={() => moveToStep(1)}>
                   <IconArrowLeft aria-hidden="true" stroke={2} />
                   Cambiar materia
                 </Button>

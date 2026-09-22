@@ -43,6 +43,10 @@
       min-inline-size: 0;
       font-variant-numeric: tabular-nums;
 
+      @media (width <= 30rem) {
+        flex-wrap: wrap;
+      }
+
       svg {
         flex: 0 0 1.25rem;
         inline-size: 1.25rem;

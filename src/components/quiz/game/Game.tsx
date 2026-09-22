@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useSyntaxHighlighting } from '../../../hooks/useSyntaxHighlighting';
 import { useQuizStore } from '../../../stores/quizStore';
@@ -15,9 +15,18 @@ export const Game = () => {
   const answerCount = useQuizStore((state) => state.answers.length);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const initialViewRef = useRef(view);
+  const hasViewChangedRef = useRef(false);
   const syntaxRefreshKey = `${view}:${currentQuestionIndex}:${answerCount}`;
 
   useSyntaxHighlighting(containerRef, syntaxRefreshKey);
+
+  useEffect(() => {
+    if (view !== initialViewRef.current) hasViewChangedRef.current = true;
+    if (view === 'menu' && hasViewChangedRef.current) {
+      containerRef.current?.querySelector<HTMLElement>('#menu-title')?.focus();
+    }
+  }, [view]);
 
   const content = view === 'menu' ? <Menu /> : view === 'playing' ? <Quiz /> : <FinalView />;
 

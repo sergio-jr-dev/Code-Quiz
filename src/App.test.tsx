@@ -84,7 +84,7 @@ describe('configured quiz flow', () => {
     );
     expect(screen.queryByRole('radio', { name: /^Normal/ })).not.toBeInTheDocument();
 
-    expect(screen.getByRole('heading', { name: '¿Qué quieres practicar hoy?' })).toHaveFocus();
+    expect(screen.getByRole('heading', { name: '¿Qué quieres practicar hoy?' })).not.toHaveFocus();
     await user.tab();
     expect(screen.getByRole('radio', { name: /^HTML/ })).toHaveFocus();
     await user.keyboard('{ArrowRight}');
