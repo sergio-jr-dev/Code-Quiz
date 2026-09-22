@@ -152,7 +152,9 @@ describe('configured quiz flow', () => {
     }
 
     expect(seen.size).toBe(10);
-    expect(screen.getByText(/^\d+ \/ 10$/)).toBeVisible();
+    expect(
+      screen.getByLabelText('Resumen de la puntuación').querySelector('strong'),
+    ).toHaveTextContent(/^\d+$/);
     expect(screen.getByRole('heading', { level: 2 })).toHaveFocus();
     await user.tab();
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toHaveFocus();
@@ -194,7 +196,7 @@ describe('configured quiz flow', () => {
         screen.getByRole('button', { name: index === 9 ? 'Finalizar' : 'Siguiente' }),
       );
     }
-    expect(screen.getByText('10 / 10')).toBeVisible();
+    expect(screen.getByText('10')).toBeVisible();
     expect(screen.getByText('100%')).toBeVisible();
     expect(screen.getByText('Mejor resultado en esta configuración: 10 / 10')).toBeVisible();
     expect(screen.getByRole('status')).toHaveTextContent(
@@ -278,7 +280,7 @@ describe('configured quiz flow', () => {
 
     await user.click(screen.getByRole('button', { name: 'Finalizar' }));
 
-    expect(screen.getByText('2 / 3')).toBeVisible();
+    expect(screen.getByText('2')).toBeVisible();
     expect(screen.getByRole('status')).toHaveTextContent(
       'Resultado: 2 de 3 aciertos. Precisión: 67%.',
     );

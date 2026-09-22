@@ -1,4 +1,4 @@
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { IconCheck, IconClockX, IconX } from '@tabler/icons-react';
 
 import { useQuizStore } from '../../../stores/quizStore';
 
@@ -11,22 +11,27 @@ export const Dots = () => {
   return (
     <nav className="dots" aria-label="Revisión de preguntas">
       {round.map(({ id, correctAnswer }, i) => {
-        const selectedOptionId = answers.find(
-          (answer) => answer.questionId === id,
-        )?.selectedOptionId;
+        const answer = answers.find((candidate) => candidate.questionId === id);
+        const selectedOptionId = answer?.selectedOptionId;
 
         const isCorrect = correctAnswer === selectedOptionId;
+        const timedOut = answer?.timedOut === true;
+        const resultLabel = isCorrect
+          ? 'correcta'
+          : timedOut
+            ? 'sin responder por tiempo agotado'
+            : 'incorrecta';
 
         return (
           <a
             key={id}
             href={`#question-${i + 1}`}
-            aria-label={`Pregunta ${i + 1}: ${isCorrect ? 'correcta' : 'incorrecta'}`}
-            className={`dot ${isCorrect ? 'correct' : 'incorrect'}`}
+            aria-label={`Pregunta ${i + 1}: ${resultLabel}`}
+            className={`dot ${isCorrect ? 'correct' : timedOut ? 'timed-out' : 'incorrect'}`}
           >
             <span>{i + 1}</span>
             <span className="dot-state" aria-hidden="true">
-              {isCorrect ? <IconCheck /> : <IconX />}
+              {isCorrect ? <IconCheck /> : timedOut ? <IconClockX /> : <IconX />}
             </span>
           </a>
         );

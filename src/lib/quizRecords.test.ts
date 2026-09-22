@@ -35,6 +35,26 @@ describe('quiz best results', () => {
   it('keys records by the exact subject or mixed mode and level', () => {
     expect(quizConfigurationKey({ subject: 'html', level: 'basic' })).toBe('html:basic');
     expect(quizConfigurationKey({ subject: 'mixed', level: 'advanced' })).toBe('mixed:advanced');
+    expect(quizConfigurationKey({ subject: 'html', level: 'basic' }, 'timed')).toBe(
+      'html:basic:timed',
+    );
+  });
+
+  it('keeps normal and timed records separate for the same configuration', () => {
+    const normal = recordBestResult(completedState(7));
+    const timed = recordBestResult(
+      completedState(9, {
+        mode: 'timed',
+        bestResults: normal.bestResults,
+      }),
+    );
+
+    expect(selectBestResult(normal)).toBe(7);
+    expect(selectBestResult(timed)).toBe(9);
+    expect(timed.bestResults).toEqual({
+      'css:intermediate': 7,
+      'css:intermediate:timed': 9,
+    });
   });
 
   it('records only a strictly better completed configured round', () => {

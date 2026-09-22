@@ -1,6 +1,6 @@
 # Tasks
 
-**Current task:** T6
+**Current task:** T7
 **Blockers:** None
 
 - [x] T1: Revisar el borrador, resolver la política de restauración tras recarga y confirmar o ajustar los tiempos 60/45/30 con ejemplos representativos del banco.
@@ -8,7 +8,7 @@
 - [x] T3: Incorporar la configuración por pasos y la selección normal/cronómetro al menú, conservando las elecciones al retroceder o repetir una partida.
 - [x] T4: Implementar la coordinación temporal con reloj inyectable, cálculo sin deriva, limpieza y pausa mediante Page Visibility.
 - [x] T5: Implementar el indicador visual/textual, la detención al responder y el feedback sin avance automático al expirar.
-- [ ] T6: Integrar preguntas agotadas y resultados separados por modalidad en resultados, revisión y repetición de fallos.
+- [x] T6: Integrar preguntas agotadas y resultados separados por modalidad en resultados, revisión y repetición de fallos.
 - [ ] T7: Versionar y validar la persistencia afectada, migrando los datos anteriores como modo normal.
 - [ ] T8: Añadir pruebas unitarias y de integración con reloj falso para respuesta, expiración, visibilidad, reinicio, persistencia y modo normal.
 - [ ] T9: Completar anuncios accesibles, movimiento reducido, `forced-colors` y actualización de `DESIGN.md`.

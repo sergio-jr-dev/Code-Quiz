@@ -12,6 +12,8 @@ import './score.css';
 export const Score = () => {
   const score = useQuizStore(calculateScore);
   const totalQuestions = useQuizStore((state) => state.round.length);
+  const answers = useQuizStore((state) => state.answers);
+  const mode = useQuizStore((state) => state.mode);
   const bestResult = useQuizStore(selectBestResult);
 
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -21,6 +23,9 @@ export const Score = () => {
   }, []);
 
   const percentage = (score / totalQuestions) * 100;
+  const timedOutAnswers = answers.filter((answer) => answer.timedOut === true).length;
+  const selectedIncorrectAnswers = totalQuestions - score - timedOutAnswers;
+  const modeLabel = mode === 'timed' ? 'Modo cronómetro' : 'Modo normal';
   const message =
     percentage === 100
       ? '¡Ronda perfecta!'
@@ -56,14 +61,16 @@ export const Score = () => {
           height="256"
         />
         <div>
-          <p className="score-eyebrow">Partida completada</p>
+          <p className="score-eyebrow">Partida completada · {modeLabel}</p>
           <h2 className="message" ref={headingRef} tabIndex={-1}>
             {message}
           </h2>
           <p className="score-message">{supportingMessage}</p>
           {bestResult !== undefined ? (
             <p className="score-best-result">
-              Mejor resultado en esta configuración: {bestResult} / 10
+              {mode === 'timed'
+                ? `Mejor resultado en modo cronómetro para esta configuración: ${bestResult} / 10`
+                : `Mejor resultado en esta configuración: ${bestResult} / 10`}
             </p>
           ) : null}
         </div>
@@ -72,28 +79,62 @@ export const Score = () => {
       <div className="score-metrics" aria-label="Resumen de la puntuación">
         <CircularMetric
           label="Aciertos"
-          displayValue={`${score} / ${totalQuestions}`}
+          displayValue={String(score)}
           value={score}
           max={totalQuestions}
-          icon={`${import.meta.env.BASE_URL}images/results/correct.png`}
           tone="correct"
-        />
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/results/correct.png`}
+            alt=""
+            width="256"
+            height="256"
+          />
+        </CircularMetric>
         <CircularMetric
-          label="Errores"
-          displayValue={String(totalQuestions - score)}
-          value={totalQuestions - score}
+          label={mode === 'timed' ? 'Incorrectas' : 'Errores'}
+          displayValue={String(selectedIncorrectAnswers)}
+          value={selectedIncorrectAnswers}
           max={totalQuestions}
-          icon={`${import.meta.env.BASE_URL}images/results/errors.png`}
           tone="incorrect"
-        />
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/results/errors.png`}
+            alt=""
+            width="256"
+            height="256"
+          />
+        </CircularMetric>
+        {mode === 'timed' ? (
+          <CircularMetric
+            label="Tiempo agotado"
+            displayValue={String(timedOutAnswers)}
+            value={timedOutAnswers}
+            max={totalQuestions}
+            tone="incorrect"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}images/results/time-expired.png`}
+              alt=""
+              width="256"
+              height="256"
+            />
+          </CircularMetric>
+        ) : null}
         <CircularMetric
           label="Precisión"
           displayValue={`${percentage.toFixed()}%`}
           value={percentage}
           max={100}
-          icon={`${import.meta.env.BASE_URL}images/results/accuracy.png`}
           tone="progress"
-        />
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/results/accuracy.png`}
+            alt=""
+            width="256"
+            height="256"
+          />
+        </CircularMetric>
       </div>
 
       <ResultsSummary />

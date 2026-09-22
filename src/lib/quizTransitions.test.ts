@@ -591,6 +591,37 @@ describe('quizTransitions', () => {
     expect(result.round).not.toBe(round);
   });
 
+  it('includes timed-out questions in failed-question retries without inventing an option', () => {
+    const timedOutQuestion = questions[0]!;
+    const incorrectQuestion = questions[1]!;
+    const incorrectOption = incorrectQuestion.options.find(
+      (option) => option.id !== incorrectQuestion.correctAnswer,
+    )!;
+    const state = {
+      mode: 'timed' as const,
+      timer: null,
+      configuration: { subject: 'html' as const, level: 'basic' as const },
+      round: [timedOutQuestion, incorrectQuestion],
+      currentQuestionIndex: 1,
+      answers: [
+        { questionId: timedOutQuestion.id, selectedOptionId: null, timedOut: true as const },
+        { questionId: incorrectQuestion.id, selectedOptionId: incorrectOption.id },
+      ],
+      view: 'review' as const,
+      roundSource: 'configured' as const,
+      decks: {},
+      mixedExtraSubjects: {},
+      bestResults: {},
+    };
+
+    const result = retryIncorrectAnswers(state);
+
+    expect(result.round).toEqual([timedOutQuestion, incorrectQuestion]);
+    expect(result.answers).toEqual([]);
+    expect(result.mode).toBe('timed');
+    expect(result.timer).toBeNull();
+  });
+
   it('does not retry when there are no incorrect answers or the view is invalid', () => {
     const question = questions[0]!;
     const state = {

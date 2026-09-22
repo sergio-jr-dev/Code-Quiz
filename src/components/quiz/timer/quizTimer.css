@@ -53,8 +53,10 @@
     }
 
     .quiz-timer-status {
+      flex: 0 0 8.5rem;
       margin-inline-start: auto;
       font-weight: 700;
+      text-align: end;
       white-space: nowrap;
     }
 

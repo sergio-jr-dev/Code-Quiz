@@ -47,6 +47,10 @@
         background-color: var(--incorrect-color);
       }
 
+      &.timed-out {
+        background-color: color-mix(in srgb, var(--timer-warning-color) 45%, var(--primary-color));
+      }
+
       .dot-state {
         position: absolute;
         inset-block-start: -0.25rem;

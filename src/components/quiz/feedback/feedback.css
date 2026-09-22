@@ -7,6 +7,17 @@
       align-items: center;
       gap: 0.5rem;
       font-weight: 700;
+      opacity: 1;
+      block-size: max-content;
+      overflow: clip;
+      transition:
+        opacity 0.3s,
+        block-size 0.3s;
+
+      @starting-style {
+        opacity: 0;
+        block-size: 0;
+      }
 
       &.correct {
         color: light-dark(#155724, #b8f2c2);

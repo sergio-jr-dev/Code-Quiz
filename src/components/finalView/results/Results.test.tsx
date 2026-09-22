@@ -60,4 +60,23 @@ describe('Results', () => {
     expect(container.querySelectorAll('.answer.correct')).toHaveLength(1);
     expect(container.querySelectorAll('.answer.incorrect')).toHaveLength(1);
   });
+
+  it('distinguishes a timed-out question from a selected incorrect answer', () => {
+    const question = questionExamples[0]!;
+
+    useQuizStore.setState({
+      mode: 'timed',
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [{ questionId: question.id, selectedOptionId: null, timedOut: true }],
+      view: 'review',
+    });
+
+    render(<Results />);
+
+    expect(screen.getByText('Sin responder · Tiempo agotado')).toBeVisible();
+    expect(screen.getByText('Tiempo agotado')).toBeVisible();
+    expect(screen.getByText('Respuesta correcta')).toBeVisible();
+    expect(screen.queryByText(/Tu respuesta/)).not.toBeInTheDocument();
+  });
 });

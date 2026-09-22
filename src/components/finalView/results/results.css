@@ -34,11 +34,25 @@
           background-color: color-mix(in srgb, var(--incorrect-color) 55%, var(--primary-color));
         }
 
+        &.timed-out {
+          background-color: color-mix(
+            in srgb,
+            var(--timer-warning-color) 45%,
+            var(--primary-color)
+          );
+        }
+
         svg {
           inline-size: 1rem;
           block-size: 1rem;
         }
       }
+    }
+
+    .review-timeout-status {
+      border-inline-start: 0.25rem solid var(--timer-warning-color);
+      padding-inline-start: 0.75rem;
+      font-weight: 700;
     }
 
     :scope .answer {

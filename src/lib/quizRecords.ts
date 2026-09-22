@@ -1,11 +1,17 @@
-import type { QuizConfiguration, QuizState } from '../types/quizStore';
+import type { QuizConfiguration, QuizMode, QuizState } from '../types/quizStore';
 import { calculateScore } from './quizTransitions';
 
-export const quizConfigurationKey = (configuration: QuizConfiguration): string =>
-  `${configuration.subject}:${configuration.level}`;
+export const quizConfigurationKey = (
+  configuration: QuizConfiguration,
+  mode: QuizMode = 'normal',
+): string => {
+  const configurationKey = `${configuration.subject}:${configuration.level}`;
+
+  return mode === 'normal' ? configurationKey : `${configurationKey}:${mode}`;
+};
 
 export const selectBestResult = (state: QuizState): number | undefined =>
-  state.bestResults[quizConfigurationKey(state.configuration)];
+  state.bestResults[quizConfigurationKey(state.configuration, state.mode)];
 
 export const recordBestResult = (state: QuizState): QuizState => {
   if (
@@ -17,7 +23,7 @@ export const recordBestResult = (state: QuizState): QuizState => {
     return state;
   }
 
-  const key = quizConfigurationKey(state.configuration);
+  const key = quizConfigurationKey(state.configuration, state.mode);
   const score = calculateScore(state);
   const previousBest = state.bestResults[key];
 

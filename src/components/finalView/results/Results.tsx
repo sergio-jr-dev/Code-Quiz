@@ -1,4 +1,4 @@
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { IconCheck, IconClockX, IconX } from '@tabler/icons-react';
 import { useEffect, useRef } from 'react';
 
 import { useQuizStore } from '../../../stores/quizStore';
@@ -24,10 +24,10 @@ export const Results = () => {
   return (
     <section className="results">
       {round.map((question, i) => {
-        const selectedOptionId = answers.find(
-          (answer) => answer.questionId === question.id,
-        )?.selectedOptionId;
+        const answer = answers.find((candidate) => candidate.questionId === question.id);
+        const selectedOptionId = answer?.selectedOptionId;
         const questionIsCorrect = selectedOptionId === question.correctAnswer;
+        const timedOut = answer?.timedOut === true;
 
         return (
           <article
@@ -46,16 +46,23 @@ export const Results = () => {
               >
                 Pregunta {i + 1}
               </h3>
-              <span className={questionIsCorrect ? 'correct' : 'incorrect'}>
+              <span
+                className={questionIsCorrect ? 'correct' : timedOut ? 'timed-out' : 'incorrect'}
+              >
                 {questionIsCorrect ? (
                   <IconCheck aria-hidden="true" />
+                ) : timedOut ? (
+                  <IconClockX aria-hidden="true" />
                 ) : (
                   <IconX aria-hidden="true" />
                 )}
-                {questionIsCorrect ? 'Correcta' : 'Para revisar'}
+                {questionIsCorrect ? 'Correcta' : timedOut ? 'Tiempo agotado' : 'Para revisar'}
               </span>
             </header>
             <ContentBlocks content={question.prompt} inlineLanguage={question.subject} />
+            {timedOut ? (
+              <p className="review-timeout-status">Sin responder · Tiempo agotado</p>
+            ) : null}
             <div className="answers">
               {question.options.map((option, optionIndex) => {
                 const isCorrect = option.id === question.correctAnswer;
