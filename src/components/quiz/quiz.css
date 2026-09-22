@@ -17,6 +17,10 @@
       &[data-mode='timed'] {
         border: 0.25rem solid var(--option-color);
         box-shadow: none;
+
+        @media (forced-colors: active) {
+          border-color: CanvasText;
+        }
       }
 
       @media (width >= 48rem) and (height <= 56.25rem) {

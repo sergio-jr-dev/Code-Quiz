@@ -41,6 +41,8 @@ describe('Quiz', () => {
     expect(useQuizStore.getState().currentQuestionIndex).toBe(0);
     expect(screen.getByText('Agotado')).toBeVisible();
     expect(screen.getByRole('status')).toHaveTextContent('Sin responder · Tiempo agotado');
+    expect(screen.getAllByRole('status')).toHaveLength(1);
+    expect(document.querySelector('[aria-live="polite"]')).toBeEmptyDOMElement();
     expect(screen.getByRole('heading', { name: 'Información adicional' })).toBeVisible();
     expect(screen.getAllByRole('radio')).toHaveLength(4);
     expect(screen.getAllByRole('radio').every((option) => option.hasAttribute('disabled'))).toBe(

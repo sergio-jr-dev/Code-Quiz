@@ -31,9 +31,16 @@ export const QuizTimer = ({ clock = systemQuizTimerClock }: { clock?: QuizTimerC
   const urgency =
     remainingSeconds <= 5 ? 'critical' : remainingSeconds <= 10 ? 'warning' : 'normal';
   const statusLabel =
-    timer.status === 'running' && urgency === 'critical'
+    timer.status === 'running' && urgency !== 'normal'
       ? 'Últimos segundos'
       : timerStatusLabels[timer.status];
+  const finalSecondsAnnouncement =
+    remainingSeconds > 0 &&
+    remainingSeconds <= 10 &&
+    timer.status !== 'answered' &&
+    timer.status !== 'expired'
+      ? 'Quedan diez segundos o menos.'
+      : '';
 
   return (
     <div className="quiz-timer" data-status={timer.status} data-urgency={urgency}>
@@ -47,13 +54,17 @@ export const QuizTimer = ({ clock = systemQuizTimerClock }: { clock?: QuizTimerC
         </span>
       </div>
       <progress
-        className="visually-hidden"
+        className="quiz-timer-progress visually-hidden"
+        data-visible-in-forced-colors=""
         aria-labelledby="quiz-timer-label quiz-timer-status"
         value={remainingSeconds}
         max={durationSeconds}
       >
         {remainingSeconds} de {durationSeconds} segundos
       </progress>
+      <span className="visually-hidden" aria-live="polite" aria-atomic="true">
+        {finalSecondsAnnouncement}
+      </span>
       <span className="timer-perimeter" style={perimeterStyle} aria-hidden="true" />
     </div>
   );

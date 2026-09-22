@@ -141,6 +141,19 @@
     clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
+
+    &[data-visible-in-forced-colors] {
+      @media (forced-colors: active) {
+        position: static;
+        inline-size: 100%;
+        block-size: 1rem;
+        margin: 0;
+        overflow: visible;
+        clip-path: none;
+        white-space: normal;
+        border: 1px solid CanvasText;
+      }
+    }
   }
 
   *,

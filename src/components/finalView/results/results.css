@@ -28,10 +28,18 @@
 
         &.correct {
           background-color: color-mix(in srgb, var(--correct-color) 55%, var(--primary-color));
+
+          @media (forced-colors: active) {
+            border-color: Highlight;
+          }
         }
 
         &.incorrect {
           background-color: color-mix(in srgb, var(--incorrect-color) 55%, var(--primary-color));
+
+          @media (forced-colors: active) {
+            border-style: dashed;
+          }
         }
 
         &.timed-out {
@@ -40,6 +48,11 @@
             var(--timer-warning-color) 45%,
             var(--primary-color)
           );
+
+          @media (forced-colors: active) {
+            border-style: double;
+            border-width: 3px;
+          }
         }
 
         svg {
@@ -53,6 +66,11 @@
       border-inline-start: 0.25rem solid var(--timer-warning-color);
       padding-inline-start: 0.75rem;
       font-weight: 700;
+
+      @media (forced-colors: active) {
+        border-inline-start-color: CanvasText;
+        border-inline-start-style: double;
+      }
     }
 
     :scope .answer {

@@ -28,6 +28,12 @@
       &[data-status='expired'] {
         --timer-state-color: var(--timer-critical-color);
       }
+
+      @media (forced-colors: active) {
+        .quiz-timer-status {
+          color: CanvasText;
+        }
+      }
     }
 
     .quiz-timer-copy {
@@ -60,6 +66,13 @@
       white-space: nowrap;
     }
 
+    .quiz-timer-progress {
+      @media (forced-colors: active) {
+        accent-color: Highlight;
+        forced-color-adjust: auto;
+      }
+    }
+
     .timer-perimeter {
       position: absolute;
       z-index: 1;
@@ -80,6 +93,14 @@
       mask-composite: exclude;
       pointer-events: none;
       transition: --timer-progress 1s linear;
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+
+      @media (forced-colors: active) {
+        display: none;
+      }
     }
   }
 }

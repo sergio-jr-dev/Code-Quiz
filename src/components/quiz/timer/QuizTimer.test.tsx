@@ -58,13 +58,17 @@ describe('QuizTimer', () => {
 
   it('keeps its text and visual value synchronized with the absolute time', () => {
     const clock = new FakeClock();
-    render(<QuizTimer clock={clock} />);
+    const { container } = render(<QuizTimer clock={clock} />);
 
     expect(screen.getByText('Tiempo restante:')).toHaveTextContent('Tiempo restante: 60 s');
     expect(screen.getByText('En curso')).toBeVisible();
-    expect(screen.getByRole('progressbar', { name: /Tiempo restante: 60 s En curso/ })).toHaveValue(
-      60,
-    );
+    const progress = screen.getByRole('progressbar', {
+      name: /Tiempo restante: 60 s En curso/,
+    });
+    expect(progress).toHaveValue(60);
+    expect(progress).toHaveAttribute('data-visible-in-forced-colors');
+    expect(screen.getByText('Tiempo restante:').closest('[aria-live]')).toBeNull();
+    expect(container.querySelector('[aria-live="polite"]')).toBeEmptyDOMElement();
 
     act(() => clock.advanceBy(1_000));
 
@@ -101,13 +105,21 @@ describe('QuizTimer', () => {
   it('uses textual urgency states and keeps the decorative perimeter synchronized', () => {
     const clock = new FakeClock();
     const { container } = render(<QuizTimer clock={clock} />);
+    const liveRegion = container.querySelector('[aria-live="polite"]');
 
     act(() => clock.advanceBy(50_000));
 
     expect(container.querySelector('.quiz-timer')).toHaveAttribute('data-urgency', 'warning');
-    expect(screen.getByText('En curso')).toBeVisible();
+    expect(screen.getByText('Últimos segundos')).toBeVisible();
+    expect(liveRegion).toHaveTextContent('Quedan diez segundos o menos.');
+    const announcementTextNode = liveRegion?.firstChild;
 
-    act(() => clock.advanceBy(5_001));
+    act(() => clock.advanceBy(1_000));
+
+    expect(liveRegion).toHaveTextContent('Quedan diez segundos o menos.');
+    expect(liveRegion?.firstChild).toBe(announcementTextNode);
+
+    act(() => clock.advanceBy(4_001));
 
     expect(container.querySelector('.quiz-timer')).toHaveAttribute('data-urgency', 'critical');
     expect(screen.getByText('Últimos segundos')).toBeVisible();

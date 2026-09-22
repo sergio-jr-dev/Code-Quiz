@@ -12,11 +12,19 @@
 
       &.correct {
         background-color: var(--correct-color);
+
+        @media (forced-colors: active) {
+          border: 3px solid Highlight;
+        }
       }
 
       &.incorrect {
         background-color: var(--incorrect-color);
         animation: vibrate 0.3s ease-in-out;
+
+        @media (forced-colors: active) {
+          border: 3px dashed CanvasText;
+        }
       }
 
       &.cursor {

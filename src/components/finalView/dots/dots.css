@@ -41,14 +41,26 @@
 
       &.correct {
         background-color: var(--correct-color);
+
+        @media (forced-colors: active) {
+          border: 2px solid Highlight;
+        }
       }
 
       &.incorrect {
         background-color: var(--incorrect-color);
+
+        @media (forced-colors: active) {
+          border: 2px dashed CanvasText;
+        }
       }
 
       &.timed-out {
         background-color: color-mix(in srgb, var(--timer-warning-color) 45%, var(--primary-color));
+
+        @media (forced-colors: active) {
+          border: 3px double CanvasText;
+        }
       }
 
       .dot-state {

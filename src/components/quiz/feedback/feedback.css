@@ -22,16 +22,28 @@
       &.correct {
         color: light-dark(#155724, #b8f2c2);
         background-color: color-mix(in srgb, var(--correct-color) 45%, var(--primary-color));
+
+        @media (forced-colors: active) {
+          border: 2px solid Highlight;
+        }
       }
 
       &.incorrect {
         color: light-dark(#7b1731, #ffd3dc);
         background-color: color-mix(in srgb, var(--incorrect-color) 45%, var(--primary-color));
+
+        @media (forced-colors: active) {
+          border: 2px dashed CanvasText;
+        }
       }
 
       &.timed-out {
         color: light-dark(#7b1731, #ffd3dc);
         background-color: color-mix(in srgb, var(--incorrect-color) 45%, var(--primary-color));
+
+        @media (forced-colors: active) {
+          border: 2px double CanvasText;
+        }
       }
 
       svg {
