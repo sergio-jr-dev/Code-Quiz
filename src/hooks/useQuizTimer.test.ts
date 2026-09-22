@@ -181,30 +181,72 @@ describe('useQuizTimer', () => {
     expect(visibility.listeners).toHaveLength(0);
   });
 
-  it('replaces the previous deadline when the active question changes', () => {
+  it('stops on response and starts a fresh deadline after advancing through store actions', () => {
     const clock = new FakeClock();
     const visibility = new FakeVisibilitySource();
+    useQuizStore.setState({ round: [questions[0]!, questions[1]!] });
 
     renderHook(() => useQuizTimer(clock, visibility));
     const firstTaskId = [...clock.tasks.keys()][0];
 
     act(() => {
-      useQuizStore.setState({
-        configuration: { subject: questions[1]!.subject, level: questions[1]!.level },
-        round: [questions[0]!, questions[1]!],
-        currentQuestionIndex: 1,
-        timer: null,
-      });
+      clock.advanceBy(5_000);
+      useQuizStore.getState().selectOption(questions[0]!.correctAnswer, clock.now());
     });
 
+    expect(useQuizStore.getState().timer).toMatchObject({
+      questionId: questions[0]!.id,
+      remainingMs: 55_000,
+      status: 'answered',
+    });
+    expect(clock.tasks).toHaveLength(0);
+
+    act(() => useQuizStore.getState().goToNextQuestion());
+
+    expect(useQuizStore.getState().currentQuestionIndex).toBe(1);
+    expect(useQuizStore.getState().answers).toHaveLength(1);
     expect(clock.tasks).toHaveLength(1);
     expect(clock.tasks.has(firstTaskId!)).toBe(false);
     expect(useQuizStore.getState().timer).toMatchObject({
       questionId: questions[1]!.id,
-      durationMs: 45_000,
-      remainingMs: 45_000,
+      durationMs: 60_000,
+      remainingMs: 60_000,
       status: 'running',
+      referenceTimeMs: 6_000,
     });
+  });
+
+  it('starts with a clean full duration after restarting a completed configuration', () => {
+    const clock = new FakeClock();
+    const visibility = new FakeVisibilitySource();
+
+    renderHook(() => useQuizTimer(clock, visibility));
+
+    act(() => {
+      clock.advanceBy(12_000);
+      useQuizStore.getState().selectOption(questions[0]!.correctAnswer, clock.now());
+      useQuizStore.getState().goToNextQuestion();
+    });
+
+    expect(useQuizStore.getState()).toMatchObject({ view: 'score', timer: null });
+    expect(clock.tasks).toHaveLength(0);
+
+    act(() => useQuizStore.getState().restartRound());
+
+    expect(useQuizStore.getState()).toMatchObject({
+      mode: 'timed',
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+      timer: {
+        durationMs: 60_000,
+        remainingMs: 60_000,
+        status: 'running',
+        referenceTimeMs: 13_000,
+      },
+    });
+    expect(useQuizStore.getState().round).toHaveLength(10);
+    expect(clock.tasks).toHaveLength(1);
   });
 
   it('does not create temporal work in normal mode', () => {

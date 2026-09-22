@@ -3,12 +3,44 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { questionCatalog } from '../data/questionCatalog';
 import {
   migratePersistedQuizState,
+  partializeQuizState,
   QUIZ_STORAGE_KEY,
   QUIZ_STORAGE_VERSION,
   type PersistedQuizStateV2,
 } from '../lib/quizPersistence';
 import { questionExamples as questions } from '../test/fixtures/questionExamples';
+import type { QuizMode, QuizState } from '../types/quizStore';
 import { useQuizStore } from './quizStore';
+
+const createPersistablePlayingState = (mode: QuizMode): QuizState => {
+  const candidates = questionCatalog.filter(
+    (question) => question.subject === 'html' && question.level === 'basic',
+  );
+  const round = candidates.slice(0, 10);
+
+  return {
+    mode,
+    timer:
+      mode === 'timed'
+        ? {
+            questionId: round[1]!.id,
+            durationMs: 60_000,
+            remainingMs: 48_000,
+            status: 'running',
+            referenceTimeMs: 12_000,
+          }
+        : null,
+    configuration: { subject: 'html', level: 'basic' },
+    round,
+    currentQuestionIndex: 1,
+    answers: [{ questionId: round[0]!.id, selectedOptionId: round[0]!.correctAnswer }],
+    view: 'playing',
+    roundSource: 'configured',
+    decks: { 'html:basic:html': candidates.slice(10).map((question) => question.id) },
+    mixedExtraSubjects: { basic: 'css' },
+    bestResults: { 'html:basic': 8, 'html:basic:timed': 6 },
+  };
+};
 
 describe('quizStore', () => {
   beforeEach(() => {
@@ -63,6 +95,61 @@ describe('quizStore', () => {
     expect(persisted.state.progress.round[0]?.questionId).toBe(questions[0]!.id);
     expect(JSON.stringify(persisted)).not.toContain('prompt');
     expect(JSON.stringify(persisted)).not.toContain('explanation');
+  });
+
+  it('rehydrates an active normal round through the Zustand middleware', async () => {
+    const persistedState = createPersistablePlayingState('normal');
+    localStorage.setItem(
+      QUIZ_STORAGE_KEY,
+      JSON.stringify({
+        state: partializeQuizState(persistedState),
+        version: QUIZ_STORAGE_VERSION,
+      }),
+    );
+
+    await useQuizStore.persist.rehydrate();
+
+    expect(useQuizStore.getState()).toMatchObject({
+      mode: 'normal',
+      timer: null,
+      configuration: persistedState.configuration,
+      currentQuestionIndex: 1,
+      answers: persistedState.answers,
+      view: 'playing',
+      decks: persistedState.decks,
+      mixedExtraSubjects: persistedState.mixedExtraSubjects,
+      bestResults: persistedState.bestResults,
+    });
+    expect(useQuizStore.getState().round.map((question) => question.id)).toEqual(
+      persistedState.round.map((question) => question.id),
+    );
+  });
+
+  it('rehydrates an active timed round as an abandoned round through the middleware', async () => {
+    const persistedState = createPersistablePlayingState('timed');
+    localStorage.setItem(
+      QUIZ_STORAGE_KEY,
+      JSON.stringify({
+        state: partializeQuizState(persistedState),
+        version: QUIZ_STORAGE_VERSION,
+      }),
+    );
+
+    await useQuizStore.persist.rehydrate();
+
+    expect(useQuizStore.getState()).toMatchObject({
+      mode: 'timed',
+      timer: null,
+      configuration: persistedState.configuration,
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+      roundSource: 'configured',
+      decks: persistedState.decks,
+      mixedExtraSubjects: persistedState.mixedExtraSubjects,
+      bestResults: persistedState.bestResults,
+    });
   });
 
   it('moves from playing to score and then to review', () => {

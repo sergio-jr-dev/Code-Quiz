@@ -126,6 +126,9 @@ describe('configured quiz flow', () => {
       'value',
       '1',
     );
+    expect(screen.queryByRole('progressbar', { name: /Tiempo restante/ })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Tiempo restante:/)).not.toBeInTheDocument();
+    expect(useQuizStore.getState().timer).toBeNull();
     const seen = new Set<string>();
 
     for (let index = 0; index < 10; index++) {
@@ -205,6 +208,7 @@ describe('configured quiz flow', () => {
     expect(confetti).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
+    expect(useQuizStore.getState().timer).toBeNull();
   });
 
   it('keeps reordered option IDs, code content and progress aligned through user interactions', async () => {
