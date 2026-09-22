@@ -2,9 +2,10 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { questionCatalog } from '../data/questionCatalog';
 import {
+  migratePersistedQuizState,
   QUIZ_STORAGE_KEY,
   QUIZ_STORAGE_VERSION,
-  type PersistedQuizStateV1,
+  type PersistedQuizStateV2,
 } from '../lib/quizPersistence';
 import { questionExamples as questions } from '../test/fixtures/questionExamples';
 import { useQuizStore } from './quizStore';
@@ -48,15 +49,17 @@ describe('quizStore', () => {
 
   it('uses Zustand persist with the versioned minimal state', () => {
     const persisted = JSON.parse(localStorage.getItem(QUIZ_STORAGE_KEY)!) as {
-      state: PersistedQuizStateV1;
+      state: PersistedQuizStateV2;
       version: number;
     };
 
     expect(useQuizStore.persist.getOptions()).toMatchObject({
       name: QUIZ_STORAGE_KEY,
       version: QUIZ_STORAGE_VERSION,
+      migrate: migratePersistedQuizState,
     });
     expect(persisted.version).toBe(QUIZ_STORAGE_VERSION);
+    expect(persisted.state.mode).toBe('normal');
     expect(persisted.state.progress.round[0]?.questionId).toBe(questions[0]!.id);
     expect(JSON.stringify(persisted)).not.toContain('prompt');
     expect(JSON.stringify(persisted)).not.toContain('explanation');

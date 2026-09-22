@@ -3,11 +3,11 @@ import type { PersistStorage, StateStorage, StorageValue } from 'zustand/middlew
 
 import type { BankQuestion, QuestionId } from '../types/questionBank';
 import { LEVELS, SUBJECTS } from '../types/questionBank';
-import type { QuizAnswer, QuizConfiguration, QuizState } from '../types/quizStore';
+import type { QuizAnswer, QuizConfiguration, QuizMode, QuizState } from '../types/quizStore';
 import { quizConfigurationKey } from './quizRecords';
 
 export const QUIZ_STORAGE_KEY = 'code-quiz:quiz-state';
-export const QUIZ_STORAGE_VERSION = 1;
+export const QUIZ_STORAGE_VERSION = 2;
 
 const subjectSchema = z.enum(SUBJECTS);
 const levelSchema = z.enum(LEVELS);
@@ -18,9 +18,15 @@ const quizConfigurationSchema = z.strictObject({
   level: levelSchema,
 });
 
-const quizAnswerSchema = z.strictObject({
+const selectedQuizAnswerSchema = z.strictObject({
   questionId: z.string(),
   selectedOptionId: z.string(),
+});
+
+const timedOutQuizAnswerSchema = z.strictObject({
+  questionId: z.string(),
+  selectedOptionId: z.null(),
+  timedOut: z.literal(true),
 });
 
 const persistedRoundQuestionSchema = z.strictObject({
@@ -28,15 +34,24 @@ const persistedRoundQuestionSchema = z.strictObject({
   optionIds: z.array(z.string()),
 });
 
-const persistedQuizStateSchema = z.strictObject({
+const persistedProgressV1Schema = z.strictObject({
+  round: z.array(persistedRoundQuestionSchema),
+  currentQuestionIndex: z.number().int().nonnegative(),
+  answers: z.array(selectedQuizAnswerSchema),
+  view: z.enum(['menu', 'playing', 'score', 'review']),
+  roundSource: z.enum(['configured', 'incorrect-retry']),
+});
+
+const persistedProgressV2Schema = z.strictObject({
+  round: z.array(persistedRoundQuestionSchema),
+  currentQuestionIndex: z.number().int().nonnegative(),
+  answers: z.array(z.union([selectedQuizAnswerSchema, timedOutQuizAnswerSchema])),
+  view: z.enum(['menu', 'playing', 'score', 'review']),
+  roundSource: z.enum(['configured', 'incorrect-retry']),
+});
+
+const persistedStateFields = {
   configuration: quizConfigurationSchema,
-  progress: z.strictObject({
-    round: z.array(persistedRoundQuestionSchema),
-    currentQuestionIndex: z.number().int().nonnegative(),
-    answers: z.array(quizAnswerSchema),
-    view: z.enum(['menu', 'playing', 'score', 'review']),
-    roundSource: z.enum(['configured', 'incorrect-retry']),
-  }),
   decks: z.record(z.string(), z.array(z.string())),
   mixedExtraSubjects: z.strictObject({
     basic: subjectSchema.optional(),
@@ -44,14 +59,32 @@ const persistedQuizStateSchema = z.strictObject({
     advanced: subjectSchema.optional(),
   }),
   bestResults: z.record(z.string(), z.number().int().min(0).max(10)),
+};
+
+const persistedQuizStateV1Schema = z.strictObject({
+  ...persistedStateFields,
+  progress: persistedProgressV1Schema,
 });
 
-const persistedStorageValueSchema = z.strictObject({
-  state: persistedQuizStateSchema,
-  version: z.number().int().nonnegative().optional(),
+const persistedQuizStateV2Schema = z.strictObject({
+  ...persistedStateFields,
+  mode: z.enum(['normal', 'timed']),
+  progress: persistedProgressV2Schema,
 });
 
-export type PersistedQuizStateV1 = z.infer<typeof persistedQuizStateSchema>;
+const persistedStorageValueSchema = z.union([
+  z.strictObject({
+    state: persistedQuizStateV1Schema,
+    version: z.union([z.literal(0), z.literal(1)]).optional(),
+  }),
+  z.strictObject({
+    state: persistedQuizStateV2Schema,
+    version: z.literal(QUIZ_STORAGE_VERSION),
+  }),
+]);
+
+export type PersistedQuizStateV1 = z.infer<typeof persistedQuizStateV1Schema>;
+export type PersistedQuizStateV2 = z.infer<typeof persistedQuizStateV2Schema>;
 
 const expectedDecks = (catalog: readonly BankQuestion[]): ReadonlyMap<string, Set<QuestionId>> => {
   const decks = new Map<string, Set<QuestionId>>();
@@ -72,7 +105,7 @@ const expectedDecks = (catalog: readonly BankQuestion[]): ReadonlyMap<string, Se
 };
 
 const readDecks = (
-  value: PersistedQuizStateV1['decks'],
+  value: PersistedQuizStateV2['decks'],
   catalog: readonly BankQuestion[],
 ): QuizState['decks'] | null => {
   const allowedDecks = expectedDecks(catalog);
@@ -91,13 +124,14 @@ const readDecks = (
 };
 
 const readBestResults = (
-  value: PersistedQuizStateV1['bestResults'],
+  value: PersistedQuizStateV2['bestResults'],
 ): QuizState['bestResults'] | null => {
   const allowedKeys = new Set<string>();
 
   for (const level of LEVELS) {
     for (const subject of [...SUBJECTS, 'mixed'] as const) {
-      allowedKeys.add(quizConfigurationKey({ subject, level }));
+      allowedKeys.add(quizConfigurationKey({ subject, level }, 'normal'));
+      allowedKeys.add(quizConfigurationKey({ subject, level }, 'timed'));
     }
   }
 
@@ -111,7 +145,7 @@ const readBestResults = (
 };
 
 const restoreRound = (
-  value: PersistedQuizStateV1['progress']['round'],
+  value: PersistedQuizStateV2['progress']['round'],
   catalog: readonly BankQuestion[],
   configuration: QuizConfiguration,
 ): readonly BankQuestion[] | null => {
@@ -155,8 +189,9 @@ const restoreRound = (
 };
 
 const readAnswers = (
-  value: PersistedQuizStateV1['progress']['answers'],
+  value: PersistedQuizStateV2['progress']['answers'],
   round: readonly BankQuestion[],
+  mode: QuizMode,
 ): readonly QuizAnswer[] | null => {
   const questionMap = new Map(round.map((question) => [question.id, question]));
   const seenQuestionIds = new Set<QuestionId>();
@@ -165,8 +200,14 @@ const readAnswers = (
   for (const answer of value) {
     const question = questionMap.get(answer.questionId as QuestionId);
     if (!question || seenQuestionIds.has(question.id)) return null;
-    if (!question.options.some((option) => option.id === answer.selectedOptionId)) return null;
-    answers.push({ questionId: question.id, selectedOptionId: answer.selectedOptionId });
+
+    if (answer.selectedOptionId === null) {
+      if (mode !== 'timed' || answer.timedOut !== true) return null;
+      answers.push({ questionId: question.id, selectedOptionId: null, timedOut: true });
+    } else {
+      if (!question.options.some((option) => option.id === answer.selectedOptionId)) return null;
+      answers.push({ questionId: question.id, selectedOptionId: answer.selectedOptionId });
+    }
     seenQuestionIds.add(question.id);
   }
 
@@ -174,16 +215,17 @@ const readAnswers = (
 };
 
 const readProgress = (
-  value: PersistedQuizStateV1['progress'],
+  value: PersistedQuizStateV2['progress'],
   catalog: readonly BankQuestion[],
   configuration: QuizConfiguration,
+  mode: QuizMode,
 ): Pick<
   QuizState,
   'round' | 'currentQuestionIndex' | 'answers' | 'view' | 'roundSource'
 > | null => {
   const round = restoreRound(value.round, catalog, configuration);
   if (!round) return null;
-  const answers = readAnswers(value.answers, round);
+  const answers = readAnswers(value.answers, round, mode);
   if (!answers) return null;
   const currentQuestionIndex = value.currentQuestionIndex as number;
 
@@ -232,28 +274,41 @@ const restorePersistedQuizState = (
   value: unknown,
   catalog: readonly BankQuestion[],
 ): QuizState | null => {
-  const parsed = persistedQuizStateSchema.safeParse(value);
+  const parsed = persistedQuizStateV2Schema.safeParse(value);
   if (!parsed.success) return null;
   const persistedState = parsed.data;
 
+  const mode = persistedState.mode;
   const configuration = persistedState.configuration;
-  const progress = readProgress(persistedState.progress, catalog, configuration);
+  const progress = readProgress(persistedState.progress, catalog, configuration, mode);
   const decks = readDecks(persistedState.decks, catalog);
   const bestResults = readBestResults(persistedState.bestResults);
   if (!progress || !decks || !bestResults) return null;
 
+  const restoredProgress =
+    mode === 'timed' && progress.view === 'playing'
+      ? {
+          round: [],
+          currentQuestionIndex: 0,
+          answers: [],
+          view: 'menu' as const,
+          roundSource: 'configured' as const,
+        }
+      : progress;
+
   return {
-    mode: 'normal',
+    mode,
     timer: null,
     configuration,
-    ...progress,
+    ...restoredProgress,
     decks,
     mixedExtraSubjects: persistedState.mixedExtraSubjects,
     bestResults,
   };
 };
 
-export const partializeQuizState = (state: QuizState): PersistedQuizStateV1 => ({
+export const partializeQuizState = (state: QuizState): PersistedQuizStateV2 => ({
+  mode: state.mode,
   configuration: { ...state.configuration },
   progress: {
     round: state.round.map((question) => ({
@@ -261,10 +316,10 @@ export const partializeQuizState = (state: QuizState): PersistedQuizStateV1 => (
       optionIds: question.options.map((option) => option.id),
     })),
     currentQuestionIndex: state.currentQuestionIndex,
-    answers: state.answers.flatMap((answer) =>
+    answers: state.answers.map((answer) =>
       answer.timedOut === true
-        ? []
-        : [{ questionId: answer.questionId, selectedOptionId: answer.selectedOptionId }],
+        ? { questionId: answer.questionId, selectedOptionId: null, timedOut: true as const }
+        : { questionId: answer.questionId, selectedOptionId: answer.selectedOptionId },
     ),
     view: state.view,
     roundSource: state.roundSource,
@@ -273,6 +328,21 @@ export const partializeQuizState = (state: QuizState): PersistedQuizStateV1 => (
   mixedExtraSubjects: { ...state.mixedExtraSubjects },
   bestResults: { ...state.bestResults },
 });
+
+export const migratePersistedQuizState = (
+  persistedState: unknown,
+  version: number,
+): PersistedQuizStateV2 => {
+  if (version !== 0 && version !== 1) return persistedState as PersistedQuizStateV2;
+
+  const parsed = persistedQuizStateV1Schema.safeParse(persistedState);
+  if (!parsed.success) return persistedState as PersistedQuizStateV2;
+
+  return {
+    ...parsed.data,
+    mode: 'normal',
+  };
+};
 
 export const mergePersistedQuizState = <State extends QuizState>(
   persistedState: unknown,
@@ -327,17 +397,17 @@ const createSafeStateStorage = (getStorage: () => StateStorage): StateStorage =>
 
 export const createQuizPersistStorage = (
   getStorage: () => StateStorage = () => window.localStorage,
-): PersistStorage<PersistedQuizStateV1> => {
+): PersistStorage<PersistedQuizStateV2> => {
   const storage = createSafeStateStorage(getStorage);
 
   const parseStorageValue = (
     serialized: string | null,
-  ): StorageValue<PersistedQuizStateV1> | null => {
+  ): StorageValue<PersistedQuizStateV2> | null => {
     if (serialized === null) return null;
 
     try {
       const parsed = persistedStorageValueSchema.safeParse(JSON.parse(serialized));
-      return parsed.success ? parsed.data : null;
+      return parsed.success ? (parsed.data as StorageValue<PersistedQuizStateV2>) : null;
     } catch {
       return null;
     }

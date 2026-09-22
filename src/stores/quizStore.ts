@@ -5,6 +5,7 @@ import { questionCatalog } from '../data/questionCatalog';
 import {
   createQuizPersistStorage,
   mergePersistedQuizState,
+  migratePersistedQuizState,
   partializeQuizState,
   QUIZ_STORAGE_KEY,
   QUIZ_STORAGE_VERSION,
@@ -109,6 +110,7 @@ export const useQuizStore = create<QuizStore>()(
       version: QUIZ_STORAGE_VERSION,
       storage: createQuizPersistStorage(),
       partialize: partializeQuizState,
+      migrate: migratePersistedQuizState,
       merge: (persistedState, currentState) =>
         mergePersistedQuizState(persistedState, currentState, questionCatalog),
     }),
