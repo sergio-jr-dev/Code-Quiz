@@ -1,4 +1,5 @@
 import { Container } from '../container/Container';
+import { PersonalPanel } from '../personalPanel/PersonalPanel';
 
 import './header.css';
 
@@ -13,6 +14,7 @@ export const Header = () => {
           width="960"
           height="448"
         />
+        <PersonalPanel />
       </Container>
     </header>
   );

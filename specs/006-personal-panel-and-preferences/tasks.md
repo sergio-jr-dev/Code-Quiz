@@ -1,11 +1,11 @@
 # Tasks
 
-**Current task:** T3
+**Current task:** T4
 **Blockers:** None
 
 - [x] T1: Cerrar la arquitectura de información del panel, el alcance del historial y la política inicial de sonido.
 - [x] T2: Diseñar el contrato persistido de preferencias y el consumo de las marcas v2 existentes, incluida la migración de preferencias futuras.
-- [ ] T3: Implementar y verificar el shell accesible y responsive del panel personal.
+- [x] T3: Implementar y verificar el shell accesible y responsive del panel personal.
 - [ ] T4: Presentar mejores marcas separadas por modalidad, materia y nivel.
 - [ ] T5: Implementar el tema automático, claro y oscuro sin destello inicial y actualizar `DESIGN.md`.
 - [ ] T6: Incorporar los efectos sonoros aprobados y sus controles persistentes con feedback no sonoro equivalente.

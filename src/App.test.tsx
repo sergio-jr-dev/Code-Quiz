@@ -86,6 +86,8 @@ describe('configured quiz flow', () => {
 
     expect(screen.getByRole('heading', { name: '¿Qué quieres practicar hoy?' })).not.toHaveFocus();
     await user.tab();
+    expect(screen.getByRole('button', { name: 'Mi Code Quiz' })).toHaveFocus();
+    await user.tab();
     expect(screen.getByRole('radio', { name: /^HTML/ })).toHaveFocus();
     await user.keyboard('{ArrowRight}');
     expect(screen.getByRole('radio', { name: /^CSS/ })).toBeChecked();

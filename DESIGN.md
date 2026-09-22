@@ -89,13 +89,13 @@ components:
     textColor: "{colors.text-primary}"
     typography: "{typography.display}"
   quiz-card:
-    backgroundColor: "{colors.primary}"
+    backgroundColor: "{colors.canvas}"
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
     padding: "{spacing.xl}"
   question-heading:
-    backgroundColor: "{colors.primary}"
+    backgroundColor: "{colors.canvas}"
     textColor: "{colors.text-primary}"
     typography: "{typography.heading-md}"
   answer-option:
@@ -173,7 +173,7 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.full}"
   score-heading:
-    backgroundColor: "{colors.primary}"
+    backgroundColor: "{colors.canvas}"
     textColor: "{colors.text-primary}"
     typography: "{typography.heading-lg}"
   score-metric:
@@ -202,7 +202,7 @@ components:
     textColor: "{colors.text-primary-light}"
     typography: "{typography.display}"
   quiz-card-light:
-    backgroundColor: "{colors.primary-light}"
+    backgroundColor: "{colors.canvas-light}"
     textColor: "{colors.text-primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
@@ -333,7 +333,7 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
 }
 ```
 
-- **Primary:** `#FFFFFF` / `#16074E`. Superficie principal de tarjetas y contenedores de máxima concentración.
+- **Primary:** `#FFFFFF` / `#16074E`. Valor de referencia para detalles y mezclas de estado; las tarjetas de contenido usan ahora una superficie compuesta sobre canvas.
 - **Secondary:** `#462A8C` en ambos esquemas. Botones, badges y acentos interactivos; mantiene el violeta como firma común.
 - **Canvas:** `#F7F5FC` / `#121212`. Fondo base de página.
 - **Canvas accent:** `#E8DFF6` / `#462A8C`. Extremo del halo o degradado, separado de secondary para que el tema claro no oscurezca toda la página.
@@ -350,6 +350,8 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
 El resaltado de sintaxis usa el tema GitHub adaptativo distribuido por MicroLighter. Sus variables `--syntax-*` y colores `light-dark()` pertenecen al contenido técnico, no amplían la paleta de marca ni diferencian materias. La superficie, el overflow y la tipografía del bloque continúan bajo el componente de Code Quiz.
 
 Las combinaciones normativas superan WCAG AA para texto normal en ambos esquemas. El par con menor contraste es text-primary sobre success en oscuro, con `5.12:1`. Los estados con opacidad y cualquier gradiente deben validarse sobre el fondo compuesto real.
+
+La superficie compartida de menú, partida, puntuación, revisión, diálogo de salida, barra de revisión y panel personal se compone de `canvas` y `--content-surface-background`: dos gradientes radiales con `secondary` al 40 % en la esquina superior derecha e `info` al 22 % en la inferior izquierda, que se disuelven en la base carbón. No sustituye los colores semánticos de controles, respuestas ni feedback. El tema claro deberá comprobar el contraste de esta superficie compuesta al implementar T5.
 
 La implementación futura debe declarar `color-scheme: light dark` en `:root`; `light-dark()` elige el primer valor en claro y el segundo en oscuro. Incluye también `<meta name="color-scheme" content="light dark">` antes de los estilos para que los controles nativos y el primer render compartan la preferencia. Un selector manual debe cambiar `color-scheme` en el elemento raíz y contemplar `auto`, `light` y `dark` sin duplicar variables.
 
@@ -385,17 +387,17 @@ El diseño es mobile-first y cambia cuando el contenido lo requiere:
 - La fila de progreso puede envolver el texto debajo de la barra cuando falte espacio, sin superponerse con preguntas largas.
 - Los grupos de acciones pueden envolver o apilarse. La acción primaria mantiene un objetivo táctil preferente de al menos `2.75rem` por eje.
 - Los indicadores fijos de revisión respetan safe areas y reservan espacio al final del documento para no ocultar contenido o foco.
-- En escritorio se mantiene una columna contenida. En viewports de poca altura se compactan cabecera y separaciones; nunca se reduce el texto esencial ni se fija la altura del contenido para eliminar scroll. El lienzo reserva de forma estable el espacio del scrollbar para que la aparición del feedback y la explicación no desplace lateralmente el contenido al agotarse el tiempo.
+- En escritorio se mantiene una columna contenida. En viewports de poca altura se compactan cabecera y separaciones; nunca se reduce el texto esencial ni se fija la altura del contenido para eliminar scroll. El scrollbar aparece solo cuando el contenido lo necesita, sin reservar una franja permanente en el lienzo.
 
 Evita alturas fijas y dependencias de `100vh`. Usa `min-height: 100dvh` solo como base de página y conserva crecimiento y scroll naturales.
 
 ## Elevation & Depth
 
-La profundidad procede principalmente de capas tonales: canvas casi negro, relieve técnico violeta en los bordes y tarjeta primary. Menú, partida, resultado y tarjetas de revisión comparten exactamente el token `card-shadow`, una sombra compacta `2px 2px 3px` en secondary; no debe convertirse en una sombra difusa o realista.
+La profundidad procede principalmente de capas tonales: canvas casi negro, relieve técnico violeta en los bordes y tarjetas con gradiente carbón-violeta. Menú, partida, resultado, tarjetas de revisión, barra de revisión y diálogos comparten `card-shadow`: un contorno violeta fino, un halo corto de `0.5rem` y una sombra oscura compacta. El acceso «Mi Code Quiz» y la tarjeta del modo cronómetro no llevan sombra.
 
 El título usa una sombra breve en info para mantener la firma visual. Limita este tratamiento al lockup principal; no apliques glow a párrafos, respuestas o todos los encabezados.
 
-Paneles superpuestos pueden usar fondo primary con transparencia y blur únicamente cuando haya suficiente contraste con cualquier contenido situado detrás. Deben contar también con borde perceptible y alternativa válida en `forced-colors`.
+Los paneles superpuestos deben conservar suficiente contraste con cualquier contenido situado detrás. Cuando su separación normal depende de una sombra, deben tener un borde visible en `forced-colors`.
 
 ## Shapes
 
@@ -409,17 +411,21 @@ Las formas deben crecer con el texto. No fijes alturas en botones, respuestas, b
 
 ### Page shell and header
 
-El fondo común representa un laboratorio nocturno de código: una base `canvas` casi negra con relieves 3D muy tenues de corchetes angulares, llaves, nodos y líneas técnicas en los bordes. El centro queda oscuro y sin detalle para proteger el contraste de las tarjetas. La imagen cubre el viewport y permanece estable durante el scroll; no contiene texto ni información necesaria. El lockup combina el logo de la materia y el nombre del producto en columna, con `0.5rem` entre ambos. El logo se escala de forma fluida aproximadamente entre `11.25rem` y `14rem` sin distorsión.
+El fondo común representa un laboratorio nocturno de código con una base `canvas` sólida y un dibujo vectorial transparente, `game-background.svg`. Los trazos de circuito, corchetes, llaves y pequeños puntos se limitan al perímetro, sin textura ni degradado detrás del contenido. El SVG se escala sin pixelación, cubre el viewport en escritorio y se alinea al inicio en móvil para mostrar el detalle lateral sin invadir la columna de lectura. Permanece estable durante el scroll y no contiene texto ni información necesaria. El lockup combina el logo de la materia y el nombre del producto en columna, con `0.5rem` entre ambos. El logo se escala de forma fluida aproximadamente entre `11.25rem` y `14rem` sin distorsión.
 
 La cabecera de Code Quiz usa el lockup horizontal 3D con el cubo `< >`, `{ }` y `JS` y la marca «CODE QUIZ». El WebP transparente mide 960 × 448 y se presenta a un ancho máximo de `24rem`, limitado por el contenedor y con altura automática. El encabezado obtiene su nombre accesible del `alt="Code Quiz"` de la imagen, sin repetir texto.
 
 `code-quiz-logo-dark.webp` usa letras claras y violeta sobre fondos oscuros; `code-quiz-logo-light.webp` conserva letras violetas sobre fondos claros. El símbolo compacto mide 256 × 256, el favicon 48 × 48 y Open Graph 1200 × 630 con fondo canvas oscuro. Las variantes son assets de marca: no crean paletas distintas por materia. El CSS y el metadato fijan `color-scheme: dark` hasta implementar el modo claro completo.
 
+### Panel personal
+
+«Mi Code Quiz» es una utilidad secundaria fija en la esquina superior derecha del viewport. En escritorio el disparador muestra icono y texto, usa el mismo padding `0.5rem 0.75rem` que «Apoyar el proyecto» y no tiene sombra; hasta `48rem` muestra solo el icono, conservando su nombre accesible y un objetivo de `44px`. Hasta `24rem`, el logo se reduce ligeramente y se desplaza hacia el inicio según se estrecha la pantalla para dejar espacio al icono. El disparador no aparece durante la partida activa. En escritorio, el panel se superpone sin reducir la tarjeta protagonista: entra desde la derecha con un máximo de `26rem`, deja `1rem` respecto a los bordes superior, inferior y derecho, tiene radio `1rem` y la sombra compartida alrededor. Hasta `48rem` ocupa todo el viewport, sin radio ni sombra. Comparte la superficie compuesta de contenido; el área bajo el texto permanece oscura y legible. Separa marcas y preferencias mediante una línea, sin tarjetas internas. El título se centra verticalmente con el icono de cierre. El cierre tiene nombre accesible, objetivo de `36px` y padding de `0.25rem`; recibe el foco al abrir y lo devuelve al disparador al cerrar. La apertura y el cierre combinan desplazamiento horizontal y opacidad durante `250ms`; con movimiento reducido son instantáneos. El scroll pertenece al diálogo cuando su contenido excede el viewport; Escape usa el comportamiento nativo de `<dialog>` y Tab circula entre sus controles. En `forced-colors` se conserva un borde visible.
+
 ### Quiz card
 
-La tarjeta primary contiene progreso, pregunta, opciones, explicación y acciones con separación vertical de `1rem`. Cuando la pregunta incluye un bloque de código, este conserva al menos `0.875rem` respecto al título. Mantén un solo foco narrativo y evita subdividirla en paneles decorativos innecesarios.
+La tarjeta de superficie compuesta contiene progreso, pregunta, opciones, explicación y acciones con separación vertical de `1rem`. Cuando la pregunta incluye un bloque de código, este conserva al menos `0.875rem` respecto al título. Mantén un solo foco narrativo y evita subdividirla en paneles decorativos innecesarios.
 
-El menú y la selección de partida reutilizan la misma superficie primary, radio de `1rem`, sombra compacta y ancho de la tarjeta del quiz; no forman una home visualmente ajena al juego. Su encabezado mantiene una introducción breve, una pregunta principal y una sola acción final.
+El menú y la selección de partida reutilizan la misma superficie compuesta, radio de `1rem`, sombra compacta y ancho de la tarjeta del quiz; no forman una home visualmente ajena al juego. Su encabezado mantiene una introducción breve, una pregunta principal y una sola acción final.
 
 ### Configuración de partida
 
@@ -494,7 +500,7 @@ Los grupos de acciones permiten wrap y respetan el ancho disponible. Hasta `30re
 
 «Salir de la partida» es una acción secundaria situada junto a la navegación de la pregunta. Usa fondo transparente, borde perceptible, texto e icono de salida; no compite con «Siguiente» ni parece una navegación accidental del navegador.
 
-La confirmación usa un `<dialog>` modal nativo abierto con `showModal()`. Mantiene una sola superficie primary, el radio de `1rem`, borde visible y la sombra compacta de las tarjetas. El backdrop oscurece el canvas sin introducir blur ni una nueva superficie. El título y la descripción explican que se pierde solo el progreso de la ronda y que se conservan configuración y resultados.
+La confirmación usa un `<dialog>` modal nativo abierto con `showModal()`. Mantiene una sola superficie compuesta, el radio de `1rem` y la sombra compartida con contorno fino, sin borde CSS en el esquema normal. En `forced-colors` muestra un borde explícito. El backdrop oscurece el canvas sin introducir blur ni una nueva superficie. El título y la descripción explican que se pierde solo el progreso de la ronda y que se conservan configuración y resultados.
 
 «Continuar partida» recibe el foco inicial y usa option-surface; «Salir de la partida» usa error como acción destructiva y conserva una etiqueta textual completa. Escape o la acción de continuar cierran el modal y devuelven el foco al disparador. Hasta `30rem`, ambas acciones se apilan y ocupan todo el ancho.
 

@@ -8,7 +8,8 @@
 
   @scope (.quiz-menu) {
     :scope {
-      background-color: var(--primary-color);
+      background-color: var(--canvas-color);
+      background-image: var(--content-surface-background);
       border-radius: 16px;
       box-shadow: var(--card-shadow);
       padding: 1.5rem;

@@ -19,9 +19,10 @@
     .exit-dialog {
       inline-size: min(calc(100% - 2rem), 32rem);
       max-inline-size: none;
-      border: 1px solid color-mix(in srgb, var(--text-color) 35%, transparent);
+      border: 0;
       border-radius: 16px;
-      background-color: var(--primary-color);
+      background-color: var(--canvas-color);
+      background-image: var(--content-surface-background);
       padding: 0;
       color: var(--text-color);
       box-shadow: var(--card-shadow);
@@ -35,6 +36,10 @@
         display 0.2s,
         overlay 0.2s;
       transition-behavior: allow-discrete;
+
+      @media (forced-colors: active) {
+        border: 1px solid CanvasText;
+      }
 
       &[open] {
         opacity: 1;

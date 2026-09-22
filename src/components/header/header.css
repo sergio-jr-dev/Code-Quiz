@@ -8,6 +8,11 @@
       inline-size: clamp(230px, 160px + 11.667vw, 300px);
       block-size: auto;
       margin-inline: auto;
+
+      @media (width <= 24rem) {
+        inline-size: 13.75rem;
+        translate: calc(50vw - 12rem) 0;
+      }
     }
   }
 }

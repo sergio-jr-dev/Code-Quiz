@@ -1,7 +1,8 @@
 @layer components {
   @scope (.quiz) {
     :scope {
-      background-color: var(--primary-color);
+      background-color: var(--canvas-color);
+      background-image: var(--content-surface-background);
       border-radius: 16px;
       padding: 1.5rem;
       box-shadow: var(--card-shadow);

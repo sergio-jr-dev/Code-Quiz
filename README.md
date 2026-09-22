@@ -22,7 +22,8 @@ Aplicación educativa en español para practicar HTML, CSS y JavaScript con preg
 - Navegación posterior para repetir la configuración, volver al menú o practicar únicamente los
   fallos en el orden en que aparecieron.
 - Navegación con teclado y respeto a movimiento reducido.
-- Identidad Code Quiz sobre un fondo técnico oscuro, una columna común de hasta `90ch` y la misma sombra de tarjeta en todo el flujo; modo claro todavía pendiente.
+- Acceso «Mi Code Quiz» desde menú, resultado y revisión, con panel modal adaptable y cierre accesible; sus secciones muestran el alcance pendiente de marcas y preferencias.
+- Identidad Code Quiz sobre un fondo vectorial oscuro y sólido, con detalles técnicos en los extremos, superficies con gradientes carbón y violeta, una columna común de hasta `90ch` y sombras compactas compartidas; modo claro todavía pendiente.
 
 La base utiliza **React 19, TypeScript estricto, Vite 8, OXLint y Oxfmt**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
 
@@ -95,7 +96,7 @@ La configuración, el progreso, los mazos sin repetición y el mejor resultado p
 Las siguientes funcionalidades todavía no están implementadas por completo:
 
 - Modo claro completo con selector y persistencia.
-- Panel personal con mejores marcas, preferencias y futuros efectos sonoros; el posible historial de partidas continúa en evaluación.
+- Consulta de mejores marcas por modalidad, materia y nivel, selector de tema y controles de sonido dentro del panel personal. No se guardará historial de partidas.
 
 Especificaciones:
 

@@ -26,9 +26,27 @@
     --progress-color: light-dark(#462a8c, #a78bfa);
     --timer-warning-color: light-dark(#8a5a00, #f2c94c);
     --timer-critical-color: light-dark(#b4233c, #ff5a70);
-    --card-shadow: 2px 2px 3px var(--secondary-color);
+    --card-shadow:
+      0 0 0 1px color-mix(in srgb, var(--progress-color) 45%, transparent),
+      0 0 0.5rem color-mix(in srgb, var(--secondary-color) 30%, transparent),
+      0 0.375rem 0.75rem color-mix(in srgb, #000 45%, transparent);
+    --content-surface-background:
+      radial-gradient(
+        circle at 100% 0,
+        color-mix(in srgb, var(--secondary-color) 40%, transparent),
+        transparent 46%
+      ),
+      radial-gradient(
+        circle at 0 100%,
+        color-mix(in srgb, var(--info-color) 22%, transparent),
+        transparent 52%
+      );
     --font-family-sans: 'Trebuchet MS', 'Avenir Next', Avenir, sans-serif;
     --font-family-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+
+    @media (forced-colors: active) {
+      --content-surface-background: none;
+    }
   }
 }
 
@@ -81,7 +99,6 @@
   :root {
     color-scheme: dark;
     scroll-behavior: smooth;
-    scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: var(--text-on-accent-color) transparent;
     line-height: 1.5;
@@ -102,7 +119,7 @@
     min-block-size: 100dvh;
     color: var(--text-color);
     background-color: var(--canvas-color);
-    background-image: url('/images/game-background.webp');
+    background-image: url('/images/game-background.svg');
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
