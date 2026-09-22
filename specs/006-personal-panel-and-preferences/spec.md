@@ -1,6 +1,6 @@
 # Personal panel and preferences
 
-**Status:** Ready
+**Status:** In progress
 
 ## Goal
 
@@ -55,8 +55,12 @@ La spec 005 ya está implementada y separa los resultados normales y cronometrad
 ## Technical Notes
 
 - La spec 003 y la spec 005 ya están implementadas. Reutilizar el esquema v2 que separa las mejores marcas normales y cronometradas, sin duplicar ni volver a migrar ese estado.
-- Evaluar un store persistido de preferencias separado del store de dominio del quiz. Reutilizar Zustand `persist`, Zod y la recuperación segura ya adoptada, sin crear un ciclo manual equivalente.
+- Crear un store de preferencias separado del store de dominio del quiz, persistido bajo `code-quiz:preferences` con versión propia. Reutilizar Zustand `persist`, Zod y la recuperación segura ya adoptada, sin crear un ciclo manual equivalente.
+- Persistir solo `theme: 'auto' | 'light' | 'dark'` y `soundEnabled: boolean`. Los valores iniciales serán `auto` y `false`; el tema efectivo, la hidratación, el desbloqueo del audio y la apertura del panel no formarán parte del contrato persistido.
+- Validar estrictamente el contenedor y el estado al leer y escribir. Un valor ausente, corrupto, incompleto, con campos adicionales o con una versión desconocida recuperará las preferencias iniciales sin afectar al `quizStore`.
+- Para evitar el destello inicial, un bootstrap previo al primer pintado podrá leer de forma defensiva la misma clave y aplicar `data-theme="light"` o `data-theme="dark"` al elemento raíz. `auto` no fijará el atributo y conservará `color-scheme: light dark`; el store validará después el contrato completo.
 - Mantener las mejores marcas como único resumen duradero; no crear un modelo de intentos o historial.
+- Consumir `bestResults` directamente desde el `quizStore` mediante una función pura que reciba modalidad, materia y nivel y reutilice `quizConfigurationKey`. No interpretar claves arbitrarias ni copiar agrupaciones o matrices derivadas al store de preferencias.
 - Usar inicialmente los one-shots `success`, `error`, `warning` y `complete` del pack `soft` de UI SFX. Sus assets de audio son CC0. Incorporar solo los archivos necesarios como assets locales y conservar su procedencia en la documentación; no añadir el runtime de UI SFX si `HTMLAudioElement` o la Web Audio API nativa cubren el contrato.
 - Mantener un volumen interno fijo, bajo y coherente; la primera versión solo ofrecerá activación/silencio. No sonorizar hover, pulsaciones rutinarias, navegación del panel, cada segundo del cronómetro ni el aviso de los últimos diez segundos.
 - Cargar o reproducir audio solo cuando la funcionalidad esté habilitada y después de una interacción deliberada. Evitar solapamientos y asociar cada sonido a una transición semántica, no a un render.
