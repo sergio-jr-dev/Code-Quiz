@@ -1,6 +1,6 @@
 # Tasks
 
-**Current task:** T11
+**Current task:** None
 **Blockers:** None
 
 - [x] T1: Revisar el borrador, resolver la política de restauración tras recarga y confirmar o ajustar los tiempos 60/45/30 con ejemplos representativos del banco.
@@ -13,4 +13,4 @@
 - [x] T8: Añadir pruebas unitarias y de integración con reloj falso para respuesta, expiración, visibilidad, reinicio, persistencia y modo normal.
 - [x] T9: Completar anuncios accesibles, movimiento reducido, `forced-colors` y actualización de `DESIGN.md`.
 - [x] T10: Verificar en navegador el flujo completo en claro/oscuro, 320 CSS px, escritorio, texto ampliado y pestaña oculta.
-- [ ] T11: Ejecutar los checks completos, registrar la validación y cerrar la spec si todos los criterios pasan.
+- [x] T11: Ejecutar los checks completos, registrar la validación y cerrar la spec si todos los criterios pasan.

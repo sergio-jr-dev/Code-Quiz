@@ -1,6 +1,6 @@
 # Timed quiz mode
 
-**Status:** In progress
+**Status:** Implemented
 
 ## Goal
 
@@ -45,23 +45,23 @@ El modo normal seguirá ofreciendo las mismas preguntas y resultados sin límite
 
 ## Acceptance Criteria
 
-- [ ] AC-1: Desde el menú puede iniciarse la misma configuración en modo normal o cronómetro, con normal seleccionado inicialmente. [REQ-1, REQ-2]
-- [ ] AC-2: Una pregunta básica comienza con 60 segundos, una intermedia con 45 y una avanzada con 30. [REQ-3, REQ-4]
-- [ ] AC-3: El texto y el indicador visual muestran el mismo tiempo restante desde el inicio hasta la detención o expiración. [REQ-5]
-- [ ] AC-4: Responder detiene el tiempo y permite consultar feedback y explicación antes de avanzar manualmente. [REQ-6]
-- [ ] AC-5: Al agotarse el tiempo se registra una respuesta no contestada, se revela la solución y no cambia la pregunta sin una acción del usuario. [REQ-7, REQ-8]
-- [ ] AC-6: Ocultar la pestaña durante un intervalo controlado no reduce el tiempo restante y volver a mostrarla tampoco lo reinicia. [REQ-9]
-- [ ] AC-7: Toda nueva partida o repetición empieza con un estado temporal limpio y conserva la modalidad esperada. [REQ-10]
-- [ ] AC-8: El modo normal completa una partida sin temporizador ni regresiones respecto al flujo de la spec 003. [REQ-11]
-- [ ] AC-9: Resultados y revisión identifican correctamente respuestas elegidas, aciertos y preguntas agotadas. [REQ-8, REQ-12]
-- [ ] AC-10: La persistencia separa los resultados por modalidad y migra datos previos como resultados normales válidos. [REQ-13]
-- [ ] AC-11: El usuario conoce el límite antes de empezar y puede escoger el modo normal con el mismo contenido y sin penalización. [REQ-14]
-- [ ] AC-12: Un lector de pantalla no recibe anuncios por segundo y sí recibe avisos comprensibles al entrar en los últimos diez segundos y al agotarse el tiempo. [REQ-15]
-- [ ] AC-13: El indicador sigue siendo comprensible sin color y no ejecuta animaciones decorativas con `prefers-reduced-motion: reduce`. [REQ-5, REQ-16]
-- [ ] AC-14: Las pruebas con reloj falso cubren inicio, avance, respuesta, expiración, pausa por visibilidad, reinicio y ausencia de temporizador en modo normal. [REQ-4, REQ-6–REQ-11, REQ-17]
-- [ ] AC-15: No hay pérdida de contenido o controles a 320 CSS px, con texto ampliado, claro/oscuro o `forced-colors`. [Design Requirements]
-- [ ] AC-16: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados.
-- [ ] AC-17: Recargar durante una partida cronometrada vuelve al menú sin resultado parcial, conserva la configuración y modalidad elegidas y mantiene el avance previo del mazo. [REQ-18]
+- [x] AC-1: Desde el menú puede iniciarse la misma configuración en modo normal o cronómetro, con normal seleccionado inicialmente. [REQ-1, REQ-2]
+- [x] AC-2: Una pregunta básica comienza con 60 segundos, una intermedia con 45 y una avanzada con 30. [REQ-3, REQ-4]
+- [x] AC-3: El texto y el indicador visual muestran el mismo tiempo restante desde el inicio hasta la detención o expiración. [REQ-5]
+- [x] AC-4: Responder detiene el tiempo y permite consultar feedback y explicación antes de avanzar manualmente. [REQ-6]
+- [x] AC-5: Al agotarse el tiempo se registra una respuesta no contestada, se revela la solución y no cambia la pregunta sin una acción del usuario. [REQ-7, REQ-8]
+- [x] AC-6: Ocultar la pestaña durante un intervalo controlado no reduce el tiempo restante y volver a mostrarla tampoco lo reinicia. [REQ-9]
+- [x] AC-7: Toda nueva partida o repetición empieza con un estado temporal limpio y conserva la modalidad esperada. [REQ-10]
+- [x] AC-8: El modo normal completa una partida sin temporizador ni regresiones respecto al flujo de la spec 003. [REQ-11]
+- [x] AC-9: Resultados y revisión identifican correctamente respuestas elegidas, aciertos y preguntas agotadas. [REQ-8, REQ-12]
+- [x] AC-10: La persistencia separa los resultados por modalidad y migra datos previos como resultados normales válidos. [REQ-13]
+- [x] AC-11: El usuario conoce el límite antes de empezar y puede escoger el modo normal con el mismo contenido y sin penalización. [REQ-14]
+- [x] AC-12: Un lector de pantalla no recibe anuncios por segundo y sí recibe avisos comprensibles al entrar en los últimos diez segundos y al agotarse el tiempo. [REQ-15]
+- [x] AC-13: El indicador sigue siendo comprensible sin color y no ejecuta animaciones decorativas con `prefers-reduced-motion: reduce`. [REQ-5, REQ-16]
+- [x] AC-14: Las pruebas con reloj falso cubren inicio, avance, respuesta, expiración, pausa por visibilidad, reinicio y ausencia de temporizador en modo normal. [REQ-4, REQ-6–REQ-11, REQ-17]
+- [x] AC-15: No hay pérdida de contenido o controles a 320 CSS px, con texto ampliado, claro/oscuro o `forced-colors`. [Design Requirements]
+- [x] AC-16: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` y `git diff --check` pasan, salvo fallos previos explícitamente separados.
+- [x] AC-17: Recargar durante una partida cronometrada vuelve al menú sin resultado parcial, conserva la configuración y modalidad elegidas y mantiene el avance previo del mazo. [REQ-18]
 
 ## Out Of Scope
 
