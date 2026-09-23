@@ -25,7 +25,7 @@ Mantén la experiencia breve, clara y didáctica. La puntuación es secundaria r
 - Vite 8 y `@vitejs/plugin-react`.
 - pnpm, con `pnpm-lock.yaml` como lockfile autoritativo.
 - CSS organizado por componente, además de los estilos y tokens globales de `src/main.css`.
-- Estado compartido en `src/context/QuizContextProvider.tsx`.
+- Estado compartido en `src/stores/quizStore.ts` y preferencias en `src/stores/preferencesStore.ts`, con Zustand.
 - Banco de producción compuesto desde `src/data/bank/html.ts`, `css.ts` y `javascript.ts` mediante `src/data/questionCatalog.ts`.
 - Contenido de preguntas, opciones y explicaciones modelado como bloques tipados de texto o código y renderizado como nodos React escapados.
 - Build estático desde la raíz, desplegado en https://codequiz-game.vercel.app/.
@@ -55,9 +55,9 @@ Las skills están en `.agents/skills/` y se aplican por el tipo de trabajo, no p
 
 Si varias skills aplican, usa el conjunto mínimo que cubra el cambio y resuelve primero arquitectura, después implementación y finalmente validación.
 
-## Alcance de la primera versión
+## Funcionalidad disponible
 
-La spec 004 conserva las 25 preguntas actuales de HTML y CSS, sus IDs numéricos y la partida completa. Las reglas de ampliación de banco, diez preguntas, niveles, modo mixto y persistencia siguientes son el objetivo de las specs 002/003, no funcionalidades disponibles.
+Las specs 001–006 están implementadas. El catálogo contiene 180 preguntas de HTML, CSS y JavaScript, con veinte por combinación de materia y nivel. Las partidas tienen diez preguntas, admiten modalidad normal o con cronómetro y permiten elegir una materia o el modo mixto. El navegador conserva la configuración, los mazos, el progreso de las partidas normales, las mejores marcas y las preferencias de tema y sonido. Las partidas con cronómetro vuelven al menú al recargar.
 
 ## Arquitectura del quiz
 
@@ -109,7 +109,7 @@ Las preguntas deben vivir fuera de los componentes. Al ampliar el banco, usa mó
 - Toda nueva partida debe reiniciar pregunta, selección, puntuación, respuestas, finalización, revisión de resultados y cualquier anuncio transitorio.
 - Separa las transformaciones puras —filtrado, muestreo, puntuación y resumen— de React para poder probarlas sin renderizar la interfaz.
 - Versiona y valida cualquier dato persistido en `localStorage`. Tolera datos ausentes, antiguos o corruptos sin bloquear la aplicación.
-- Si el contexto crece hasta mezclar configuración, ejecución y persistencia, divídelo por responsabilidades o usa un reducer antes de añadir más setters públicos.
+- Mantén separadas las transiciones puras, la persistencia y las acciones de los stores; no añadas estado duplicado al ampliar las funciones.
 
 ### Componentes React
 
@@ -184,7 +184,7 @@ El objetivo mínimo es WCAG 2.2 AA.
 
 ## Pruebas y verificación
 
-La suite elegida es Vitest con Testing Library (`@testing-library/react`, `@testing-library/user-event` y `@testing-library/jest-dom`) sobre un entorno DOM apropiado. La suite mínima está configurada en la spec 004; la spec 003 amplía su cobertura para funcionalidades futuras. Prueba la lógica pura directamente y el comportamiento visible mediante interacciones de usuario, no mediante detalles internos del componente.
+La suite usa Vitest con Testing Library (`@testing-library/react`, `@testing-library/user-event` y `@testing-library/jest-dom`) sobre un entorno DOM apropiado. Prueba la lógica pura directamente y el comportamiento visible mediante interacciones de usuario, no mediante detalles internos del componente.
 
 Antes de cerrar un cambio, ejecuta como mínimo:
 
