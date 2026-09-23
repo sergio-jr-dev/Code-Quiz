@@ -601,6 +601,8 @@ Se conserva el tema oscuro y la identidad existentes. La variante clara y el mod
 
 La configuración conserva dos pasos, con indicador compacto horizontal y selección violeta con check decorativo. El amarillo queda reservado al foco y a avisos temporales. El logo mide entre 11rem y 14rem. Se mantiene la columna de 90ch, iconografía existente y tipografía funcional mínima de 1rem.
 
+Hasta 30rem, el conector entre «Materia» y «Partida» se oculta y las etapas pueden pasar a dos filas. Las columnas internas del menú admiten reducción, el botón de avance reduce su padding horizontal y el logo se alinea al inicio para mantenerlo separado del acceso al panel a 320 CSS px con texto ampliado. La autoría del pie puede partirse en varias líneas.
+
 Tokens nuevos: `selection-surface` se compone de info al 45 % sobre canvas; `answer-success-surface` y `answer-error-surface` mezclan success/error al 20 % sobre canvas. Los bordes semánticos son `success-accent` (#75CF8A oscuro / #26753B claro) y `error-accent` (#F28BA0 oscuro / #A72746 claro), definidos mediante light-dark. `control-surface` mezcla option-surface al 72 % sobre canvas. Estas parejas preparan el sistema, sin activar temas de la spec 006.
 
 Button ofrece variantes primary, secondary (borde violeta, fondo transparente) y quiet (sin borde visible). Los controles deshabilitados conservan texto legible y usan superficie neutral. La partida ordena Salir como secundario a la izquierda y Siguiente/Finalizar como primario a la derecha, con igual orden DOM y visual. En móvil se apilan sin alterar el orden de teclado.

@@ -58,4 +58,16 @@ describe('quiz sounds', () => {
     sounds.stopQuizSound();
     expect(instances[1]?.pause).toHaveBeenCalledOnce();
   });
+
+  it('does not create audio when reduced motion is requested', async () => {
+    vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList);
+    const AudioMock = vi.fn();
+    vi.stubGlobal('Audio', AudioMock);
+    const sounds = await import('./quizSounds');
+
+    sounds.unlockQuizSounds();
+    sounds.playQuizSound('complete', true);
+
+    expect(AudioMock).not.toHaveBeenCalled();
+  });
 });

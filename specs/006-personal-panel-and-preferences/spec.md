@@ -1,6 +1,6 @@
 # Personal panel and preferences
 
-**Status:** In progress
+**Status:** Implemented
 
 ## Goal
 
@@ -35,14 +35,14 @@ La spec 005 ya está implementada y separa los resultados normales y cronometrad
 
 ## Acceptance Criteria
 
-- [ ] AC-1: El panel se abre y cierra con puntero y teclado, mantiene un nombre accesible y devuelve el foco al disparador. [REQ-1, REQ-2, REQ-8]
-- [ ] AC-2: Las mejores marcas se consultan por modo, materia y nivel y los datos anteriores aparecen bajo el modo normal. [REQ-3, REQ-10]
-- [ ] AC-3: La selección automática, clara u oscura se aplica sin destello de tema incorrecto y persiste tras recargar. [REQ-4, REQ-6]
-- [ ] AC-4: El usuario puede silenciar y reactivar los efectos; la preferencia persiste y no existe reproducción previa a su primera interacción. [REQ-5, REQ-6]
-- [ ] AC-5: Desactivar el sonido no elimina ningún feedback necesario para responder, revisar o interpretar resultados. [REQ-5, REQ-9]
-- [ ] AC-6: Preferencias y ejecución del quiz mantienen contratos de estado separados y sus datos persistidos inválidos se ignoran de forma segura. [REQ-6, REQ-7]
-- [ ] AC-7: No hay pérdida de contenido, controles o foco a 320 CSS px, 400 % de zoom, claro/oscuro, movimiento reducido o `forced-colors`. [REQ-8, REQ-9]
-- [ ] AC-8: Las pruebas cubren migración, persistencia, marcas por modalidad, teclado, foco, tema y sonido; pasan los checks completos del repositorio. [REQ-3–REQ-10]
+- [x] AC-1: El panel se abre y cierra con puntero y teclado, mantiene un nombre accesible y devuelve el foco al disparador. [REQ-1, REQ-2, REQ-8]
+- [x] AC-2: Las mejores marcas se consultan por modo, materia y nivel y los datos anteriores aparecen bajo el modo normal. [REQ-3, REQ-10]
+- [x] AC-3: La selección automática, clara u oscura se aplica sin destello de tema incorrecto y persiste tras recargar. [REQ-4, REQ-6]
+- [x] AC-4: El usuario puede silenciar y reactivar los efectos; la preferencia persiste y no existe reproducción previa a su primera interacción. [REQ-5, REQ-6]
+- [x] AC-5: Desactivar el sonido no elimina ningún feedback necesario para responder, revisar o interpretar resultados. [REQ-5, REQ-9]
+- [x] AC-6: Preferencias y ejecución del quiz mantienen contratos de estado separados y sus datos persistidos inválidos se ignoran de forma segura. [REQ-6, REQ-7]
+- [x] AC-7: No hay pérdida de contenido, controles o foco a 320 CSS px, 400 % de zoom, claro/oscuro, movimiento reducido o `forced-colors`. [REQ-8, REQ-9]
+- [x] AC-8: Las pruebas cubren migración, persistencia, marcas por modalidad, teclado, foco, tema y sonido; pasan los checks completos del repositorio. [REQ-3–REQ-10]
 
 ## Out Of Scope
 
@@ -68,5 +68,4 @@ La spec 005 ya está implementada y separa los resultados normales y cronometrad
 
 ## Risks Or Open Questions
 
-- Verificar en T6 que los cuatro cues del pack `soft` mantienen suficiente contraste semántico, un nivel confortable y un coste de assets proporcionado en móvil; si alguno falla, sustituir solo ese cue por otro del mismo pack y documentar la desviación.
-- La disponibilidad del panel durante resultados y revisión no debe interferir con la restauración de foco propia de esas vistas; el comportamiento se validará al implementar el shell.
+- Ningún riesgo bloqueante pendiente. El usuario revisó los efectos sonoros y confirmó que están bien.

@@ -21,7 +21,8 @@
       }
 
       & .footer-author {
-        flex: none;
+        flex: 0 1 auto;
+        min-inline-size: 0;
         text-align: center;
       }
 
