@@ -1,6 +1,7 @@
 @layer components {
   @scope (.post-quiz-actions) {
     :scope {
+      inline-size: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -18,9 +19,13 @@
         flex-shrink: 0;
       }
 
+      &.review-action,
       &.menu-action {
-        background-color: var(--option-color);
-        color: var(--text-color);
+        flex-basis: 100%;
+      }
+      @media (width <= 30rem) {
+        flex-basis: 100%;
+        padding-inline: 1rem;
       }
     }
   }

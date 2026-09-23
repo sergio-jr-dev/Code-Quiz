@@ -5,7 +5,6 @@ import { calculateScore } from '../../../lib/quizTransitions';
 import { useQuizStore } from '../../../stores/quizStore';
 import { PostQuizActions } from '../postQuizActions/PostQuizActions';
 import { ResultsSummary } from '../summary/ResultsSummary';
-import { CircularMetric } from './CircularMetric';
 
 import './score.css';
 
@@ -52,90 +51,47 @@ export const Score = () => {
         {resultAnnouncement}
       </p>
       <div className="score-heading">
-        <img
-          className="score-trophy"
-          src={`${import.meta.env.BASE_URL}images/results/trophy.png`}
-          alt=""
-          aria-hidden="true"
-          width="256"
-          height="256"
-        />
         <div>
           <p className="score-eyebrow">Partida completada · {modeLabel}</p>
           <h2 className="message" ref={headingRef} tabIndex={-1}>
             {message}
           </h2>
           <p className="score-message">{supportingMessage}</p>
-          {bestResult !== undefined ? (
-            <p className="score-best-result">
-              {mode === 'timed'
-                ? `Mejor resultado en modo cronómetro para esta configuración: ${bestResult} / 10`
-                : `Mejor resultado en esta configuración: ${bestResult} / 10`}
-            </p>
-          ) : null}
         </div>
       </div>
 
       <div className="score-metrics" aria-label="Resumen de la puntuación">
-        <CircularMetric
-          label="Aciertos"
-          displayValue={String(score)}
-          value={score}
-          max={totalQuestions}
-          tone="correct"
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}images/results/correct.png`}
-            alt=""
-            width="256"
-            height="256"
-          />
-        </CircularMetric>
-        <CircularMetric
-          label={mode === 'timed' ? 'Incorrectas' : 'Errores'}
-          displayValue={String(selectedIncorrectAnswers)}
-          value={selectedIncorrectAnswers}
-          max={totalQuestions}
-          tone="incorrect"
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}images/results/errors.png`}
-            alt=""
-            width="256"
-            height="256"
-          />
-        </CircularMetric>
-        {mode === 'timed' ? (
-          <CircularMetric
-            label="Tiempo agotado"
-            displayValue={String(timedOutAnswers)}
-            value={timedOutAnswers}
-            max={totalQuestions}
-            tone="incorrect"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}images/results/time-expired.png`}
-              alt=""
-              width="256"
-              height="256"
-            />
-          </CircularMetric>
-        ) : null}
-        <CircularMetric
-          label="Precisión"
-          displayValue={`${percentage.toFixed()}%`}
-          value={percentage}
-          max={100}
-          tone="progress"
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}images/results/accuracy.png`}
-            alt=""
-            width="256"
-            height="256"
-          />
-        </CircularMetric>
+        <dl className="score-primary">
+          <dt>Aciertos</dt>
+          <dd>
+            <strong>{score}</strong>
+            <span> / {totalQuestions}</span>
+          </dd>
+        </dl>
+        <dl className="score-secondary">
+          <div>
+            <dt>{mode === 'timed' ? 'Incorrectas' : 'Errores'}</dt>
+            <dd>{selectedIncorrectAnswers}</dd>
+          </div>
+          {mode === 'timed' && (
+            <div>
+              <dt>Tiempo agotado</dt>
+              <dd>{timedOutAnswers}</dd>
+            </div>
+          )}
+          <div>
+            <dt>Precisión</dt>
+            <dd>{percentage.toFixed()}%</dd>
+          </div>
+        </dl>
       </div>
+      {bestResult !== undefined ? (
+        <p className="score-best-result">
+          {mode === 'timed'
+            ? `Mejor resultado en modo cronómetro para esta configuración: ${bestResult} / 10`
+            : `Mejor resultado en esta configuración: ${bestResult} / 10`}
+        </p>
+      ) : null}
 
       <ResultsSummary />
 

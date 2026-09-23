@@ -26,7 +26,13 @@ export const ExitQuiz = () => {
 
   return (
     <div className="exit-quiz">
-      <Button className="exit-trigger" onClick={openDialog} ref={triggerRef} type="button">
+      <Button
+        variant="secondary"
+        className="exit-trigger"
+        onClick={openDialog}
+        ref={triggerRef}
+        type="button"
+      >
         <IconDoorExit aria-hidden="true" stroke={2} />
         Salir de la partida
       </Button>

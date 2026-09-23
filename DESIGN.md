@@ -17,6 +17,10 @@ colors:
   progress: "#A78BFA"
   timer-warning: "#F2C94C"
   timer-critical: "#FF5A70"
+  success-accent: "#75CF8A"
+  error-accent: "#F28BA0"
+  success-accent-light: "#26753B"
+  error-accent-light: "#A72746"
   code-surface: "#0D0A18"
   code-border: "#4F3C7A"
   primary-light: "#FFFFFF"
@@ -107,16 +111,16 @@ components:
   mode-option:
     backgroundColor: "{colors.option-surface}"
     selectedBackgroundColor: "{colors.info}"
-    selectedBorderColor: "{colors.focus-ring}"
+    selectedBorderColor: "{colors.progress}"
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
     padding: "{spacing.md}"
   configuration-step:
-    currentBackgroundColor: "{colors.focus-ring}"
+    currentBackgroundColor: "{colors.progress}"
     currentTextColor: "{colors.primary}"
-    completeBackgroundColor: "{colors.success}"
-    completeTextColor: "{colors.text-primary}"
+    completeBackgroundColor: "{colors.canvas}"
+    completeTextColor: "{colors.progress}"
     upcomingBackgroundColor: "{colors.option-surface}"
     upcomingTextColor: "{colors.text-primary}"
     connectorColor: "{colors.option-surface}"
@@ -176,13 +180,13 @@ components:
     backgroundColor: "{colors.canvas}"
     textColor: "{colors.text-primary}"
     typography: "{typography.heading-lg}"
-  score-metric:
+  score-result:
     backgroundColor: "{colors.primary}"
     accentColor: "{colors.progress}"
     textColor: "{colors.text-primary}"
     typography: "{typography.metric}"
     rounded: "{rounded.full}"
-    size: 7.5rem
+    size: 3.5rem
   inline-code:
     backgroundColor: "{colors.code-surface}"
     textColor: "{colors.text-primary}"
@@ -216,13 +220,13 @@ components:
   mode-option-light:
     backgroundColor: "{colors.option-surface-light}"
     selectedBackgroundColor: "{colors.info-light}"
-    selectedBorderColor: "{colors.focus-ring-light}"
+    selectedBorderColor: "{colors.progress-light}"
     textColor: "{colors.text-primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.lg}"
     padding: "{spacing.md}"
   configuration-step-light:
-    currentBackgroundColor: "{colors.focus-ring-light}"
+    currentBackgroundColor: "{colors.progress-light}"
     currentTextColor: "{colors.primary-light}"
     completeBackgroundColor: "{colors.success-light}"
     completeTextColor: "{colors.text-primary-light}"
@@ -275,13 +279,13 @@ components:
     textColor: "{colors.text-primary-light}"
     typography: "{typography.body}"
     rounded: "{rounded.full}"
-  score-metric-light:
+  score-result-light:
     backgroundColor: "{colors.primary-light}"
     accentColor: "{colors.progress-light}"
     textColor: "{colors.text-primary-light}"
     typography: "{typography.metric}"
     rounded: "{rounded.full}"
-    size: 7.5rem
+    size: 3.5rem
   inline-code-light:
     backgroundColor: "{colors.code-surface-light}"
     textColor: "{colors.text-primary-light}"
@@ -328,6 +332,12 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
   --progress-color: light-dark(#462a8c, #a78bfa);
   --timer-warning-color: light-dark(#8a5a00, #f2c94c);
   --timer-critical-color: light-dark(#b4233c, #ff5a70);
+  --success-accent: light-dark(#26753b, #75cf8a);
+  --error-accent: light-dark(#a72746, #f28ba0);
+  --selection-surface: color-mix(in srgb, var(--info-color) 45%, var(--canvas-color));
+  --control-surface: color-mix(in srgb, var(--option-color) 72%, var(--canvas-color));
+  --answer-success-surface: color-mix(in srgb, var(--correct-color) 20%, var(--canvas-color));
+  --answer-error-surface: color-mix(in srgb, var(--incorrect-color) 20%, var(--canvas-color));
   --code-surface-color: light-dark(#f4f1fb, #0d0a18);
   --code-border-color: light-dark(#cfc4e8, #4f3c7a);
 }
@@ -431,7 +441,7 @@ El menú y la selección de partida reutilizan la misma superficie compuesta, ra
 
 La configuración se divide en dos pasos para mantener la tarjeta compacta: primero materia; después nivel y modalidad. Solo el contenido del paso activo permanece en el DOM. La carga inicial no fuerza el foco sobre el título: el orden de teclado comienza en la primera materia. Avanzar, volver o regresar al menú desde otra vista sí mueve el foco al `h2` contextual, de modo que teclado y lector de pantalla reciben el nuevo contexto sin depender de una animación.
 
-El progreso se representa mediante una lista ordenada no interactiva: dos círculos numerados, «Materia» y «Partida», unidos por una línea. El paso actual usa focus-ring y `aria-current="step"`; el completado usa success; el pendiente usa option-surface. Los rótulos visibles y `aria-current` mantienen el significado sin color. La línea y los círculos cambian durante `250ms`, mientras el contenido entra con un desplazamiento vertical de `0.5rem`; todas esas transiciones se eliminan con `prefers-reduced-motion: reduce`.
+El progreso se representa mediante una lista ordenada no interactiva y compacta: «Materia» y «Partida». El paso actual usa progress y `aria-current="step"`; el completado muestra un check decorativo. Cada marcador ocupa 2rem y se alinea junto a su rótulo. El foco amarillo se reserva a controles interactivos. La entrada del contenido conserva 250ms y se omite con movimiento reducido.
 
 Cada grupo visible mantiene su propio `fieldset` con `legend`, de forma que la relación entre opciones se conserva sin depender del layout. Cada elección sigue siendo un radio nativo: la tarjeta-label amplía el objetivo interactivo, mientras `:has(input:checked)` y `:has(input:focus-visible)` proyectan selección y foco sobre toda la superficie.
 
@@ -441,7 +451,7 @@ Las materias usan el mismo fondo y sistema de color de interfaz. HTML, CSS, Java
 
 El cubo 3D queda reservado al logo de Code Quiz. Las materias usan versiones 3D independientes de sus símbolos reconocibles: HTML naranja, JavaScript amarillo y el nuevo logo CSS morado de esquina redondeada; mixto agrupa los tres sin introducir otro contenedor. Los niveles forman otra familia 3D común: brote para básico, escalones ascendentes para intermedio y trofeo para avanzado. Las modalidades continúan esa familia mediante un libro abierto violeta con páginas claras para Normal y un cronómetro violeta con detalles dorados para Cronómetro. Todos estos assets son imágenes decorativas con `alt` vacío porque el nombre visible de cada opción ya aporta su significado. La introducción no repite el tamaño de ronda; la única confirmación de las diez preguntas vive junto a la acción de inicio.
 
-La selección usa option-surface en reposo e info con borde focus-ring cuando está activa. Las combinaciones con menos de veinte candidatas se deshabilitan de forma nativa y muestran «Próximamente». La franja final confirma que la partida contiene diez preguntas y mantiene una única acción «Comenzar partida».
+La selección usa control-surface en reposo y selection-surface con borde progress y check decorativo cuando está activa. El foco mantiene su anillo amarillo independiente. Las combinaciones no disponibles se deshabilitan de forma nativa. La franja final resume diez preguntas, materia, nivel y modalidad, con «Cambiar materia» discreto y «Comenzar partida» primario.
 
 En dispositivos que admiten hover, las tarjetas de materia, nivel y modalidad cambian solo el tono de su superficie. No se desplazan ni escalan, de modo que la configuración conserva una retícula estable al explorar opciones.
 
@@ -459,11 +469,11 @@ El texto «Tiempo restante: N s» permanece siempre visible, usa cifras tabulare
 
 ### Answer option
 
-La opción completa es el objetivo interactivo y conserva el control radio nativo y su semántica, aunque su círculo queda oculto solo visualmente. El único marcador circular visible es la letra `A`, `B`, `C` o `D`, derivada del orden presentado; nunca se usa para resolver la corrección. La tarjeta usa option-surface en reposo, un aumento prudente de luminosidad en hover y refleja el foco del radio mediante un anillo focus-ring de al menos `0.1875rem`, separado por `0.125rem`, en `:focus-visible`.
+La opción completa es el objetivo interactivo y conserva el control radio nativo y su semántica, aunque su círculo queda oculto solo visualmente. El único marcador circular visible es la letra `A`, `B`, `C` o `D`, derivada del orden presentado; nunca se usa para resolver la corrección. La tarjeta usa control-surface en reposo, un aumento prudente de luminosidad en hover y refleja el foco del radio mediante un anillo focus-ring de al menos `0.1875rem`, separado por `0.125rem`, en `:focus-visible`.
 
 Tras responder:
 
-- la correcta usa success y la selección incorrecta usa error sin añadir contenido dentro de las tarjetas;
+- la correcta usa answer-success-surface y borde success-accent; la selección incorrecta usa answer-error-surface y borde error-accent sin añadir contenido dentro de las tarjetas;
 - una única banda situada entre el grupo y la información identifica mediante texto e icono si se acertó, la letra elegida y la correcta cuando difieren;
 - las demás opciones permanecen legibles y no desaparecen;
 - ninguna tarjeta cambia de tamaño al mostrar el estado.
@@ -472,7 +482,7 @@ La vibración de error es decorativa, dura como máximo `300ms` y se desactiva c
 
 ### Information panel
 
-El panel info aparece después de responder e incluye un encabezado con icono, texto explicativo y código cuando proceda. El código usa code-surface y code-border. Las menciones técnicas reconocibles dentro de preguntas, respuestas y explicaciones se presentan como código inline con fondo y esquinas redondeadas, sin intentar colorear una gramática incompleta; el texto restante permanece intacto y escapado.
+El panel info aparece después de responder e incluye el encabezado «Por qué es correcta» con icono, texto explicativo y código cuando proceda. El código usa code-surface y code-border. Las menciones técnicas reconocibles dentro de preguntas, respuestas y explicaciones se presentan como código inline con fondo y esquinas redondeadas, sin intentar colorear una gramática incompleta; el texto restante permanece intacto y escapado. Usa un separador superior y la superficie de lectura, sin relleno violeta independiente.
 
 Los bloques de texto declaran sus anotaciones inline de forma editorial y explícita; no se infiere código mediante expresiones regulares. Una anotación `code` identifica una unidad de código que MicroLighter puede interpretar con su lenguaje y contexto, como `Promise.all`, `<p>` o `(a, b) => a - b`. Una anotación `highlight` aplica la superficie técnica propia sin colorear una gramática, por ejemplo a nombres conceptuales como `flex` o `flex-direction`, y a fragmentos incompletos que el parser no puede tokenizar por sí solos. Siempre gana la coincidencia completa más larga y los identificadores solo coinciden como unidades completas, nunca dentro de palabras de la prosa. El código inline admite wrap sin perder su superficie para no crear overflow a 320 px.
 
@@ -516,7 +526,7 @@ El pie amplía su `Container` hasta `75rem` y, desde `64rem` de viewport, mantie
 
 ### Results and review
 
-El resultado presenta un mensaje adaptado al rendimiento, identifica la modalidad completada y muestra el mejor resultado separado para esa combinación de materia, nivel y modalidad. El modo normal conserva tres anillos de progreso para aciertos, fallos y precisión; el modo Cronómetro separa las respuestas incorrectas elegidas de las preguntas agotadas mediante un cuarto anillo con texto y un reloj agotado 3D violeta/dorado de la misma familia que check, cruz y diana. Sigue un resumen por materia con aciertos y un `<progress>` nativo. Aciertos, incorrectas y tiempo agotado muestran conteos simples; Precisión muestra el porcentaje. Cada anillo conserva su cifra y etiqueta como texto accesible, mientras centra un icono decorativo. Los iconos ocupan el 58 % del anillo; el check compensa ópticamente la transparencia asimétrica de su lienzo con un desplazamiento del 8 % en el eje inline y del -2 % en el eje block, sin alterar la geometría del indicador. La retícula adapta el número de columnas al ancho disponible y, hasta `40rem`, fija dos métricas por fila para que los cuatro estados formen un bloque 2 × 2 sin overflow. La jerarquía usa además un trofeo 3D y una llamada principal; hasta ese mismo ancho, el trofeo se sitúa centrado encima de la llamada para abrir la lectura vertical. El resumen sitúa el logo 3D de la materia a la izquierda de su nombre. Los anillos representan el valor de 0 a 100, se adaptan desde `5rem` hasta `7.5rem` y eliminan su transición con movimiento reducido.
+El resultado presenta un mensaje adaptado al rendimiento y la modalidad completada. Una cifra moderada de aciertos/total precede a errores y precisión; Cronómetro mantiene el conteo separado de respuestas incorrectas y tiempo agotado. Las métricas usan listas de descripción nativas, sin anillos ni iconos decorativos. El mejor resultado sigue separado por materia, nivel y modalidad. El resumen por materia conserva sus logos y barras nativas. «Revisar respuestas» es la única acción primaria, las repeticiones son secundarias y «Volver al menú» usa la variante discreta.
 
 Las acciones posteriores forman una navegación con nombre accesible. Desde el resultado permiten revisar respuestas, repetir únicamente los fallos cuando existan, generar otra ronda con la misma configuración o volver al menú. La repetición de fallos conserva el orden en que se vieron, puede contener menos de diez preguntas y no consume el mazo configurado. La vuelta al menú mantiene la materia y el nivel elegidos para que puedan confirmarse o cambiarse. Todas las acciones usan texto e icono; «Volver al menú» adopta option-surface como acción secundaria. Hasta `30rem` se apilan y ocupan el ancho disponible.
 
@@ -574,3 +584,15 @@ Se conserva el tema oscuro y la identidad existentes. La variante clara continú
 - Con movimiento reducido se omiten confeti, vibración, transiciones y escala; el desplazamiento es inmediato.
 - Al ampliar texto, los contenedores pueden reducir su ancho intrínseco, las palabras largas se parten y las métricas permiten wrap. Hasta 30rem, las acciones usan 1rem de padding inline y los iconos conservan tamaño.
 - Hasta 30rem, gutters y padding inline de tarjetas, respuestas y explicaciones usan 0.5rem para mantener ancho de lectura con texto ampliado. Al abrir revisión, el foco va al encabezado de la primera pregunta, no al centro de una tarjeta extensa.
+
+## Refinamiento visual aprobado · 2026-09-23
+
+La configuración conserva dos pasos, con indicador compacto horizontal y selección violeta con check decorativo. El amarillo queda reservado al foco y a avisos temporales. El logo mide entre 11rem y 14rem. Se mantiene la columna de 90ch, iconografía existente y tipografía funcional mínima de 1rem.
+
+Tokens nuevos: `selection-surface` se compone de info al 45 % sobre canvas; `answer-success-surface` y `answer-error-surface` mezclan success/error al 20 % sobre canvas. Los bordes semánticos son `success-accent` (#75CF8A oscuro / #26753B claro) y `error-accent` (#F28BA0 oscuro / #A72746 claro), definidos mediante light-dark. `control-surface` mezcla option-surface al 72 % sobre canvas. Estas parejas preparan el sistema, sin activar temas de la spec 006.
+
+Button ofrece variantes primary, secondary (borde violeta, fondo transparente) y quiet (sin borde visible). Los controles deshabilitados conservan texto legible y usan superficie neutral. La partida ordena Salir como secundario a la izquierda y Siguiente/Finalizar como primario a la derecha, con igual orden DOM y visual. En móvil se apilan sin alterar el orden de teclado.
+
+Las respuestas mantienen geometría estable con borde de 2px reservado, rellenos semánticos suaves y feedback textual exterior. La explicación se titula «Por qué es correcta», usa separador superior y no lleva un bloque violeta relleno; la revisión comparte esta superficie. El resultado presenta aciertos/total con tamaño moderado (máximo 3.5rem), errores y precisión secundarios, manteniendo Tiempo agotado en cronómetro. Revisar respuestas es la única acción primaria del cierre; las repeticiones son secundarias y Volver al menú es discreta. Se eliminan los anillos y las ilustraciones de métricas.
+
+No hay confeti al acertar preguntas. Al pasar de partida a resultado: por debajo de 80 % no se celebra; de 80 % a menos de 100 % se lanza un disparo breve central; con 100 % se lanzan dos disparos laterales simultáneos. Se calcula sobre el tamaño real de la ronda, también en repetición de fallos. No se dispara al abrir revisión, recargar resultados o con prefers-reduced-motion. No se añaden temporizadores de celebración.

@@ -15,7 +15,7 @@ export const Info = () => {
     <div className="info">
       <h3>
         <InfoIcon />
-        Información adicional
+        Por qué es correcta
       </h3>
       <ExplanationContent content={question.explanation} language={question.subject} />
     </div>

@@ -100,9 +100,7 @@ describe('configured quiz flow', () => {
       'aria-current',
       'step',
     );
-    expect(
-      screen.getByText('Has elegido CSS. Ahora selecciona el nivel y la modalidad.'),
-    ).toBeVisible();
+    expect(screen.getByText('CSS · Elige nivel y modalidad.')).toBeVisible();
     expect(screen.getByRole('radio', { name: /^Normal/ })).toBeChecked();
     expect(screen.getByText('Sin límite de tiempo, con el mismo contenido.')).toBeVisible();
     expect(screen.getByText('60 segundos por pregunta, sin bonificaciones.')).toBeVisible();
@@ -148,8 +146,10 @@ describe('configured quiz flow', () => {
       expect(options[0]).toHaveFocus();
       await user.keyboard(' ');
       expect(screen.getByRole('status')).toHaveTextContent(/respuesta/i);
-      expect(screen.getByRole('heading', { name: 'Información adicional' })).toBeVisible();
+      expect(screen.getByRole('heading', { name: 'Por qué es correcta' })).toBeVisible();
       expect(options.filter((option) => option.hasAttribute('disabled'))).toHaveLength(3);
+      await user.tab();
+      expect(screen.getByRole('button', { name: 'Salir de la partida' })).toHaveFocus();
       await user.tab();
       const next = screen.getByRole('button', { name: index === 9 ? 'Finalizar' : 'Siguiente' });
       expect(next).toHaveFocus();

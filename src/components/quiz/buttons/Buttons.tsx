@@ -1,7 +1,7 @@
 import { IconArrowNarrowRightDashed } from '@tabler/icons-react';
-import confetti from 'canvas-confetti';
 
-import { prefersReducedMotion } from '../../../lib/motionPreference';
+import { celebrateRound } from '../../../lib/celebrateRound';
+import { calculateScore } from '../../../lib/quizTransitions';
 import { useQuizStore } from '../../../stores/quizStore';
 import { Button } from '../../button/Button';
 import { ExitQuiz } from '../exitQuiz/ExitQuiz';
@@ -21,31 +21,23 @@ export const Buttons = () => {
   const goToNextQuestion = useQuizStore((state) => state.goToNextQuestion);
 
   const handleNext = () => {
-    if (!hasAnswered) return;
+    const before = useQuizStore.getState();
+    if (!hasAnswered || before.view !== 'playing') return;
 
     goToNextQuestion();
-
-    if (isLastQuestion && !prefersReducedMotion()) {
-      void confetti({
-        particleCount: 150,
-        spread: 360,
-        origin: { y: 0.3, x: 0.5 },
-        disableForReducedMotion: true,
-      });
+    const after = useQuizStore.getState();
+    if (after.view === 'score') {
+      celebrateRound(calculateScore(after), after.round.length);
     }
   };
 
   return (
     <div className="buttons">
-      <Button
-        className={`${hasAnswered ? '' : 'disabled'}`}
-        disabled={!hasAnswered}
-        onClick={handleNext}
-      >
+      <ExitQuiz />
+      <Button disabled={!hasAnswered} onClick={handleNext}>
         <IconArrowNarrowRightDashed aria-hidden="true" stroke={2} />
         {isLastQuestion ? 'Finalizar' : 'Siguiente'}
       </Button>
-      <ExitQuiz />
     </div>
   );
 };

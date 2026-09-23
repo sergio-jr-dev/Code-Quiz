@@ -45,104 +45,62 @@
     }
 
     .menu-steps {
-      position: relative;
-      isolation: isolate;
-      margin: 0;
-      padding: 0.25rem clamp(1.5rem, 8vw, 5rem) 0.5rem;
+      --transition-duration: 0.15s;
+      --transition-tf: ease-in;
+    
+      margin: 0 0 1rem;
+      padding: 0;
       list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-
-      &::before,
-      &::after {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      > li:not(:last-child)::after {
         content: '';
-        position: absolute;
-        z-index: -1;
-        inset-block-start: 1.625rem;
-        inset-inline-start: 25%;
-        block-size: 0.25rem;
-        border-radius: 9999px;
+        border-top: 1px solid canvasText;
+        inline-size: 80px;
+        margin-inline: 0.5rem 1rem;
       }
-
-      &::before {
-        inline-size: 50%;
-        background-color: var(--option-color);
+      
+      > li.complete:not(:last-child)::after {
+        border-color: var(--progress-color);
+        transition: border-color var(--transition-duration) var(--transition-tf);
       }
-
-      &::after {
-        inline-size: 0;
-        background-color: var(--correct-color);
-        transition: inline-size 250ms ease-out;
-      }
-
-      &.step-2::after {
-        inline-size: 50%;
-      }
-
+      
       li {
-        display: grid;
-        justify-items: center;
-        row-gap: 0.375rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         font-weight: 700;
-
-        &.active {
-          color: var(--focus-ring-color);
-
-          .step-number {
-            border-color: var(--focus-ring-color);
-            background-color: var(--focus-ring-color);
-            color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--focus-ring-color) 22%, transparent);
-          }
+        
+        &.active,
+        &.complete {
+          color: var(--progress-color);
+          transition: color var(--transition-duration) var(--transition-tf);
         }
-
-        &.complete .step-number {
-          border-color: var(--correct-color);
-          background-color: var(--correct-color);
-          color: var(--text-color);
-        }
-
-        &.upcoming {
-          color: color-mix(in srgb, var(--text-color) 72%, transparent);
-
-          .step-number {
-            border-color: color-mix(in srgb, var(--text-color) 42%, transparent);
-            background-color: var(--option-color);
-            color: var(--text-color);
-          }
+        
+        &.active .step-number {
+          background-color: var(--progress-color);
+          color: var(--canvas-color);
+          transition: 
+            color var(--transition-duration) var(--transition-tf), 
+            background-color var(--transition-duration) var(--transition-tf);
         }
       }
-
+      
       .step-number {
-        inline-size: 3rem;
-        block-size: 3rem;
-        border: 2px solid;
-        border-radius: 50%;
         display: grid;
         place-items: center;
-        font-size: 1.25rem;
-        line-height: 1;
-        transition:
-          border-color 250ms,
-          background-color 250ms,
-          color 250ms,
-          box-shadow 250ms;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        &::after,
-        .step-number {
-          transition: none;
+        inline-size: 2rem;
+        block-size: 2rem;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        
+        svg {
+          inline-size: 1.25rem;
+          block-size: 1.25rem;
         }
       }
-    }
-
-    .eyebrow {
-      color: var(--focus-ring-color);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-align: center;
     }
 
     form {
@@ -228,12 +186,13 @@
     .subject-option,
     .level-option,
     .mode-option {
+      position: relative;
       min-inline-size: 0;
       min-block-size: 4.25rem;
       border: 2px solid transparent;
       border-radius: 16px;
-      background-color: var(--option-color);
-      padding: 0.625rem;
+      background-color: var(--control-surface);
+      padding: 0.875rem 2rem 0.875rem 0.625rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -243,8 +202,8 @@
         background-color 0.2s;
 
       &:has(input:checked) {
-        border-color: var(--focus-ring-color);
-        background-color: var(--info-color);
+        border-color: var(--progress-color);
+        background-color: var(--selection-surface);
 
         @media (forced-colors: active) {
           border-color: Highlight;
@@ -267,7 +226,7 @@
         }
 
         &:has(input:checked:not(:disabled)):hover {
-          background-color: color-mix(in srgb, var(--info-color) 86%, var(--progress-color));
+          background-color: color-mix(in srgb, var(--selection-surface) 86%, var(--progress-color));
         }
       }
 
@@ -275,6 +234,19 @@
         min-block-size: 3.5rem;
         padding-block: 0.375rem;
       }
+    }
+
+    .selection-check {
+      position: absolute;
+      inset-block-start: 0.5rem;
+      inset-inline-end: 0.5rem;
+      inline-size: 1.125rem;
+      block-size: 1.125rem;
+      color: var(--progress-color);
+      visibility: hidden;
+    }
+    label:has(input:checked) .selection-check {
+      visibility: visible;
     }
 
     input {
@@ -354,10 +326,8 @@
     .menu-action {
       border-block-start: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent);
       padding-block-start: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+      display: grid;
+      gap: 0.75rem;
 
       @media (width <= 34rem) {
         align-items: stretch;
@@ -384,19 +354,16 @@
           opacity: 0.65;
         }
       }
-
-      .secondary-action {
-        border: 2px solid var(--info-color);
-        background-color: var(--option-color);
-        color: var(--text-color);
-      }
     }
 
     .menu-buttons {
+      &:has(> :only-child) {
+        justify-content: flex-end;
+      }
       display: flex;
       flex: 0 0 auto;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: space-between;
       gap: 0.75rem;
 
       @media (width <= 34rem) {

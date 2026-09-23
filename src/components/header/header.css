@@ -3,16 +3,10 @@
     :scope {
       padding-block: 1rem;
     }
-
     .brand-logo {
-      inline-size: clamp(230px, 160px + 11.667vw, 300px);
+      inline-size: clamp(11rem, 24vw, 14rem);
       block-size: auto;
       margin-inline: auto;
-
-      @media (width <= 24rem) {
-        inline-size: 13.75rem;
-        translate: calc(50vw - 12rem) 0;
-      }
     }
   }
 }

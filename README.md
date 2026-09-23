@@ -17,7 +17,8 @@ Aplicación educativa en español para practicar HTML, CSS y JavaScript con preg
 - Respuestas A–D en una sola columna, con radios nativos, foco visible y una banda de feedback que no altera su tamaño.
 - Código escapado: MicroLighter resalta solo bloques completos y los términos técnicos inline se declaran como unidades completas en preguntas, respuestas y explicaciones.
 - Posiciones correctas equilibradas y distractores barajados por ID.
-- Cierre visual con anillos de progreso e iconos 3D para aciertos, fallos y precisión, además de logos por materia.
+- Cierre con aciertos sobre el total y métricas secundarias; «Revisar respuestas» es la acción principal.
+- Confeti solo al finalizar con al menos un 80 % de aciertos: un disparo breve, o dos laterales con el pleno. Sin confeti por pregunta ni con movimiento reducido.
 - Revisión de todas las respuestas con navegación numerada fija y estado visible.
 - Navegación posterior para repetir la configuración, volver al menú o practicar únicamente los
   fallos en el orden en que aparecieron.

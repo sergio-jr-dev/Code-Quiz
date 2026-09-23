@@ -1,4 +1,9 @@
-import { IconArrowLeft, IconArrowRight, IconPlayerPlayFilled } from '@tabler/icons-react';
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconCheck,
+  IconPlayerPlayFilled,
+} from '@tabler/icons-react';
 import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 import { questionCatalog } from '../../data/questionCatalog';
@@ -100,6 +105,9 @@ export const Menu = () => {
   const canStart = isConfigurationPlayable(questionCatalog, configuration);
   const selectedSubject = subjectChoices.find((choice) => choice.value === subject)!;
 
+  const selectedLevel = levelChoices.find((choice) => choice.value === level)!;
+  const selectedMode = modeChoices.find((choice) => choice.value === mode)!;
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     startRound();
@@ -108,14 +116,13 @@ export const Menu = () => {
   return (
     <section className="quiz-menu" aria-labelledby="menu-title">
       <header className="menu-intro">
-        <p className="eyebrow">Configura tu partida</p>
         <ol className={`menu-steps step-${step}`} aria-label="Progreso de la configuración">
           <li
             className={step === 1 ? 'active' : 'complete'}
             aria-current={step === 1 ? 'step' : undefined}
           >
             <span className="step-number" aria-hidden="true">
-              1
+              {step === 2 ? <IconCheck aria-hidden="true" /> : 1}
             </span>
             <span>Materia</span>
           </li>
@@ -135,7 +142,7 @@ export const Menu = () => {
         <p>
           {step === 1
             ? 'Elige la materia que quieres practicar.'
-            : `Has elegido ${selectedSubject.label}. Ahora selecciona el nivel y la modalidad.`}
+            : `${selectedSubject.label} · Elige nivel y modalidad.`}
         </p>
       </header>
 
@@ -173,6 +180,7 @@ export const Menu = () => {
                         <strong>{choice.label}</strong>
                         <small>{available ? choice.description : 'Próximamente'}</small>
                       </span>
+                      <IconCheck className="selection-check" aria-hidden="true" />
                     </label>
                   );
                 })}
@@ -211,6 +219,7 @@ export const Menu = () => {
                           <strong>{choice.label}</strong>
                           <small>{available ? choice.description : 'Próximamente'}</small>
                         </span>
+                        <IconCheck className="selection-check" aria-hidden="true" />
                       </label>
                     );
                   })}
@@ -247,6 +256,7 @@ export const Menu = () => {
                           <strong>{choice.label}</strong>
                           <small>{description}</small>
                         </span>
+                        <IconCheck className="selection-check" aria-hidden="true" />
                       </label>
                     );
                   })}
@@ -261,7 +271,7 @@ export const Menu = () => {
             {step === 1
               ? `${selectedSubject.label} será la materia de esta partida.`
               : canStart
-                ? 'La partida tendrá 10 preguntas.'
+                ? `10 preguntas · ${selectedSubject.label} · ${selectedLevel.label} · ${selectedMode.label}`
                 : 'Esta combinación todavía no está disponible.'}
           </p>
           <div className="menu-buttons">
@@ -272,7 +282,12 @@ export const Menu = () => {
               </Button>
             ) : (
               <>
-                <Button className="secondary-action" type="button" onClick={() => moveToStep(1)}>
+                <Button
+                  variant="quiet"
+                  className="secondary-action"
+                  type="button"
+                  onClick={() => moveToStep(1)}
+                >
                   <IconArrowLeft aria-hidden="true" stroke={2} />
                   Cambiar materia
                 </Button>

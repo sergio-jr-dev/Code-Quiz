@@ -1,7 +1,8 @@
 @layer components {
   @scope (.answer) {
     :scope {
-      background-color: var(--option-color);
+      background-color: var(--control-surface);
+      border: 2px solid transparent;
       border-radius: 16px;
       padding: 0.75rem;
       display: flex;
@@ -11,7 +12,8 @@
       transition: filter 0.3s;
 
       &.correct {
-        background-color: var(--correct-color);
+        background-color: var(--answer-success-surface);
+        border-color: var(--success-accent);
 
         @media (forced-colors: active) {
           border: 3px solid Highlight;
@@ -19,7 +21,8 @@
       }
 
       &.incorrect {
-        background-color: var(--incorrect-color);
+        background-color: var(--answer-error-surface);
+        border-color: var(--error-accent);
         animation: vibrate 0.3s ease-in-out;
 
         @media (forced-colors: active) {

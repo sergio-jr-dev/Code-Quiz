@@ -55,6 +55,5 @@ describe('Score', () => {
     expect(screen.getByText('Incorrectas')).toBeVisible();
     expect(screen.getByText('Tiempo agotado')).toBeVisible();
     expect(screen.getAllByText('1')).toHaveLength(3);
-    expect(document.querySelector('img[src$="/images/results/time-expired.png"]')).toBeVisible();
   });
 });

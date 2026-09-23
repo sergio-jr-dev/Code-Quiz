@@ -26,6 +26,12 @@
     --progress-color: light-dark(#462a8c, #a78bfa);
     --timer-warning-color: light-dark(#8a5a00, #f2c94c);
     --timer-critical-color: light-dark(#b4233c, #ff5a70);
+    --success-accent: light-dark(#26753b, #75cf8a);
+    --error-accent: light-dark(#a72746, #f28ba0);
+    --selection-surface: color-mix(in srgb, var(--info-color) 45%, var(--canvas-color));
+    --control-surface: color-mix(in srgb, var(--option-color) 72%, var(--canvas-color));
+    --answer-success-surface: color-mix(in srgb, var(--correct-color) 20%, var(--canvas-color));
+    --answer-error-surface: color-mix(in srgb, var(--incorrect-color) 20%, var(--canvas-color));
     --card-shadow:
       0 0 0 1px color-mix(in srgb, var(--progress-color) 45%, transparent),
       0 0 0.5rem color-mix(in srgb, var(--secondary-color) 30%, transparent),

@@ -22,22 +22,22 @@ export const PostQuizActions = () => {
   return (
     <nav className="post-quiz-actions" aria-label="Siguiente paso">
       {showReviewAction && (
-        <Button onClick={showReview}>
+        <Button className="review-action" onClick={showReview}>
           <IconReportAnalytics aria-hidden="true" stroke={2} />
           Revisar respuestas
         </Button>
       )}
       {hasIncorrectAnswers && (
-        <Button onClick={retryIncorrectAnswers}>
+        <Button variant="secondary" onClick={retryIncorrectAnswers}>
           <IconRotateClockwise aria-hidden="true" stroke={2} />
           Repetir fallos
         </Button>
       )}
-      <Button onClick={restartRound}>
+      <Button variant="secondary" onClick={restartRound}>
         <IconReload aria-hidden="true" stroke={2} />
         Repetir configuración
       </Button>
-      <Button className="menu-action" onClick={returnToMenu}>
+      <Button variant="quiet" className="menu-action" onClick={returnToMenu}>
         <IconHome aria-hidden="true" stroke={2} />
         Volver al menú
       </Button>

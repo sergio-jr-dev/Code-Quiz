@@ -2,7 +2,8 @@
   @scope (.button) {
     :scope {
       border-radius: 16px;
-      border: none;
+      border: 1px solid transparent;
+      min-block-size: 2.75rem;
       background-color: var(--secondary-color);
       padding: 0.75rem 1.5rem;
       color: var(--text-on-accent-color);
@@ -11,8 +12,30 @@
         filter 0.3s,
         scale 0.3s;
 
-      &.disabled {
+      &[data-variant='secondary'] {
+        background-color: transparent;
+        border-color: var(--progress-color);
+        color: var(--text-color);
+      }
+
+      &[data-variant='quiet'] {
+        background-color: transparent;
+        color: var(--text-color);
+      }
+
+      &:disabled {
         cursor: not-allowed;
+        background-color: var(--control-surface);
+        border-color: var(--option-color);
+        color: var(--text-color);
+      }
+
+      @media (forced-colors: active) {
+        border-color: ButtonText;
+        &:disabled {
+          border-color: GrayText;
+          color: GrayText;
+        }
       }
 
       &:hover:not(:disabled) {
@@ -20,7 +43,7 @@
       }
 
       &:active:not(:disabled) {
-        scale: 0.9;
+        scale: 0.98;
 
         @media (prefers-reduced-motion: reduce) {
           scale: none;

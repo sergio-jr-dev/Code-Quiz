@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import confetti from 'canvas-confetti';
 import { describe, expect, it, vi } from 'vitest';
 
 import { useQuizStore } from '../../../stores/quizStore';
@@ -36,5 +37,27 @@ describe('Answers', () => {
       selectedOptionId: question.options[0]!.id,
     });
     expect(document.querySelector('.answers small')).not.toBeInTheDocument();
+  });
+  it('does not celebrate an individual correct answer', async () => {
+    vi.mocked(confetti).mockClear();
+    const media = vi
+      .spyOn(window, 'matchMedia')
+      .mockReturnValue({ matches: false } as MediaQueryList);
+    const question = questionExamples[0]!;
+    useQuizStore.setState({
+      mode: 'normal',
+      timer: null,
+      round: [question],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'playing',
+    });
+    const user = userEvent.setup();
+    render(<Answers />);
+    const index = question.options.findIndex((option) => option.id === question.correctAnswer);
+    await user.click(screen.getAllByRole('radio')[index]!);
+    expect(useQuizStore.getState().answers[0]?.selectedOptionId).toBe(question.correctAnswer);
+    expect(confetti).not.toHaveBeenCalled();
+    media.mockRestore();
   });
 });
