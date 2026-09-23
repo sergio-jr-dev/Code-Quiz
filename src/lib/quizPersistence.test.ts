@@ -10,6 +10,8 @@ import {
   QUIZ_STORAGE_VERSION,
   type PersistedQuizStateV1,
 } from './quizPersistence';
+import { recordBestResult } from './quizRecords';
+import { returnToMenu } from './quizTransitions';
 
 const createState = (): QuizState => {
   const round = questionCatalog
@@ -87,6 +89,38 @@ describe('quiz persistence', () => {
     expect(serialized).not.toContain('content');
     expect(persisted.mode).toBe('normal');
     expect(persisted).not.toHaveProperty('timer');
+  });
+
+  it('keeps only the best result after leaving a completed round', () => {
+    const state = createState();
+    const completed = recordBestResult({
+      ...state,
+      currentQuestionIndex: state.round.length - 1,
+      answers: state.round.map((question) => ({
+        questionId: question.id,
+        selectedOptionId: question.correctAnswer,
+      })),
+      view: 'score',
+    });
+
+    const persisted = partializeQuizState(returnToMenu(completed));
+
+    expect(Object.keys(persisted).sort()).toEqual([
+      'bestResults',
+      'configuration',
+      'decks',
+      'mixedExtraSubjects',
+      'mode',
+      'progress',
+    ]);
+    expect(persisted.progress).toEqual({
+      round: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      view: 'menu',
+      roundSource: 'configured',
+    });
+    expect(persisted.bestResults).toEqual({ 'html:basic': 10 });
   });
 
   it('migrates version 1 data to normal mode', () => {
