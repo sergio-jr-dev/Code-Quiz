@@ -63,6 +63,8 @@
       box-shadow: var(--card-shadow);
       overflow: auto;
       overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: var(--progress-color) transparent;
       opacity: 0;
       translate: 1rem 0;
       transition:
@@ -115,6 +117,16 @@
 
       @media (forced-colors: active) {
         border: 1px solid CanvasText;
+        scrollbar-color: auto;
+      }
+
+      &::-webkit-scrollbar {
+        inline-size: 0.5rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 9999px;
+        background-color: var(--progress-color);
       }
     }
 
@@ -155,7 +167,102 @@
       overflow-wrap: anywhere;
 
       h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         font-size: 1.25rem;
+
+        svg {
+          inline-size: 1.375rem;
+          block-size: 1.375rem;
+          flex: none;
+          color: var(--progress-color);
+        }
+      }
+    }
+
+    .personal-panel-preferences {
+      border-block-start: 0;
+      padding-block-start: 0;
+    }
+
+    .personal-panel-record-mode {
+      display: grid;
+      gap: 0.75rem;
+      min-inline-size: 0;
+
+      & + .personal-panel-record-mode {
+        border-block-start: 1px solid var(--option-color);
+        padding-block-start: 1rem;
+      }
+
+      h4 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.25rem;
+        background-color: var(--control-surface);
+        font-size: 1.125rem;
+
+        img {
+          inline-size: 2rem;
+          block-size: 2rem;
+          object-fit: contain;
+          flex: none;
+        }
+      }
+    }
+
+    .personal-panel-record-subject {
+      display: grid;
+      gap: 0.25rem;
+      min-inline-size: 0;
+
+      h5 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+
+        img {
+          inline-size: 1.5rem;
+          block-size: 1.5rem;
+          object-fit: contain;
+          flex: none;
+        }
+      }
+
+      dl {
+        display: grid;
+        gap: 0.25rem;
+      }
+
+      dl > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        column-gap: 1rem;
+        padding-inline-start: 0.5rem;
+      }
+
+      dt {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        img {
+          inline-size: 1.25rem;
+          block-size: 1.25rem;
+          object-fit: contain;
+          flex: none;
+        }
+      }
+
+      dd {
+        margin: 0;
+        font-variant-numeric: tabular-nums;
       }
     }
   }

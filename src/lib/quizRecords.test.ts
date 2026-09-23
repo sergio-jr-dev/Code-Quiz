@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest';
 
 import { questionCatalog } from '../data/questionCatalog';
 import type { QuizState } from '../types/quizStore';
-import { quizConfigurationKey, recordBestResult, selectBestResult } from './quizRecords';
+import {
+  quizConfigurationKey,
+  recordBestResult,
+  selectBestResult,
+  selectBestResultForConfiguration,
+} from './quizRecords';
 
 const completedState = (score: number, overrides: Partial<QuizState> = {}): QuizState => {
   const round = questionCatalog
@@ -55,6 +60,24 @@ describe('quiz best results', () => {
       'css:intermediate': 7,
       'css:intermediate:timed': 9,
     });
+  });
+
+  it('reads an explicit configuration and mode without interpreting other record keys', () => {
+    const bestResults = { 'html:basic': 0, 'html:basic:timed': 8, 'css:basic': 5 };
+
+    expect(
+      selectBestResultForConfiguration(bestResults, { subject: 'html', level: 'basic' }, 'normal'),
+    ).toBe(0);
+    expect(
+      selectBestResultForConfiguration(bestResults, { subject: 'html', level: 'basic' }, 'timed'),
+    ).toBe(8);
+    expect(
+      selectBestResultForConfiguration(
+        bestResults,
+        { subject: 'mixed', level: 'advanced' },
+        'normal',
+      ),
+    ).toBeUndefined();
   });
 
   it('records only a strictly better completed configured round', () => {

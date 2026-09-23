@@ -1,8 +1,9 @@
-import { IconUserCircle, IconX } from '@tabler/icons-react';
+import { IconSettings, IconUserCircle, IconX } from '@tabler/icons-react';
 import { useRef, type KeyboardEvent } from 'react';
 
 import { useQuizStore } from '../../stores/quizStore';
 import { Button } from '../button/Button';
+import { PersonalPanelBestResults } from './PersonalPanelBestResults';
 
 import './personalPanel.css';
 
@@ -75,15 +76,18 @@ export const PersonalPanel = () => {
             </Button>
           </div>
 
-          <section aria-labelledby="personal-panel-records-title">
-            <h3 id="personal-panel-records-title">Mejores marcas</h3>
-            <p>La consulta de marcas estará disponible próximamente.</p>
-          </section>
-
-          <section aria-labelledby="personal-panel-preferences-title">
-            <h3 id="personal-panel-preferences-title">Preferencias</h3>
+          <section
+            className="personal-panel-preferences"
+            aria-labelledby="personal-panel-preferences-title"
+          >
+            <h3 id="personal-panel-preferences-title">
+              <IconSettings aria-hidden="true" stroke={2} />
+              Preferencias
+            </h3>
             <p>Los controles de tema y sonido estarán disponibles próximamente.</p>
           </section>
+
+          <PersonalPanelBestResults />
         </div>
       </dialog>
     </div>
