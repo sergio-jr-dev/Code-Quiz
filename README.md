@@ -29,7 +29,7 @@ Los niveles siguen una progresión editorial, desde fundamentos hasta casos lím
 
 ## Proyecto
 
-Code Quiz está construido con React 19, TypeScript, Vite 8, Zustand y Vitest. La estructura principal es:
+Code Quiz está construido con React 19, TypeScript, Vite 8, Zustand y Vitest. Usa Vercel Web Analytics para las visitas y Speed Insights para las métricas de rendimiento, sin eventos personalizados. La estructura principal es:
 
 ```text
 src/components/   Interfaz, partida, resultado y panel personal
