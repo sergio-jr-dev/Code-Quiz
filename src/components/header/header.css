@@ -8,5 +8,13 @@
       block-size: auto;
       margin-inline: auto;
     }
+
+    .brand-logo-dark {
+      display: var(--brand-dark-display);
+    }
+
+    .brand-logo-light {
+      display: var(--brand-light-display);
+    }
   }
 }

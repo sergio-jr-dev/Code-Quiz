@@ -302,7 +302,7 @@ Code Quiz es una experiencia educativa concentrada y ligeramente lúdica. Su ide
 
 La interfaz prioriza una sola decisión por vez: leer la pregunta, comparar respuestas, recibir una explicación y avanzar. La densidad es media y el contenido debe seguir siendo el protagonista cuando se incorporen menú, filtros, niveles, progreso y resúmenes por categoría.
 
-La paleta oscura implementada es la referencia de marca y debe conservarse. El sistema prepara una variante clara mediante tokens adaptativos, pero no considera implementado el modo claro hasta que se incorporen el control, la persistencia y la verificación visual completa.
+La paleta oscura es la referencia de marca. El tema claro usa la misma estructura y una variante de los tokens adaptativos; el panel permite elegir automático, claro u oscuro y conserva esa preferencia localmente.
 
 HTML, CSS y futuras materias comparten la misma paleta. Se distinguen mediante el logo, el nombre visible y apoyos gráficos mínimos; cambiar de materia no debe hacer que parezca otra aplicación.
 
@@ -334,6 +334,10 @@ El frontmatter conserva los colores oscuros actuales como tokens semánticos y a
   --timer-critical-color: light-dark(#b4233c, #ff5a70);
   --success-accent: light-dark(#26753b, #75cf8a);
   --error-accent: light-dark(#a72746, #f28ba0);
+  --background-art-wash: light-dark(
+    color-mix(in srgb, var(--canvas-color) 78%, transparent),
+    transparent
+  );
   --selection-surface: color-mix(in srgb, var(--info-color) 45%, var(--canvas-color));
   --control-surface: color-mix(in srgb, var(--option-color) 72%, var(--canvas-color));
   --answer-success-surface: color-mix(in srgb, var(--correct-color) 20%, var(--canvas-color));
@@ -361,9 +365,9 @@ El resaltado de sintaxis usa el tema GitHub adaptativo distribuido por MicroLigh
 
 Las combinaciones normativas superan WCAG AA para texto normal en ambos esquemas. El par con menor contraste es text-primary sobre success en oscuro, con `5.12:1`. Los estados con opacidad y cualquier gradiente deben validarse sobre el fondo compuesto real.
 
-La superficie compartida de menú, partida, puntuación, revisión, diálogo de salida, barra de revisión y panel personal se compone de `canvas` y `--content-surface-background`: dos gradientes radiales con `secondary` al 40 % en la esquina superior derecha e `info` al 22 % en la inferior izquierda, que se disuelven en la base carbón. No sustituye los colores semánticos de controles, respuestas ni feedback. El tema claro deberá comprobar el contraste de esta superficie compuesta al implementar T5.
+La superficie compartida de menú, partida, puntuación, revisión, diálogo de salida, barra de revisión y panel personal se compone de `canvas` y `--content-surface-background`: dos gradientes radiales con `secondary` al 40 % en la esquina superior derecha e `info` al 22 % en la inferior izquierda, que se disuelven en la base del esquema activo. No sustituye los colores semánticos de controles, respuestas ni feedback. En claro, `--background-art-wash` atenúa el dibujo vectorial para conservar el centro legible.
 
-La implementación futura debe declarar `color-scheme: light dark` en `:root`; `light-dark()` elige el primer valor en claro y el segundo en oscuro. Incluye también `<meta name="color-scheme" content="light dark">` antes de los estilos para que los controles nativos y el primer render compartan la preferencia. Un selector manual debe cambiar `color-scheme` en el elemento raíz y contemplar `auto`, `light` y `dark` sin duplicar variables.
+`:root` declara `color-scheme: light dark`; `light-dark()` elige el primer valor en claro y el segundo en oscuro. El metadato equivalente y un script externo síncrono en `<head>` aplican la preferencia persistida antes de cargar React y pintar los estilos. `data-theme="light"` y `data-theme="dark"` fijan el esquema; automático elimina el atributo y sigue al sistema. Solo un cambio deliberado activa una transición CSS de `280ms` para color, superficies, bordes y sombras. Con movimiento reducido o colores forzados, el cambio es inmediato. La transición no se activa al cargar o recargar la página.
 
 ## Typography
 
@@ -425,15 +429,17 @@ El fondo común representa un laboratorio nocturno de código con una base `canv
 
 La cabecera de Code Quiz usa el lockup horizontal 3D con el cubo `< >`, `{ }` y `JS` y la marca «CODE QUIZ». El WebP transparente mide 960 × 448 y se presenta a un ancho máximo de `24rem`, limitado por el contenedor y con altura automática. El encabezado obtiene su nombre accesible del `alt="Code Quiz"` de la imagen, sin repetir texto.
 
-`code-quiz-logo-dark.webp` usa letras claras y violeta sobre fondos oscuros; `code-quiz-logo-light.webp` conserva letras violetas sobre fondos claros. El símbolo compacto mide 256 × 256, el favicon 48 × 48 y Open Graph 1200 × 630 con fondo canvas oscuro. Las variantes son assets de marca: no crean paletas distintas por materia. El CSS y el metadato fijan `color-scheme: dark` hasta implementar el modo claro completo.
+`code-quiz-logo-dark.webp` usa letras claras y violeta sobre fondos oscuros; `code-quiz-logo-light.webp` conserva letras violetas sobre fondos claros. El símbolo compacto mide 256 × 256, el favicon 48 × 48 y Open Graph 1200 × 630 con fondo canvas oscuro. Las variantes son assets de marca: no crean paletas distintas por materia. Solo el logo apropiado al esquema activo queda visible y expuesto como imagen accesible.
 
 ### Panel personal
 
-«Mi Code Quiz» es una utilidad secundaria fija en la esquina superior derecha del viewport. En escritorio el disparador muestra icono y texto, usa el mismo padding `0.5rem 0.75rem` que «Apoyar el proyecto» y no tiene sombra; hasta `48rem` muestra solo el icono, conservando su nombre accesible y un objetivo de `44px`. Hasta `24rem`, el logo se reduce ligeramente y se desplaza hacia el inicio según se estrecha la pantalla para dejar espacio al icono. El disparador no aparece durante la partida activa. En escritorio, el panel se superpone sin reducir la tarjeta protagonista: entra desde la derecha con un máximo de `26rem`, deja `1rem` respecto a los bordes superior, inferior y derecho, tiene radio `1rem` y la sombra compartida alrededor. Hasta `48rem` ocupa todo el viewport, sin radio ni sombra. Comparte la superficie compuesta de contenido; el área bajo el texto permanece oscura y legible. Separa marcas y preferencias mediante una línea, sin tarjetas internas. El título se centra verticalmente con el icono de cierre. El cierre tiene nombre accesible, objetivo de `36px` y padding de `0.25rem`; recibe el foco al abrir y lo devuelve al disparador al cerrar. La apertura y el cierre combinan desplazamiento horizontal y opacidad durante `250ms`; con movimiento reducido son instantáneos. El scroll pertenece al diálogo cuando su contenido excede el viewport; Escape usa el comportamiento nativo de `<dialog>` y Tab circula entre sus controles. En `forced-colors` se conserva un borde visible.
+«Mi Code Quiz» es una utilidad secundaria fija en la esquina superior derecha del viewport. En escritorio el disparador muestra icono y texto, usa el mismo padding `0.5rem 0.75rem` que «Apoyar el proyecto» y no tiene sombra; hasta `48rem` muestra solo el icono, conservando su nombre accesible y un objetivo de `44px`. Hasta `24rem`, el logo se reduce ligeramente y se desplaza hacia el inicio según se estrecha la pantalla para dejar espacio al icono. El disparador no aparece durante la partida activa. En escritorio, el panel se superpone sin reducir la tarjeta protagonista: entra desde la derecha con un máximo de `26rem`, deja `1rem` respecto a los bordes superior, inferior y derecho, tiene radio `1rem` y la sombra compartida alrededor. Hasta `48rem` ocupa todo el viewport, sin radio ni sombra. Comparte la superficie compuesta de contenido; el área bajo el texto conserva contraste en ambos esquemas. Separa marcas y preferencias mediante una línea, sin tarjetas internas. El título se centra verticalmente con el icono de cierre. El cierre tiene nombre accesible, objetivo de `36px` y padding de `0.25rem`; recibe el foco al abrir y lo devuelve al disparador al cerrar. La apertura y el cierre combinan desplazamiento horizontal y opacidad durante `250ms`; con movimiento reducido son instantáneos. El scroll pertenece al diálogo cuando su contenido excede el viewport; Escape usa el comportamiento nativo de `<dialog>` y Tab circula entre sus controles. En `forced-colors` se conserva un borde visible.
 
 Las mejores marcas se organizan primero por modalidad (Normal y Cronómetro), después por materia (HTML, CSS, JavaScript y Quiz mixto) y nivel. Cada nivel usa una pareja de descripción nativa con el resultado «N de 10» o «Sin marca»; un cero se muestra como marca válida. Las agrupaciones comparten la superficie del panel, con separación y una línea discreta entre modalidades, sin tarjetas adicionales. La lista se adapta al ancho disponible y al texto ampliado mediante wrap, y conserva la jerarquía de encabezados para navegación asistida.
 
 Preferencias aparece antes de Mejores marcas para quedar visible al abrir el panel; no se fija sobre el contenido. El diálogo usa una barra de scroll fina con el acento `progress` y mantiene el scroll nativo. Los títulos de sección usan iconos Tabler; modalidad, materia y nivel reutilizan sus imágenes del menú a escala contenida, siempre junto a texto visible y con alternativa vacía por ser decorativas. Cada modalidad se identifica con una banda discreta de `control-surface`; los resultados numéricos destacan por peso tipográfico.
+
+El selector de tema es una barra segmentada compacta, alineada al inicio y limitada a `15rem`, inspirada en tres iconos para claro, oscuro y automático. La pista usa `control-surface`; la opción elegida se distingue mediante superficie `primary`, borde y símbolo `progress`. Los radios nativos conservan sus nombres accesibles aunque sus rótulos se oculten visualmente. Cada segmento mantiene un objetivo amplio y un foco visible independiente de la selección. La respuesta de hover y selección usa transiciones CSS breves, salvo con movimiento reducido.
 
 ### Quiz card
 
@@ -578,7 +584,7 @@ El sistema apunta a WCAG 2.2 AA. Estas reglas son requisitos de diseño y deben 
 
 ## Primera versión TypeScript
 
-Se conserva el tema oscuro y la identidad existentes. La variante clara continúa planificada.
+Se conserva el tema oscuro y la identidad existentes. La variante clara y el modo automático están disponibles desde «Mi Code Quiz».
 
 - La barra de progreso y «Pregunta N de 10» comparten la fila superior de la tarjeta y pueden envolver sin perder su asociación.
 - Durante la partida, una banda de feedback exterior a las respuestas identifica con texto e icono la opción elegida y la correcta; en revisión, las etiquetas se apilan dentro de cada opción.

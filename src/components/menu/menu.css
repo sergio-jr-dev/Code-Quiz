@@ -47,47 +47,47 @@
     .menu-steps {
       --transition-duration: 0.15s;
       --transition-tf: ease-in;
-    
+
       margin: 0 0 1rem;
       padding: 0;
       list-style: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       > li:not(:last-child)::after {
         content: '';
         border-top: 1px solid canvasText;
         inline-size: 80px;
         margin-inline: 0.5rem 1rem;
       }
-      
+
       > li.complete:not(:last-child)::after {
         border-color: var(--progress-color);
         transition: border-color var(--transition-duration) var(--transition-tf);
       }
-      
+
       li {
         display: flex;
         align-items: center;
         gap: 0.5rem;
         font-weight: 700;
-        
+
         &.active,
         &.complete {
           color: var(--progress-color);
           transition: color var(--transition-duration) var(--transition-tf);
         }
-        
+
         &.active .step-number {
           background-color: var(--progress-color);
           color: var(--canvas-color);
-          transition: 
-            color var(--transition-duration) var(--transition-tf), 
+          transition:
+            color var(--transition-duration) var(--transition-tf),
             background-color var(--transition-duration) var(--transition-tf);
         }
       }
-      
+
       .step-number {
         display: grid;
         place-items: center;
@@ -95,7 +95,7 @@
         block-size: 2rem;
         border: 1px solid currentColor;
         border-radius: 50%;
-        
+
         svg {
           inline-size: 1.25rem;
           block-size: 1.25rem;

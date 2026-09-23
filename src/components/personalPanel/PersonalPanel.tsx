@@ -4,6 +4,7 @@ import { useRef, type KeyboardEvent } from 'react';
 import { useQuizStore } from '../../stores/quizStore';
 import { Button } from '../button/Button';
 import { PersonalPanelBestResults } from './PersonalPanelBestResults';
+import { ThemePreferenceControl } from './ThemePreferenceControl';
 
 import './personalPanel.css';
 
@@ -84,7 +85,8 @@ export const PersonalPanel = () => {
               <IconSettings aria-hidden="true" stroke={2} />
               Preferencias
             </h3>
-            <p>Los controles de tema y sonido estarán disponibles próximamente.</p>
+            <ThemePreferenceControl />
+            <p>Los controles de sonido estarán disponibles próximamente.</p>
           </section>
 
           <PersonalPanelBestResults />

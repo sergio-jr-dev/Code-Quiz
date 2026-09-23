@@ -28,6 +28,10 @@
     --timer-critical-color: light-dark(#b4233c, #ff5a70);
     --success-accent: light-dark(#26753b, #75cf8a);
     --error-accent: light-dark(#a72746, #f28ba0);
+    --background-art-wash: light-dark(
+      color-mix(in srgb, var(--canvas-color) 78%, transparent),
+      transparent
+    );
     --selection-surface: color-mix(in srgb, var(--info-color) 45%, var(--canvas-color));
     --control-surface: color-mix(in srgb, var(--option-color) 72%, var(--canvas-color));
     --answer-success-surface: color-mix(in srgb, var(--correct-color) 20%, var(--canvas-color));
@@ -103,7 +107,9 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light dark;
+    --brand-dark-display: block;
+    --brand-light-display: none;
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--text-on-accent-color) transparent;
@@ -120,12 +126,31 @@
     }
   }
 
+  :root[data-theme='light'] {
+    color-scheme: light;
+    --brand-dark-display: none;
+    --brand-light-display: block;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --brand-dark-display: none;
+      --brand-light-display: block;
+    }
+  }
+
   body {
     font-family: var(--font-family-sans);
     min-block-size: 100dvh;
     color: var(--text-color);
     background-color: var(--canvas-color);
-    background-image: url('/images/game-background.svg');
+    background-image:
+      linear-gradient(var(--background-art-wash), var(--background-art-wash)),
+      url('/images/game-background.svg');
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -154,6 +179,19 @@
 }
 
 @layer utilities {
+  @media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    :root[data-theme-changing] :where(body, body *, body *::before, body *::after) {
+      transition:
+        background-color 280ms ease,
+        color 280ms ease,
+        border-color 280ms ease,
+        outline-color 280ms ease,
+        box-shadow 280ms ease,
+        fill 280ms ease,
+        stroke 280ms ease;
+    }
+  }
+
   .visually-hidden {
     position: absolute;
     inline-size: 1px;

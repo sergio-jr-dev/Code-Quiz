@@ -2,12 +2,17 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { PREFERENCES_STORAGE_KEY, defaultPreferences } from '../../lib/preferencesPersistence';
+import { usePreferencesStore } from '../../stores/preferencesStore';
 import { useQuizStore } from '../../stores/quizStore';
 import { PersonalPanel } from './PersonalPanel';
 
 describe('PersonalPanel', () => {
   beforeEach(() => {
     useQuizStore.setState({ view: 'menu' });
+    usePreferencesStore.setState(defaultPreferences);
+    localStorage.removeItem(PREFERENCES_STORAGE_KEY);
+    delete document.documentElement.dataset.theme;
   });
 
   it.each(['menu', 'score', 'review'] as const)(
@@ -35,8 +40,12 @@ describe('PersonalPanel', () => {
       expect(within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' })).toHaveFocus();
 
       await user.tab();
+      expect(within(dialog).getByRole('radio', { name: 'Automático' })).toHaveFocus();
+      await user.tab({ shift: true });
       expect(within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' })).toHaveFocus();
       await user.tab({ shift: true });
+      expect(within(dialog).getByRole('radio', { name: 'Automático' })).toHaveFocus();
+      within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' }).focus();
       expect(within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' })).toHaveFocus();
 
       await user.keyboard('{Enter}');
@@ -50,6 +59,26 @@ describe('PersonalPanel', () => {
     render(<PersonalPanel />);
 
     expect(screen.queryByRole('button', { name: 'Mi Code Quiz' })).not.toBeInTheDocument();
+  });
+
+  it('changes the theme through native radios and persists the selected value', async () => {
+    const user = userEvent.setup();
+    render(<PersonalPanel />);
+    await user.click(screen.getByRole('button', { name: 'Mi Code Quiz' }));
+
+    const dialog = screen.getByRole('dialog', { name: 'Mi Code Quiz' });
+    expect(within(dialog).getByRole('radio', { name: 'Automático' })).toBeChecked();
+
+    await user.click(within(dialog).getByRole('radio', { name: 'Claro' }));
+    expect(document.documentElement).toHaveAttribute('data-theme', 'light');
+    expect(within(dialog).getByRole('radio', { name: 'Claro' })).toBeChecked();
+    expect(JSON.parse(localStorage.getItem(PREFERENCES_STORAGE_KEY)!)).toEqual({
+      state: { theme: 'light', soundEnabled: false },
+      version: 1,
+    });
+
+    await user.click(within(dialog).getByRole('radio', { name: 'Automático' }));
+    expect(document.documentElement).not.toHaveAttribute('data-theme');
   });
 
   it('shows separate records for every mode, subject and level, including missing marks', async () => {
