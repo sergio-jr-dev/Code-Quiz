@@ -9,6 +9,7 @@ import {
   PREFERENCES_STORAGE_KEY,
   PREFERENCES_STORAGE_VERSION,
 } from '../lib/preferencesPersistence';
+import { stopQuizSound } from '../lib/quizSounds';
 import { applyTheme } from '../lib/theme';
 import type { PreferencesStore } from '../types/preferences';
 
@@ -21,7 +22,10 @@ export const usePreferencesStore = create<PreferencesStore>()(
           set({ theme });
           applyTheme(theme, true);
         },
-        setSoundEnabled: (soundEnabled) => set({ soundEnabled }),
+        setSoundEnabled: (soundEnabled) => {
+          if (!soundEnabled) stopQuizSound();
+          set({ soundEnabled });
+        },
       }),
       {
         name: PREFERENCES_STORAGE_KEY,

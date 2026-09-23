@@ -44,7 +44,7 @@ describe('PersonalPanel', () => {
       await user.tab({ shift: true });
       expect(within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' })).toHaveFocus();
       await user.tab({ shift: true });
-      expect(within(dialog).getByRole('radio', { name: 'Automático' })).toHaveFocus();
+      expect(within(dialog).getByRole('checkbox', { name: 'Efectos sonoros' })).toHaveFocus();
       within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' }).focus();
       expect(within(dialog).getByRole('button', { name: 'Cerrar Mi Code Quiz' })).toHaveFocus();
 
@@ -79,6 +79,27 @@ describe('PersonalPanel', () => {
 
     await user.click(within(dialog).getByRole('radio', { name: 'Automático' }));
     expect(document.documentElement).not.toHaveAttribute('data-theme');
+  });
+
+  it('starts with sound muted and persists the checkbox setting', async () => {
+    const user = userEvent.setup();
+    render(<PersonalPanel />);
+    await user.click(screen.getByRole('button', { name: 'Mi Code Quiz' }));
+
+    const control = screen.getByRole('checkbox', { name: 'Efectos sonoros' });
+    expect(control).not.toBeChecked();
+    expect(screen.getByText('Desactivados')).toBeVisible();
+    expect(control.parentElement?.querySelector('.tabler-icon-volume-off')).not.toBeNull();
+    await user.click(control);
+    expect(control).toBeChecked();
+    expect(screen.getByText(/Activados/)).toBeVisible();
+    expect(control.parentElement?.querySelector('.tabler-icon-volume-2')).not.toBeNull();
+    expect(JSON.parse(localStorage.getItem(PREFERENCES_STORAGE_KEY)!)).toEqual({
+      state: { theme: 'auto', soundEnabled: true },
+      version: 1,
+    });
+    await user.click(control);
+    expect(control).not.toBeChecked();
   });
 
   it('shows separate records for every mode, subject and level, including missing marks', async () => {

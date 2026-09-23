@@ -304,6 +304,8 @@ La interfaz prioriza una sola decisión por vez: leer la pregunta, comparar resp
 
 La paleta oscura es la referencia de marca. El tema claro usa la misma estructura y una variante de los tokens adaptativos; el panel permite elegir automático, claro u oscuro y conserva esa preferencia localmente.
 
+En Preferencias, «Efectos sonoros» tiene el mismo peso de título que «Tema». Debajo conserva un checkbox nativo con foco visible, representado por el icono de altavoz activo o silenciado a la izquierda y el texto informativo a la derecha. «Activados» o «Desactivados» aparece en negrita; el estado activo usa `progress` y el inactivo conserva `text-primary`. El sonido es complementario a las bandas de respuesta, avisos de tiempo agotado y resumen final; el control reutiliza los tokens existentes.
+
 HTML, CSS y futuras materias comparten la misma paleta. Se distinguen mediante el logo, el nombre visible y apoyos gráficos mínimos; cambiar de materia no debe hacer que parezca otra aplicación.
 
 La base documentada procede de la aplicación, sus capturas actuales y esta decisión de producto. Las reglas de foco, movimiento reducido, reflow y estados no cromáticos son requisitos normativos aunque todavía necesiten implementarse o verificarse en todas las vistas.

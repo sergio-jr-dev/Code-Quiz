@@ -23,7 +23,7 @@ Aplicación educativa en español para practicar HTML, CSS y JavaScript con preg
 - Navegación posterior para repetir la configuración, volver al menú o practicar únicamente los
   fallos en el orden en que aparecieron.
 - Navegación con teclado y respeto a movimiento reducido.
-- Acceso «Mi Code Quiz» desde menú, resultado y revisión, con mejores marcas por modalidad, materia y nivel y un selector de tema automático, claro u oscuro. La preferencia de tema se conserva localmente; los controles de sonido siguen pendientes.
+- Acceso «Mi Code Quiz» desde menú, resultado y revisión, con mejores marcas por modalidad, materia y nivel y preferencias locales de tema y sonido. Los efectos comienzan silenciados; el usuario puede activarlos o volver a silenciarlos desde el panel.
 - Identidad violeta sobre un fondo vectorial con detalles técnicos en los extremos, superficies adaptativas, una columna común de hasta `90ch` y sombras compactas compartidas. El cambio manual de tema usa una transición CSS, salvo con movimiento reducido o colores forzados.
 
 La base utiliza **React 19, TypeScript estricto, Vite 8, OXLint y Oxfmt**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
@@ -94,9 +94,9 @@ La configuración, el progreso, los mazos sin repetición y el mejor resultado p
 
 ## Evolución planificada
 
-Las siguientes funcionalidades todavía no están implementadas por completo:
+No se guarda historial de partidas; las mejores marcas son el único resumen personal persistido.
 
-- Controles de sonido dentro del panel personal. No se guardará historial de partidas.
+Los cuatro efectos breves (`success`, `error`, `warning` y `complete`) proceden del pack [UI SFX soft](https://github.com/romainsimon/uisfx/tree/main/packages/uisfx/sounds/soft). Sus archivos de audio se distribuyen bajo [CC0 1.0](https://github.com/romainsimon/uisfx/blob/main/LICENSE-AUDIO). Se sirven localmente, con volumen fijo bajo, y nunca sustituyen el feedback visual o textual.
 
 Especificaciones:
 

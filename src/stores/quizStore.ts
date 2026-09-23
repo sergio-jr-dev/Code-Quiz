@@ -18,6 +18,7 @@ import {
   selectQuizSubject,
   startConfiguredQuiz,
 } from '../lib/quizRound';
+import { playQuizSound } from '../lib/quizSounds';
 import {
   abandonRound as abandonRoundTransition,
   advanceQuiz,
@@ -31,6 +32,7 @@ import {
   startQuestionTimer,
 } from '../lib/quizTransitions';
 import type { QuizState, QuizStore } from '../types/quizStore';
+import { usePreferencesStore } from './preferencesStore';
 
 const defaultQuizState: QuizState = {
   mode: 'normal',
@@ -74,17 +76,40 @@ const quizStoreCreator: StateCreator<QuizStore> = (set) => ({
     set((state) => resumeQuestionTimer(state, nowMs));
   },
   expireQuestion: (nowMs) => {
+    const answerCount = useQuizStore.getState().answers.length;
     set((state) => expireCurrentQuestion(state, nowMs));
+    const state = useQuizStore.getState();
+    if (state.answers.length > answerCount && state.answers.at(-1)?.timedOut) {
+      playQuizSound('warning', usePreferencesStore.getState().soundEnabled);
+    }
   },
   selectOption: (optionId, nowMs = Date.now()) => {
+    const before = useQuizStore.getState();
     set((state) => answerCurrentQuestion(state, optionId, nowMs));
+    const after = useQuizStore.getState();
+    if (after.answers.length !== before.answers.length) {
+      const question = before.round[before.currentQuestionIndex];
+      playQuizSound(
+        optionId === question?.correctAnswer ? 'success' : 'error',
+        usePreferencesStore.getState().soundEnabled,
+      );
+    }
   },
   goToNextQuestion: () => {
+    const before = useQuizStore.getState();
     set((state) => {
       const progress = advanceQuiz(state);
       if (progress === state) return state;
       return recordBestResult({ ...state, ...progress });
     });
+    const after = useQuizStore.getState();
+    if (
+      before.view === 'playing' &&
+      after.view === 'score' &&
+      before.roundSource === 'configured'
+    ) {
+      playQuizSound('complete', usePreferencesStore.getState().soundEnabled);
+    }
   },
   showReview: () => {
     set((state) => showReviewTransition(state));

@@ -8,6 +8,7 @@ import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 import { questionCatalog } from '../../data/questionCatalog';
 import { isConfigurationPlayable } from '../../lib/quizRound';
+import { unlockQuizSounds } from '../../lib/quizSounds';
 import { useQuizStore } from '../../stores/quizStore';
 import type { Level } from '../../types/questionBank';
 import type { QuizMode, QuizSubject } from '../../types/quizStore';
@@ -110,6 +111,7 @@ export const Menu = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    unlockQuizSounds();
     startRound();
   };
 

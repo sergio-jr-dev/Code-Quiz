@@ -4,6 +4,7 @@ import { useRef, type KeyboardEvent } from 'react';
 import { useQuizStore } from '../../stores/quizStore';
 import { Button } from '../button/Button';
 import { PersonalPanelBestResults } from './PersonalPanelBestResults';
+import { SoundPreferenceControl } from './SoundPreferenceControl';
 import { ThemePreferenceControl } from './ThemePreferenceControl';
 
 import './personalPanel.css';
@@ -86,7 +87,7 @@ export const PersonalPanel = () => {
               Preferencias
             </h3>
             <ThemePreferenceControl />
-            <p>Los controles de sonido estarán disponibles próximamente.</p>
+            <SoundPreferenceControl />
           </section>
 
           <PersonalPanelBestResults />

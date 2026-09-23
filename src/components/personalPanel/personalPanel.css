@@ -267,6 +267,85 @@
       }
     }
 
+    .sound-preference-control {
+      label {
+        position: relative;
+        display: grid;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
+
+      .sound-preference-title {
+        font-weight: 700;
+      }
+
+      .sound-preference-body {
+        display: grid;
+        grid-template-columns: 2.75rem minmax(0, 1fr);
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      input {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+
+        &:focus-visible ~ .sound-preference-body .sound-preference-icon {
+          outline: 3px solid var(--focus-ring-color);
+          outline-offset: 3px;
+        }
+
+        &:checked ~ .sound-preference-body .sound-preference-icon {
+          border-color: var(--progress-color);
+          background-color: var(--primary-color);
+          color: var(--progress-color);
+
+          @media (forced-colors: active) {
+            border-color: Highlight;
+            color: Highlight;
+          }
+        }
+
+        &:checked ~ .sound-preference-body strong {
+          color: var(--progress-color);
+        }
+      }
+
+      .sound-preference-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-inline-size: 2.75rem;
+        min-block-size: 2.75rem;
+        border: 2px solid var(--option-color);
+        border-radius: 0.5rem;
+        background-color: var(--control-surface);
+        color: var(--text-color);
+
+        svg {
+          inline-size: 1.5rem;
+          block-size: 1.5rem;
+        }
+
+        @media (forced-colors: active) {
+          border-color: ButtonText;
+        }
+      }
+
+      .sound-preference-copy {
+        display: grid;
+        gap: 0.125rem;
+        min-inline-size: 0;
+
+        strong {
+          font-weight: 700;
+        }
+      }
+    }
+
     .personal-panel-record-mode {
       display: grid;
       gap: 0.75rem;
