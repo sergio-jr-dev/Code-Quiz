@@ -42,6 +42,10 @@ specs/            Especificaciones y decisiones de implementación
 
 Si quieres corregir una pregunta, proponer otra o mejorar la aplicación, consulta [CONTRIBUTING.md](CONTRIBUTING.md) antes de abrir un issue o una pull request.
 
+## Vídeo de presentación
+
+La carpeta [`video/`](video/README.md) contiene una composición independiente de Remotion para LinkedIn y X: 49,5 segundos en formato 4:5. El vídeo está aprobado y publicado; el proyecto permite reproducir y editar la composición con su música instrumental. El [guion](docs/video-presentacion.md) describe las nueve escenas. El vídeo mantiene sus dependencias separadas y no forma parte del build de la aplicación.
+
 ## Autoría y créditos
 
 Creado por **Sergio Jiménez Rubio**. Puedes encontrarme en [mi portfolio](https://sergiojimenez.vercel.app/), [LinkedIn](https://www.linkedin.com/in/sergio-jim%C3%A9nez-rubio/) y [X](https://x.com/sergiojr_dev). También desarrollo [BaselineLab](https://baselinelab.dev/), un proyecto para aprender HTML y CSS de forma interactiva.

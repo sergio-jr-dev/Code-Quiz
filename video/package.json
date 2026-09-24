@@ -1,0 +1,30 @@
+{
+  "name": "code-quiz-presentation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Presentación de Code Quiz para LinkedIn y X",
+  "license": "MIT",
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "assets": "node scripts/sync-assets.mjs",
+    "dev": "pnpm assets && remotion studio --no-open",
+    "build": "pnpm assets && remotion bundle",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.527",
+    "@remotion/media": "4.0.527",
+    "@remotion/transitions": "4.0.527",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.527",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "@types/react": "19.2.7",
+    "typescript": "5.9.3"
+  }
+}
