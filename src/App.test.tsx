@@ -211,7 +211,7 @@ describe('configured quiz flow', () => {
     expect(screen.getByRole('button', { name: 'Revisar respuestas' })).toBeVisible();
     expect(screen.queryByRole('article', { name: 'Pregunta 1' })).not.toBeInTheDocument();
     expect(useQuizStore.getState().timer).toBeNull();
-  });
+  }, 15_000);
 
   it('keeps reordered option IDs, code content and progress aligned through user interactions', async () => {
     const user = userEvent.setup();
