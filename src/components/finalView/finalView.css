@@ -1,3 +1,7 @@
-.final-view {
-  margin-block-end: 1rem;
+@layer components {
+  @scope (.final-view) {
+    :scope {
+      margin-block-end: 1rem;
+    }
+  }
 }

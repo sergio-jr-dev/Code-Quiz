@@ -1,33 +1,72 @@
-.score {
-  text-align: center;
-  min-inline-size: 0;
-  max-inline-size: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 1rem;
-
-  h2 {
-    font-size: 2.2rem;
-  }
-
-  .score-circles {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-inline-size: 100%;
-
-    div {
-      background-color: var(--info-color);
-      border-radius: 50%;
-      inline-size: min(5rem, 100%);
-      min-block-size: 5rem;
-      aspect-ratio: 1;
+@layer components {
+  @scope (.score) {
+    :scope {
+      text-align: center;
       display: grid;
-      place-items: center;
-      font-size: 1.25rem;
-      font-weight: bold;
+      justify-items: center;
+      gap: 1.5rem;
+    }
+    .score-heading {
+      h2 {
+        font-size: clamp(1.75rem, calc(1.25rem + 2vw), 2.5rem);
+        margin-block: 0.5rem;
+      }
+    }
+    .score-eyebrow {
+      color: var(--progress-color);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .score-message {
+      max-inline-size: 55ch;
+    }
+    .score-best-result {
+      color: var(--progress-color);
+    }
+    .score-metrics {
+      margin: 0;
+      inline-size: 100%;
+      display: grid;
+      gap: 1rem;
+    }
+    dl {
+      margin: 0;
+    }
+    dd {
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .score-primary {
+      display: flex;
+      flex-direction: column-reverse;
+      dt {
+        font-weight: 700;
+      }
+      dd {
+        font-size: clamp(2.5rem, 8vw, 3.5rem);
+        line-height: 1.2;
+      }
+      strong {
+        color: var(--progress-color);
+      }
+    }
+    .score-secondary {
+      border-block-start: 1px solid color-mix(in srgb, var(--progress-color) 35%, transparent);
+      padding-block-start: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 2rem;
+      > div {
+        display: flex;
+        flex-direction: column-reverse;
+        min-inline-size: 6rem;
+      }
+      dd {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
     }
   }
 }

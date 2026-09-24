@@ -1,0 +1,54 @@
+@layer components {
+  @scope (.quiz-progress) {
+    :scope {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+
+      &[data-layout='stacked'] {
+        align-items: stretch;
+
+        label {
+          order: -1;
+          inline-size: 100%;
+          margin-inline-start: 0;
+        }
+      }
+    }
+
+    progress {
+      flex: 1 1 10rem;
+      min-inline-size: 0;
+      block-size: 0.75rem;
+      overflow: hidden;
+      border: 0;
+      border-radius: 9999px;
+      background-color: var(--option-color);
+    }
+
+    progress::-webkit-progress-bar {
+      border-radius: inherit;
+      background-color: var(--option-color);
+    }
+
+    progress::-webkit-progress-value {
+      border-radius: inherit;
+      background-color: var(--progress-color);
+      transition: inline-size 300ms ease-out;
+    }
+
+    progress::-moz-progress-bar {
+      border-radius: inherit;
+      background-color: var(--progress-color);
+      transition: inline-size 300ms ease-out;
+    }
+
+    label {
+      margin-inline-start: auto;
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@layer components {
+  @scope (.content-blocks) {
+    :scope {
+      min-inline-size: 0;
+
+      :scope > * + * {
+        margin-block-start: 0.5rem;
+      }
+    }
+  }
+
+  @scope (.question-content) {
+    .question-details {
+      margin-block-start: 0.875rem;
+
+      > * + * {
+        margin-block-start: 0.5rem;
+      }
+    }
+  }
+}

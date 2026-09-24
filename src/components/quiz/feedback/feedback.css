@@ -1,0 +1,56 @@
+@layer components {
+  @scope (.quiz-feedback) {
+    :scope {
+      border-radius: 16px;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      opacity: 1;
+      block-size: max-content;
+      overflow: clip;
+      transition:
+        opacity 0.3s,
+        block-size 0.3s;
+
+      @starting-style {
+        opacity: 0;
+        block-size: 0;
+      }
+
+      &.correct {
+        color: light-dark(#155724, #b8f2c2);
+        background-color: var(--answer-success-surface);
+
+        @media (forced-colors: active) {
+          border: 2px solid Highlight;
+        }
+      }
+
+      &.incorrect {
+        color: light-dark(#7b1731, #ffd3dc);
+        background-color: var(--answer-error-surface);
+
+        @media (forced-colors: active) {
+          border: 2px dashed CanvasText;
+        }
+      }
+
+      &.timed-out {
+        color: light-dark(#7b1731, #ffd3dc);
+        background-color: var(--answer-error-surface);
+
+        @media (forced-colors: active) {
+          border: 2px double CanvasText;
+        }
+      }
+
+      svg {
+        flex: 0 0 auto;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@layer components {
+  @scope (.web-header) {
+    :scope {
+      padding-block: 1rem;
+    }
+    .brand-logo {
+      inline-size: clamp(11rem, 24vw, 14rem);
+      block-size: auto;
+      margin-inline: auto;
+
+      @media (width <= 30rem) {
+        inline-size: min(11rem, calc(100vw - 6rem));
+        margin-inline-start: 0;
+      }
+    }
+
+    .brand-logo-dark {
+      display: var(--brand-dark-display);
+    }
+
+    .brand-logo-light {
+      display: var(--brand-light-display);
+    }
+  }
+}

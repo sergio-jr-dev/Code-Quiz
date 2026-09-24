@@ -1,0 +1,32 @@
+@layer components {
+  @scope (.post-quiz-actions) {
+    :scope {
+      inline-size: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .button {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 0.5rem;
+
+      svg {
+        flex-shrink: 0;
+      }
+
+      &.review-action,
+      &.menu-action {
+        flex-basis: 100%;
+      }
+      @media (width <= 30rem) {
+        flex-basis: 100%;
+        padding-inline: 1rem;
+      }
+    }
+  }
+}

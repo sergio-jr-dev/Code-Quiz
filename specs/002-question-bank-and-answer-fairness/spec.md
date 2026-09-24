@@ -1,6 +1,6 @@
 # Question bank and answer fairness
 
-**Status:** Draft
+**Status:** Implemented
 
 ## Goal
 
@@ -37,16 +37,16 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 ## Acceptance Criteria
 
-- [ ] AC-1: Un esquema documentado representa texto y código en pregunta, opción y explicación para las tres materias. [REQ-1, REQ-2]
-- [ ] AC-2: El render de código muestra literalmente contenido potencialmente peligroso sin ejecutarlo. [REQ-3, REQ-11]
-- [ ] AC-3: El validador rechaza IDs duplicados y `correctAnswer` inexistentes. [REQ-4, REQ-8]
-- [ ] AC-4: Para partidas de distintos tamaños, las posiciones correctas difieren como máximo en una aparición. [REQ-5]
-- [ ] AC-5: Con una semilla conocida, pregunta, opciones y posición correcta son reproducibles sin mutar el banco. [REQ-6]
-- [ ] AC-6: Las pruebas incluyen preguntas con respuestas de código HTML, CSS y JavaScript. [REQ-2, REQ-3]
-- [ ] AC-7: El validador señala una correcta desproporcionadamente larga o con estructura única y acepta una excepción justificada. [REQ-7, REQ-8, REQ-9]
-- [ ] AC-8: La revisión final conserva exactamente la opción elegida y la correcta después de aleatorizar. [REQ-12]
-- [ ] AC-9: La suite dirigida de Vitest pasa y cubre validación, equilibrio, aleatorización, seguridad y render de contenido. [REQ-3–REQ-12]
-- [ ] AC-10: El inventario automatizado confirma al menos veinte preguntas válidas en cada combinación publicada de materia y nivel y un mínimo de 180 preguntas en el catálogo inicial completo. [REQ-13, REQ-14]
+- [x] AC-1: Un esquema documentado representa texto y código en pregunta, opción y explicación para las tres materias. [REQ-1, REQ-2]
+- [x] AC-2: El render de código muestra literalmente contenido potencialmente peligroso sin ejecutarlo. [REQ-3, REQ-11]
+- [x] AC-3: El validador rechaza IDs duplicados y `correctAnswer` inexistentes. [REQ-4, REQ-8]
+- [x] AC-4: Para partidas de distintos tamaños, las posiciones correctas difieren como máximo en una aparición. [REQ-5]
+- [x] AC-5: Con una semilla conocida, pregunta, opciones y posición correcta son reproducibles sin mutar el banco. [REQ-6]
+- [x] AC-6: Las pruebas incluyen preguntas con respuestas de código HTML, CSS y JavaScript. [REQ-2, REQ-3]
+- [x] AC-7: El validador señala una correcta desproporcionadamente larga o con estructura única y acepta una excepción justificada. [REQ-7, REQ-8, REQ-9]
+- [x] AC-8: La revisión final conserva exactamente la opción elegida y la correcta después de aleatorizar. [REQ-12]
+- [x] AC-9: La suite dirigida de Vitest pasa y cubre validación, equilibrio, aleatorización, seguridad y render de contenido. [REQ-3–REQ-12]
+- [x] AC-10: El inventario automatizado confirma al menos veinte preguntas válidas en cada combinación publicada de materia y nivel y un mínimo de 180 preguntas en el catálogo inicial completo. [REQ-13, REQ-14]
 
 ## Out Of Scope
 
@@ -58,6 +58,9 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 - Preferir transformaciones puras fuera de React: `validateQuestionBank`, `buildRound`, `buildBalancedPositions` y `shuffleWith`.
 - El modelo ampliado se definirá en TypeScript y se validará en runtime; la spec 004 ya tipa el banco actual.
+- Pregunta, opciones y explicación comparten una secuencia de bloques discriminados `text`/`code`. Una misma opción puede combinar ambos tipos cuando el contenido lo necesite; el bloque de código siempre declara `html`, `css` o `javascript`.
+- El primer bloque de una pregunta es siempre textual y se renderiza como su encabezado. Los bloques posteriores se presentan como contenido asociado para mantener HTML semánticamente válido cuando existe código multilínea.
+- Los IDs de pregunta siguen el patrón legible y estable `<subject>-<topic>-<sequence>`; los IDs de opción son locales a la pregunta y no dependen de su posición visual.
 - Para cuatro opciones, una partida de diez preguntas debería distribuir posiciones correctas como 3/3/2/2 en algún orden.
 - El mínimo de veinte se aplica a cada pareja `subject` + `level`, no a un nivel compartido entre materias; de otro modo, un filtro concreto podría no reunir diez preguntas variadas.
 - La heurística de longitud debe comparar contenido visible normalizado y señalar anomalías; no debe sustituir la revisión editorial.
@@ -65,5 +68,4 @@ Esta spec debe completarse antes de construir filtros, partidas de diez pregunta
 
 ## Risks Or Open Questions
 
-- Debe definirse el umbral exacto de la alerta de longitud tras revisar ejemplos reales de texto y código.
-- Hay que decidir si las opciones pueden combinar texto y código o si deben mantener un único tipo por pregunta para reforzar la paridad visual.
+- None. El umbral de longitud quedó fijado y validado durante T2: la correcta debe medir al menos 1,75 veces el distractor más largo y superarlo por un mínimo de 20 caracteres visibles.

@@ -1,23 +1,23 @@
-import { useQuiz } from '../../../context/QuizContext';
+import { useQuizStore } from '../../../stores/quizStore';
+import { ExplanationContent } from '../../content/ExplanationContent';
 import { InfoIcon } from '../../icons/InfoIcon';
-import { renderExplanation } from '../../../lib/renderExplanation';
 
 import './info.css';
 
 export const Info = () => {
-  const { question } = useQuiz();
+  const question = useQuizStore((state) => state.round[state.currentQuestionIndex]);
+
+  if (!question) {
+    throw new Error('The question bank must contain a current question');
+  }
 
   return (
     <div className="info">
       <h3>
         <InfoIcon />
-        Información adicional
+        Por qué es correcta
       </h3>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: renderExplanation(question.additionalInfo),
-        }}
-      />
+      <ExplanationContent content={question.explanation} language={question.subject} />
     </div>
   );
 };

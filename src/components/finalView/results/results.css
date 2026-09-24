@@ -1,11 +1,104 @@
-.results {
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
+@layer components {
+  @scope (.results) {
+    :scope {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      padding-block-end: calc(6rem + env(safe-area-inset-bottom, 0px));
+    }
 
-  .answer {
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 0.25rem;
+    :scope > .quiz {
+      scroll-margin-block: 1rem calc(7rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .review-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      > span {
+        border: 1px solid currentColor;
+        border-radius: 9999px;
+        padding: 0.25rem 0.625rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-weight: 700;
+
+        &.correct {
+          background-color: color-mix(in srgb, var(--correct-color) 55%, var(--primary-color));
+
+          @media (forced-colors: active) {
+            border-color: Highlight;
+          }
+        }
+
+        &.incorrect {
+          background-color: color-mix(in srgb, var(--incorrect-color) 55%, var(--primary-color));
+
+          @media (forced-colors: active) {
+            border-style: dashed;
+          }
+        }
+
+        &.timed-out {
+          background-color: color-mix(
+            in srgb,
+            var(--timer-warning-color) 45%,
+            var(--primary-color)
+          );
+
+          @media (forced-colors: active) {
+            border-style: double;
+            border-width: 3px;
+          }
+        }
+
+        svg {
+          inline-size: 1rem;
+          block-size: 1rem;
+        }
+      }
+    }
+
+    .review-timeout-status {
+      border-inline-start: 0.25rem solid var(--timer-warning-color);
+      padding-inline-start: 0.75rem;
+      font-weight: 700;
+
+      @media (forced-colors: active) {
+        border-inline-start-color: CanvasText;
+        border-inline-start-style: double;
+      }
+    }
+
+    :scope .answer {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      align-items: center;
+      gap: 0.25rem 0.75rem;
+
+      .answer-marker {
+        grid-row: 1 / span 2;
+      }
+
+      .option-content {
+        inline-size: 100%;
+      }
+
+      small {
+        grid-column: 2;
+      }
+    }
+
+    :scope .info {
+      h4 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.125rem;
+      }
+    }
   }
 }

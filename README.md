@@ -1,107 +1,53 @@
 # Code Quiz
 
-Aplicación educativa en español para practicar HTML y CSS con preguntas de opción única, feedback inmediato y explicaciones.
+Practica HTML, CSS y JavaScript en español con preguntas de opción única, respuestas explicadas y una revisión al terminar. Cada partida tiene diez preguntas y puedes elegir una materia o combinar las tres.
 
-**[Abrir Code Quiz](https://codequiz-game.vercel.app/)**
+**[Jugar a Code Quiz](https://codequiz-game.vercel.app/)** · [Contribuir](CONTRIBUTING.md) · [Ver el código](https://github.com/sergio-jr-dev/Code-Quiz)
 
-![Code Quiz: quiz de HTML y CSS con identidad violeta](public/images/screenshot.png)
+![Menú de Code Quiz en el tema oscuro, con HTML, CSS, JavaScript y quiz mixto](docs/screenshots/menu-dark.webp)
 
-## Primera versión
+## Qué puedes hacer
 
-- 25 preguntas de HTML y CSS en cada partida, en orden aleatorio.
-- Respuesta correcta e incorrecta indicadas con texto y color.
-- Explicaciones en Markdown con HTML sanitizado.
-- Puntuación, porcentaje y revisión de todas las respuestas.
-- Reinicio completo con un nuevo barajado.
-- Navegación con teclado y respeto a movimiento reducido.
-- Identidad Code Quiz y tema oscuro; modo claro todavía pendiente.
+- Elegir HTML, CSS, JavaScript o un quiz mixto, y jugar en nivel básico, intermedio o avanzado.
+- Practicar en modo Normal o Cronómetro. El tiempo disponible depende del nivel y, si se agota, la pregunta se marca como incorrecta para que puedas revisar su explicación.
+- Recibir feedback inmediato, leer por qué es correcta una respuesta y repasar las diez preguntas al finalizar.
+- Repetir la configuración o practicar solo los fallos en el orden en que aparecieron.
+- Consultar tus mejores resultados por materia, nivel y modalidad en «Mi Code Quiz», donde también puedes elegir tema claro, oscuro o automático y activar los efectos sonoros. El sonido está desactivado de inicio.
+- Jugar con teclado, foco visible y estados que se comunican también con texto. Las animaciones respetan la preferencia de movimiento reducido.
 
-La base utiliza **React 19, TypeScript estricto y Vite 8**. No requiere backend ni cuentas de usuario. React Compiler no está incorporado.
+La aplicación funciona sin cuenta ni backend. Guarda en el navegador la configuración, el progreso de las partidas normales, los mazos de preguntas, las mejores marcas y las preferencias. No guarda un historial de partidas. Una partida con cronómetro en curso vuelve al menú al recargar.
 
-## Desarrollo local
+| Configura la partida                                                                          | Aprende con cada respuesta                                                                                       |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| ![Selección de nivel y modalidad en el tema claro](docs/screenshots/configuration-light.webp) | ![Pregunta de HTML respondida con feedback y explicación en el tema claro](docs/screenshots/question-light.webp) |
 
-Requisitos: Node.js 22.22.2+, 24.15+ o 26+ y pnpm 11.24.0.
+## Catálogo de preguntas
 
-```bash
-pnpm install
-pnpm dev
-```
+El catálogo incluye **180 preguntas**: veinte por cada combinación de HTML, CSS y JavaScript con los tres niveles. Cada partida selecciona diez preguntas sin repetir dentro de la ronda. Las partidas consecutivas consumen primero las preguntas aún no vistas de esa configuración; el quiz mixto distribuye las diez entre las tres materias en proporción 4/3/3 y rota la materia con la pregunta adicional.
 
-Comprobaciones:
+Los niveles siguen una progresión editorial, desde fundamentos hasta casos límite; no representan una dificultad calibrada con datos de jugadores. El contenido y sus explicaciones viven en `src/data/bank/`, y `src/data/questionCatalog.ts` compone el catálogo de producción. Las pruebas verifican su integridad y cobertura.
 
-```bash
-pnpm typecheck
-pnpm lint
-pnpm test
-pnpm build
-```
+## Proyecto
 
-`pnpm test:watch` ejecuta las pruebas en modo interactivo. `pnpm build` comprueba tipos antes de generar `dist/`. La suite usa Vitest y Testing Library para proteger el banco, el barajado, las explicaciones y el flujo completo.
-
-Para revisar el build:
-
-```bash
-pnpm preview
-```
-
-La aplicación se sirve desde `/` tanto en desarrollo como en producción.
-
-## Publicación en Vercel
-
-La aplicación está desplegada en **https://codequiz-game.vercel.app/**. El repositorio [Code-Quiz](https://github.com/sergio-jr-dev/Code-Quiz) es privado y parte de un único commit inicial, sin el historial del proyecto anterior.
-
-El proyecto utiliza el preset Vite, `pnpm build` como comando de build y `dist` como directorio de salida. No hacen falta reglas de reescritura para el flujo actual, que usa una sola página.
-
-En **Production**, `SITE_URL=https://codequiz-game.vercel.app` configura canonical, `og:url` y la URL absoluta de la imagen social. Al modificar esta variable hay que generar un nuevo despliegue para que el HTML incorpore su valor.
-
-Dejar **SITE_URL sin definir en Preview**: esos builds incluyen `noindex, nofollow` y omiten las URLs públicas. Para verificar localmente los metadatos de producción puede definirse SITE_URL al ejecutar el build; no es necesario guardarla en el repositorio.
-
-La carpeta local utiliza el historial del nuevo repositorio. El historial anterior se conserva como respaldo separado; no debe mezclarse ni subirse al nuevo remoto.
-
-## Estructura
+Code Quiz está construido con React 19, TypeScript, Vite 8, Zustand y Vitest. Usa Vercel Web Analytics para las visitas y Speed Insights para las métricas de rendimiento, sin eventos personalizados. La estructura principal es:
 
 ```text
-src/
-  components/   Interfaz del quiz y resultados (.tsx)
-  context/      Estado compartido y acciones de la partida
-  data/         Las 25 preguntas actuales
-  lib/          Barajado y render seguro de explicaciones
-  types/        Contratos de preguntas, opciones y contexto
-  test/         Configuración de pruebas
-config/         Metadatos generados durante el build
-specs/          Especificaciones, tareas y decisiones
-public/images/  Logos, favicon, imagen social y captura
+src/components/   Interfaz, partida, resultado y panel personal
+src/data/bank/    Preguntas por materia
+src/lib/          Reglas de partida, selección, validación y persistencia
+src/stores/       Estado y acciones del quiz y las preferencias
+src/types/        Contratos de preguntas y partida
+specs/            Especificaciones y decisiones de implementación
 ```
 
-## Evolución planificada
+Si quieres corregir una pregunta, proponer otra o mejorar la aplicación, consulta [CONTRIBUTING.md](CONTRIBUTING.md) antes de abrir un issue o una pull request.
 
-Las siguientes funcionalidades todavía no están implementadas:
+## Autoría y créditos
 
-- HTML, CSS y JavaScript como materias seleccionables.
-- Niveles básico, intermedio y avanzado.
-- Partidas de 10 preguntas, bancos de al menos 20 por materia y nivel y modo mixto.
-- Modelo ampliado de contenido con ejemplos de código.
-- Posiciones correctas equilibradas y revisión editorial de distractores.
-- Persistencia del progreso, mejores resultados y repetición de fallos.
-- Modo claro completo con selector y persistencia.
+Creado por **Sergio Jiménez Rubio**. Puedes encontrarme en [mi portfolio](https://sergiojimenez.vercel.app/), [LinkedIn](https://www.linkedin.com/in/sergio-jim%C3%A9nez-rubio/) y [X](https://x.com/sergiojr_dev). También desarrollo [BaselineLab](https://baselinelab.dev/), un proyecto para aprender HTML y CSS de forma interactiva.
 
-Especificaciones:
-
-- [001 · Identidad Code Quiz](specs/001-code-quiz-brand-and-public-repository/spec.md)
-- [002 · Banco y equidad](specs/002-question-bank-and-answer-fairness/spec.md)
-- [003 · Flujo ampliado](specs/003-quiz-flow-and-test-foundation/spec.md)
-- [004 · Base TypeScript de la primera versión](specs/004-typescript-release-foundation/spec.md)
-
-## Marca y autoría
-
-Proyecto personal de Sergio Jiménez Rubio. La marca incluye logos transparentes para [fondos oscuros](public/images/code-quiz-logo-dark.webp) y [claros](public/images/code-quiz-logo-light.webp), [símbolo compacto](public/images/code-quiz-symbol.png), favicon e imagen social. Las variantes claras están preparadas para la evolución futura.
-
-## Privacidad
-
-Aunque el repositorio sea privado, tratar los archivos como material que se publicará. No incluir credenciales, configuración privada ni datos personales innecesarios. Comunicar cualquier vulnerabilidad por un canal privado sin publicar secretos.
-
-Antes de publicar y durante el mantenimiento, ejecutar `pnpm audit` para revisar todas las dependencias y `pnpm audit --prod` para las de producción. Mantener el lockfile versionado y verificar tipos, lint, pruebas y build después de actualizarlo.
+La [identidad visual](DESIGN.md), los logos y la imagen social forman parte del proyecto. Los efectos sonoros proceden de [UI SFX soft](https://github.com/romainsimon/uisfx/tree/main/packages/uisfx/sounds/soft) y sus archivos de audio están publicados bajo [CC0 1.0](https://github.com/romainsimon/uisfx/blob/main/LICENSE-AUDIO).
 
 ## Licencia
 
-[MIT](LICENSE).
+El proyecto se distribuye bajo la [licencia MIT](LICENSE).

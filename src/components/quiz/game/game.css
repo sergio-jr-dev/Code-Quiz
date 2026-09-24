@@ -1,0 +1,7 @@
+@layer components {
+  @scope (.game-container) {
+    :scope {
+      margin-block-end: 1rem;
+    }
+  }
+}
