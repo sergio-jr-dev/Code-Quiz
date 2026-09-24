@@ -15,7 +15,7 @@ Abre un [issue](https://github.com/sergio-jr-dev/Code-Quiz/issues/new/choose) co
 - Navegador, sistema operativo, tamaño de pantalla y modalidad de partida relevantes.
 - Mensajes de error pertinentes, eliminando antes tokens, datos privados y rutas locales.
 
-Si el problema afecta a la seguridad, evita publicar detalles explotables o secretos en un issue. Usa la opción de reporte privado de vulnerabilidades del repositorio, si está habilitada.
+Si el problema afecta a la seguridad, evita publicar detalles explotables o secretos en un issue. Usa la opción de [reporte privado de vulnerabilidades](https://github.com/sergio-jr-dev/Code-Quiz/security/advisories/new) del repositorio.
 
 ### Proponer o corregir preguntas
 
