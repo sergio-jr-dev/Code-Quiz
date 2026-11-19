@@ -296,6 +296,14 @@ components:
 
 # Code Quiz Design System
 
+## Vídeo de presentación
+
+La composición editorial de `video/` adapta la marca a un lienzo de 1080 × 1350 px, 30 fps y 49,5 segundos. Mantiene las parejas semánticas claro/oscuro, la tipografía humanista y los assets originales; no modifica la interfaz del juego. Los titulares de vídeo usan 84 px y los textos principales de apoyo 44 px, con un margen lateral de 80 px y margen vertical de 90–100 px. Las cifras del catálogo y el resultado pueden crecer como recursos narrativos fuera de la interfaz.
+
+Las demostraciones son recreaciones editoriales ampliadas de la tarjeta, no capturas completas de la aplicación. Conservan las cuatro opciones apiladas, el contenido real del catálogo, los estados con texto y el temporizador perimetral. Los recortes omiten controles secundarios para favorecer la lectura. La revisión de un error se presenta como una escena independiente del resultado perfecto.
+
+El vídeo usa cortes de escena, entradas breves y un barrido entre temas; todas las animaciones y el confeti se calculan por fotograma. El cierre permanece estable al menos cuatro segundos. La segunda versión añade respuestas en cascada en el arranque, contadores por materia secuenciales tras el 180 y un cierre sin flecha, con rebote suave y brillo breve en «Juega gratis» y entrada con subrayado del enlace. Todo se asienta a los dos segundos del cierre. Las escenas de materias, niveles y explicación duran 3,5, 4,5 y 5,5 segundos respectivamente. La composición completa incluye «Cipher» de Kevin MacLeod al 55 % de volumen con fundidos de entrada y salida; el cierre muestra un crédito secundario de 24 px. Los detalles de licencia y publicación viven en `video/public/audio/CREDITS.md`. No hay voz. Los requisitos interactivos de reflow, foco y movimiento reducido siguen aplicándose a la web; el vídeo exportado es un medio de dimensiones y movimiento fijos.
+
 ## Overview
 
 Code Quiz es una experiencia educativa concentrada y ligeramente lúdica. Su identidad actual combina un lienzo casi negro, profundidad violeta, una tarjeta central y feedback inmediato. Debe sentirse técnica y accesible, no infantil ni competitiva en exceso.

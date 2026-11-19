@@ -166,7 +166,7 @@ El objetivo mínimo es WCAG 2.2 AA.
 
 ## SEO y despliegue
 
-- El repositorio activo es `sergio-jr-dev/Code-Quiz`, privado y con historial nuevo. La carpeta local está conectada a ese historial; el antiguo se conserva en un respaldo separado y no debe mezclarse con el actual.
+- El repositorio activo es `sergio-jr-dev/Code-Quiz`, público y con historial nuevo. La carpeta local está conectada a ese historial; el antiguo se conserva en un respaldo separado y no debe mezclarse con el actual.
 - `base` es `/`. En Vercel Production, `SITE_URL=https://codequiz-game.vercel.app` genera las URLs públicas durante el build. Dejar Preview sin SITE_URL: se omiten canonical y URLs sociales y se declara noindex. Volver a desplegar al cambiar la variable.
 - Open Graph usa `property="og:..."`, no `name="og:..."`.
 - Las URLs públicas de canonical, Open Graph e imágenes sociales deben ser absolutas.
@@ -178,7 +178,7 @@ El objetivo mínimo es WCAG 2.2 AA.
 - Trata todo archivo versionado, historial de Git, asset, captura, log y salida de build como información potencialmente pública.
 - No incluyas secretos, tokens, credenciales, archivos `.env`, claves privadas, rutas locales, datos de empresas anteriores ni datos personales innecesarios.
 - No pegues valores reales de configuración en ejemplos. Usa nombres descriptivos como `YOUR_API_KEY` y documenta las variables sin sus valores.
-- Antes de publicar, revisa archivos versionados y no versionados con una búsqueda de secretos y comprueba el diff completo.
+- Antes de publicar cambios, revisa archivos versionados y no versionados con una búsqueda de secretos y comprueba el diff completo.
 - Mantén `README.md` sincronizado con lo realmente disponible. Distingue claramente funcionalidad actual, trabajo en especificación y hoja de ruta.
 - Si se detecta una vulnerabilidad o secreto, no lo copies en issues públicos; usa un canal privado del repositorio y rota cualquier credencial afectada.
 
