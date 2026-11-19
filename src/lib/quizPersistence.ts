@@ -416,9 +416,11 @@ export const createQuizPersistStorage = (
   return {
     getItem: (name) => {
       const serialized = storage.getItem(name);
-      return serialized instanceof Promise
-        ? serialized.then(parseStorageValue).catch(() => null)
-        : parseStorageValue(serialized);
+      return serialized === null || typeof serialized === 'string'
+        ? parseStorageValue(serialized)
+        : Promise.resolve(serialized)
+            .then(parseStorageValue)
+            .catch(() => null);
     },
     setItem: (name, value) => {
       const parsed = persistedStorageValueSchema.safeParse(value);

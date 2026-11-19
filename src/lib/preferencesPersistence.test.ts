@@ -46,6 +46,18 @@ describe('preferences persistence', () => {
     expect(await adapter.getItem(PREFERENCES_STORAGE_KEY)).toBeNull();
   });
 
+  it('validates preferences read from a promise-like storage', async () => {
+    const entry = { state: defaultPreferences, version: PREFERENCES_STORAGE_VERSION };
+    const serialized = Promise.resolve(JSON.stringify(entry));
+    const adapter = createPreferencesPersistStorage(() => ({
+      getItem: () => ({ then: serialized.then.bind(serialized) }),
+      setItem: () => undefined,
+      removeItem: () => undefined,
+    }));
+
+    expect(await adapter.getItem(PREFERENCES_STORAGE_KEY)).toEqual(entry);
+  });
+
   it('keeps defaults when storage is unavailable', async () => {
     const adapter = createPreferencesPersistStorage(() => {
       throw new Error('blocked');
