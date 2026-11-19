@@ -25,7 +25,7 @@ El banco está en `src/data/bank/`. Conserva los IDs existentes y usa los bloque
 
 ## Desarrollo local
 
-Necesitas una versión de Node.js compatible con `package.json` (22.22.2+, 24.15+ o 26+) y **pnpm 12.4.1**.
+Necesitas una versión de Node.js compatible con `package.json` (22.22.2+, 24.15+ o 26+) y **pnpm 12.21.0**.
 
 ```bash
 pnpm install

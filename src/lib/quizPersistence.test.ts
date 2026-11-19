@@ -296,6 +296,17 @@ describe('quiz persistence', () => {
     expect(storage.getItem('quiz')).toEqual(storedValue);
   });
 
+  it('ignores rejected reads from a promise-like storage', async () => {
+    const serialized = Promise.reject(new Error('Storage disabled'));
+    const storage = createQuizPersistStorage(() => ({
+      getItem: () => ({ then: serialized.then.bind(serialized) }),
+      setItem: () => undefined,
+      removeItem: () => undefined,
+    }));
+
+    expect(await storage.getItem('quiz')).toBeNull();
+  });
+
   it.each([
     ['malformed JSON', '{'],
     ['an incomplete state', JSON.stringify({ state: { configuration: {} }, version: 1 })],

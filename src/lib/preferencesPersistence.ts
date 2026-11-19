@@ -52,21 +52,23 @@ export const createPreferencesPersistStorage = (
     storage = unavailableStorage;
   }
 
+  const parseStorageValue = (
+    serialized: string | null,
+  ): StorageValue<PersistedPreferencesV1> | null => {
+    if (serialized === null) return null;
+    const parsed = preferencesStorageValueSchema.safeParse(JSON.parse(serialized));
+    return parsed.success ? parsed.data : null;
+  };
+
   return {
     getItem: (name) => {
       try {
         const serialized = storage.getItem(name);
-        if (serialized === null) return null;
-        if (serialized instanceof Promise) {
-          return serialized
-            .then((value) => {
-              const parsed = preferencesStorageValueSchema.safeParse(JSON.parse(value ?? 'null'));
-              return parsed.success ? (parsed.data as StorageValue<PersistedPreferencesV1>) : null;
-            })
-            .catch(() => null);
-        }
-        const parsed = preferencesStorageValueSchema.safeParse(JSON.parse(serialized));
-        return parsed.success ? (parsed.data as StorageValue<PersistedPreferencesV1>) : null;
+        return serialized === null || typeof serialized === 'string'
+          ? parseStorageValue(serialized)
+          : Promise.resolve(serialized)
+              .then(parseStorageValue)
+              .catch(() => null);
       } catch {
         return null;
       }
